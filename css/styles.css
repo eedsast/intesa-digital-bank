@@ -356,6 +356,47 @@ ul{margin:0;padding:0;list-style:none}
 .n-p2{background:#E6E6E6;border-color:#82B366}
 .n-api{background:#F0A30A;border-color:#BD7000;font-family:var(--f-mono);font-size:11px}
 .n-ext{background:#E6E6E6;border-color:#36393D}
+
+/* Element-tile chips on the Solution page: the service's first letters set as a
+   periodic-table symbol with a position number, the phase colour kept in the chip
+   body so the legend above still reads. Type is the site's own display face. */
+.node.el{
+  flex-direction:row;align-items:center;gap:9px;
+  padding:5px 13px 5px 5px;border-radius:10px;
+}
+.node.el .sym{
+  position:relative;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  min-width:36px;height:36px;padding:0 6px;box-sizing:border-box;
+  background:var(--sym);border-radius:4px;
+  font-family:"Archivo",var(--f-display),sans-serif;
+  font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1;
+  color:#fff;
+}
+.node.el .sym::after{
+  content:attr(data-z);position:absolute;top:2px;left:4px;
+  font-family:var(--f-mono);font-weight:500;font-size:7.5px;letter-spacing:0;
+  color:rgba(255,255,255,.78);
+}
+.node.el .lbl{
+  font-style:normal;font-family:var(--f-display);font-weight:700;
+  font-size:14px;letter-spacing:-.02em;
+}
+.node.el .lbl:empty{display:none}
+.node.el:not(:has(.lbl:not(:empty))){padding-right:5px;gap:0}
+.node.el .txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.node.el .sub{
+  font-style:normal;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.04em;
+  color:#4A4A4A;
+}
+.node.el{--sym:#36393D}   /* one near-black tile on every chip; the phase
+                             colour stays in the chip body for the legend */
+.node.el.n-api{font-family:var(--f-body);font-size:13px}
+.node.el.n-api .lbl{font-family:var(--f-display)}
+@media (max-width:520px){
+  .node.el .sym{min-width:31px;height:31px;font-size:15px}
+  .node.el .lbl{font-size:13px}
+}
 .dot.n-done{background:#D5E8D4;border:1px solid #78A25F}
 .dot.n-p1{background:#D4E1F5;border:1px solid #7EA6E0}
 .dot.n-p2{background:#E6E6E6;border:1px solid #82B366}
@@ -404,6 +445,8 @@ ul{margin:0;padding:0;list-style:none}
 }
 .pm-sec p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0}
 .pm-sec+.pm-sec{border-top:1px solid var(--line);padding-top:18px}
+.pm-sec a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.pm-sec a:hover{text-decoration-thickness:2px}
 .pm-todo{font-style:italic;opacity:.6}
 @media (max-width:520px){.pm{padding:0}.pm-panel{border-radius:0;max-height:100vh;height:100%}}
 

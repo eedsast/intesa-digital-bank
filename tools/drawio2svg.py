@@ -2,7 +2,7 @@
 """Render the HL architecture drawio to inline SVG: same geometry, same colours."""
 import re, html, sys
 
-src = '/mnt/user-data/outputs/arch/Target Architecture - high level.drawio'
+src = sys.argv[1] if len(sys.argv) > 1 else 'Target Architecture - high level.drawio'
 d = open(src, encoding='utf-8').read()
 
 cells = []
@@ -62,7 +62,9 @@ cells.sort(key=lambda c: (0 if (c['fill']=='#fff2cc' or c['w']>400 and not c['la
 
 for c in cells:
     x,y,w,h = c['x']-minx, c['y']-miny, c['w'], c['h']
-    sh, st = c['shape'], (c['stroke'] or '#36393d').lstrip('#')
+    sh, st = c['shape'], (c['stroke'] or '#36393d')
+    ld = re.match(r'light-dark\(\s*([^,\s]+)', st)   # keep the light-theme colour
+    if ld: st = ld.group(1)
     st = '#'+st.lstrip('#')
     fill = c['fill'] or 'none'
     if c['istext'] or (sh is None and fill=='none' and not c['stroke']):
@@ -106,5 +108,6 @@ svg = (f'<svg class="arch-svg" viewBox="0 0 {W:.0f} {H:.0f}" xmlns="http://www.w
        f'<title>Target architecture — high level</title>\n'
        f'<g font-family="Instrument Sans, Helvetica, Arial, sans-serif" fill="#1A1A1A">\n'
        + '\n'.join(parts) + '\n</g>\n</svg>')
-open('/tmp/claude-0/-home-claude/1edb3c17-826c-51cf-96fe-4703a9d26580/scratchpad/arch.svg','w',encoding='utf-8').write(svg)
+dst = sys.argv[2] if len(sys.argv) > 2 else 'Target Architecture - high level.svg'
+open(dst,'w',encoding='utf-8').write(svg)
 print('svg written:', len(svg), 'chars, viewBox', f'{W:.0f}x{H:.0f}', '-', len(parts), 'elements')
