@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto &amp; Stock Trading Providers — Competitive Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a;
+  }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 28px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .yes { color: #085041; font-weight: 500; }
+  .no  { color: #993c1d; }
+  .unk { color: #888780; font-style: italic; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+
+  /* ── BIN Sponsorship explainer ── */
+  .explainer { background: #fff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
+  .explainer-head { background: #1a1a18; color: #f1efe8; padding: 16px 20px; }
+  .explainer-head h2 { font-size: 15px; font-weight: 500; color: #9FE1CB; margin-bottom: 3px; }
+  .explainer-head p { font-size: 12px; color: #b4b2a9; line-height: 1.5; }
+  .explainer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid #ece9e0; }
+  .exp-col { padding: 16px 18px; font-size: 12px; line-height: 1.6; color: #5f5e5a; }
+  .exp-col:not(:last-child) { border-right: 1px solid #ece9e0; }
+  .exp-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .exp-col strong { color: #2c2c2a; font-weight: 500; }
+  .exp-2col { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #ece9e0; }
+  .exp-2col .exp-col:first-child { border-right: 1px solid #ece9e0; }
+  .exp-flow { padding: 16px 20px; background: #f8f7f3; }
+  .exp-flow-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 10px; }
+  .flow-steps { display: flex; gap: 0; align-items: stretch; flex-wrap: wrap; }
+  .flow-step { flex: 1; min-width: 140px; background: #fff; border: 1px solid #d3d1c7; border-radius: 8px; padding: 10px 12px; margin: 4px; }
+  .flow-step-num { font-size: 10px; font-weight: 600; color: #378add; margin-bottom: 3px; }
+  .flow-step-title { font-size: 11px; font-weight: 500; color: #1a1a18; margin-bottom: 3px; }
+  .flow-step-desc { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+  .flow-arrow { display: flex; align-items: center; color: #b4b2a9; font-size: 16px; padding: 0 2px; align-self: center; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Crypto &amp; Stock Trading Providers — Competitive Analysis</h1>
+  <p class="subtitle">8 providers for the investing proposition · licences held, the contracts the customer signs, and who faces the end client</p>
+  <p class="subtitle">Draft — proposal for document seven</p>
+
+  <div class="questions">
+    <div class="q-box q1"><strong>Q1 — Licences</strong>Which authorisation does the provider hold, in which legal entity and from which regulator — and does it reach both crypto <em>and</em> securities, or only one of them?</div>
+    <div class="q-box q2"><strong>Q2 — Contracts &amp; client-facing role</strong>What does Intesa Digital sign, what does the end customer sign, and whose name is on the client relationship when something goes wrong?</div>
+  </div>
+
+  <!-- ══ EXPLAINER ══ -->
+  <div class="explainer">
+    <div class="explainer-head">
+      <h2>Two regimes, two licences, and almost nobody holds both</h2>
+      <p>Crypto and listed securities are separate regulatory products in the EU. A provider authorised for one is not authorised for the other, and the contract set differs in each case.</p>
+    </div>
+    <div class="explainer-grid">
+      <div class="exp-col">
+        <div class="exp-col-label">Crypto — MiCA</div>
+        A <strong>CASP</strong> authorisation under Regulation (EU) 2023/1114, granted to a named EU entity by one national regulator and passported across the EEA. Separate permissions cover operating a trading platform, executing orders for clients, and custody — a provider may hold some and not others.
+      </div>
+      <div class="exp-col">
+        <div class="exp-col-label">Securities — MiFID II</div>
+        An <strong>investment firm</strong> authorisation. The permissions that matter here are reception and transmission of orders, execution on behalf of clients, and safekeeping and administration of financial instruments. Portfolio management is a further permission again.
+      </div>
+      <div class="exp-col">
+        <div class="exp-col-label">What this means for a single chip</div>
+        "Investing" in the product catalogue is <strong>two procurements</strong>, not one. Unless a provider holds both sets, crypto and equities arrive through different counterparties, different custodians and different contracts — behind one screen.
+      </div>
+    </div>
+    <div class="exp-2col">
+      <div class="exp-col">
+        <div class="exp-col-label">The transitional period is over</div>
+        MiCA's Article 143(3) grandfathering let firms keep operating under national regimes until <strong>1 July 2026</strong>. ESMA confirmed in April 2026 that it would end across the EU on that date, and it did. A provider without a CASP authorisation today is not a procurement option — it is a provider that cannot lawfully serve EEA clients at all.
+      </div>
+      <div class="exp-col">
+        <div class="exp-col-label">Authorisation attaches to an entity, not a brand</div>
+        Every register entry names a legal entity. "Bitpanda" and "Kraken" are brands; the authorised parties are companies such as <em>BP23 CA Limited</em> and <em>Payward Europe Solutions Limited</em>. Confirm in writing which entity signs, where it is established and which permissions its licence actually carries — a group can hold a licence in one subsidiary and contract through another.
+      </div>
+    </div>
+    <div class="exp-flow">
+      <div class="exp-flow-label">Three contracting models — the choice that decides everything else</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">MODEL A</div>
+          <div class="flow-step-title">Introduce</div>
+          <div class="flow-step-desc">The end customer opens an account with the provider and signs the provider's terms. Intesa Digital refers and is paid a share. Lightest regulatory load, no investment permission needed — but the client relationship, the data and the brand largely leave the bank.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">MODEL B</div>
+          <div class="flow-step-title">Tied agent</div>
+          <div class="flow-step-desc">Intesa Digital acts under the provider's licence, registered as a tied agent (MiFID II Article 29) in the national register. The provider carries unconditional liability for what the agent does. Fastest route to market with the bank's brand in front.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">MODEL C</div>
+          <div class="flow-step-title">Own permission</div>
+          <div class="flow-step-desc">Intesa Digital holds its own investment-services permission and CASP authorisation, and buys the provider purely as execution, custody and liquidity. Full control of client, product and economics; the largest capital, compliance and time cost.</div>
+        </div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Pick the model before picking the provider.</strong> Model A and Model C shortlists barely overlap: a pure infrastructure vendor cannot carry an introduced customer, and a consumer exchange will not strip its brand off the journey for free. The EMI licence is relevant to neither — it authorises e-money and payment services and reaches neither crypto nor securities, so one of these three routes is unavoidable for the whole Savings &amp; Investments family.</div></div>
+  </div>
+
+  <!-- ══════════ ROUTE 1 ══════════ -->
+  <div class="section-head"><h2>Route 1 — Both asset classes from one counterparty</h2><span>The short list the brief asked for. It is shorter than expected, and the reason is worth reading.</span></div>
+
+  <!-- UPVEST -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Upvest <span class="gen-tag gen-cloud">API-first</span></div>
+        <div class="platform-type">Investment infrastructure</div>
+        <div class="platform-target">Banks and neobanks embedding investing · N26, Revolut</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licences</div>
+        <span class="verdict-badge vb-both">Securities + crypto, BaFin</span>
+        <div class="verdict-detail">A full set of BaFin permissions under the German WpIG: investment brokerage, financial brokerage, custody, proprietary trading and FX business. Passported across the EU with branches in France, Spain and Austria, plus UK authorisation through <strong>Upvest Securities Ltd</strong> (FCA) for dealing and safeguarding. Its own announcement covers securities <em>and</em> crypto brokerage and custody.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Contracts</div>
+        <span class="verdict-badge vb-sep">Model B or C — infrastructure, not a brand</span>
+        <div class="verdict-detail">Sold as infrastructure to the institution, with end users held at sub-account level under Upvest's custody permission. It offers both "use our licences" and "bring your own" operating models, which maps directly onto Model B and Model C. The public materials do not state who papers the end customer.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Why it leads this route</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The <strong>only provider found holding both perimeters in one licensed group</strong> — securities and crypto, brokerage and custody, under one regulator.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Custody at <strong>end-user level</strong>, not an omnibus pool, which is what makes a clean exit and a clean client-asset story possible.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Proprietary trading and FX permissions mean execution and currency conversion sit inside the same entity rather than behind a further counterparty.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Reference customers are the comparable set: N26 and Revolut are running embedded investing on it at scale.</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The public licences page does not itemise a MiCA CASP authorisation.</strong> The crypto claim rests on the company's own announcement. Ask for the CASP entity, regulator and permission list in writing before the crypto half of the catalogue depends on it.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Portfolio management is not among the listed permissions — it appears as a use case. If discretionary portfolios are in scope, that is a separate conversation.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Infrastructure vendors do not carry introduced customers. If Model A is the preferred route, Upvest is the wrong shape.</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> adapter one, and the only candidate that makes "one investing partner" a real sentence rather than an aspiration. It also fits the architecture already drawn — an adapter behind the Accounts and GL services, with the client relationship staying inside the Intesa app.</div></div>
+  </div>
+
+  <!-- BITPANDA -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Bitpanda <span class="gen-tag gen-baas">B2C + B2B</span></div>
+        <div class="platform-type">Exchange with an enterprise arm</div>
+        <div class="platform-target">Banks in DACH and CEE · RLB NÖ-Wien, LBBW, N26, Plum, iCard, Aircash</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licences</div>
+        <span class="verdict-badge vb-mixed">CASP confirmed · entity disputed</span>
+        <div class="verdict-detail">MiCA CASP authorisations recorded for <strong>BP23 CA Limited</strong> (MFSA, Malta, 27 January 2025) and <strong>Bitpanda GmbH</strong> (FMA, Austria, 9 April 2025). Press reporting of the same month instead credits a MiCAR approval from <strong>BaFin</strong>. The company states it holds 17 licences in total, including PSD2 e-money and MiFID II.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Contracts</div>
+        <span class="verdict-badge vb-mixed">Co-branded — model not published</span>
+        <div class="verdict-detail">Partner language runs from a "joint offering" (RLB NÖ-Wien) to a product "powered by Bitpanda" (Lydia), so the model is negotiated case by case rather than standard. Neither the custody arrangement for partner clients nor the end-customer contracting party is stated publicly.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The <strong>deepest bank-distribution record in the region</strong>: Raiffeisenlandesbank NÖ-Wien and LBBW are live, and the Raiffeisen relationship has been reported as extending across CEE retail.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Six published enterprise products — Investment-as-a-Service, Institutional Custody, Liquidity, Payment, Stablecoin and Tokenize — so liquidity and custody come from the same counterparty as the front end.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A consumer platform covering crypto, stocks, ETFs, metals and more, which is the origin of the "does both" reputation.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">CEE-facing and Austrian-rooted, so the commercial and language fit for this programme is unusually close.</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The dual-asset reputation belongs to the consumer product, not the enterprise one.</strong> The published B2B line is crypto and digital assets; stocks and ETFs are not advertised in it. Ask explicitly whether listed securities are available through the enterprise contract, and under which licence.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Sources disagree on which entity and regulator hold the MiCAR authorisation. Get the contracting entity named in the term sheet.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A consumer brand is also a competitor for the same customer. Co-branding that is comfortable on day one looks different once the investing balance matters.</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the strongest commercial fit in the region and a credible adapter two — provided the first meeting resolves the two open questions: does the enterprise product carry listed securities, and which legal entity signs. If securities are out of scope there, Bitpanda becomes a Route 2 provider sitting alongside a separate securities partner.</div></div>
+  </div>
+
+  <!-- ══════════ ROUTE 2 ══════════ -->
+  <div class="section-head"><h2>Route 2 — Crypto only, under a MiCA CASP authorisation</h2><span>Pair any of these with a securities provider. Entity, regulator and authorisation date are from the EU CASP register as published 30 September 2026.</span></div>
+
+  <!-- BITSTAMP -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Bitstamp by Robinhood <span class="gen-tag gen-baas">B2B2C</span></div>
+        <div class="platform-type">Exchange + Bitstamp-as-a-Service</div>
+        <div class="platform-target">Banks and brokers distributing crypto · BBVA retail</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licences</div>
+        <span class="verdict-badge vb-split">Crypto only — CSSF CASP</span>
+        <div class="verdict-detail"><strong>Bitstamp Europe S.A.</strong>, authorised by the CSSF in Luxembourg (licence N00000003, 15 May 2025) for operating a trading platform, executing orders on behalf of clients and custody of crypto-assets, passported across the EEA. Derivatives sit in a separate Slovenian entity, Bitstamp Financial Services Ltd.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Contracts</div>
+        <span class="verdict-badge vb-sep">Model A or B — proven with a bank</span>
+        <div class="verdict-detail">A published "Bitstamp as a Service" offering, and a live retail distribution deal with BBVA giving the bank's own customers bitcoin and ether trading. That is the closest public precedent to what this programme needs. The contracting split is not published.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The three permissions that matter — <strong>venue, execution and custody</strong> — are all inside one authorised entity, so there is no hidden sub-custodian in the chain.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Longest-running EU exchange in the set, now with Robinhood's balance sheet behind it, which answers the counterparty-risk question a bank's third-party risk function will ask first.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A named tier-one bank reference in BBVA, for the exact use case.</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>No equities.</strong> The brief assumed Bitstamp covers both asset classes; it does not. A securities partner is required alongside it.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Ownership moved to a US group in 2025. Expect questions on data residency and on where decisions about the EU entity are actually taken.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Derivatives are a different entity under a different regime — do not assume one contract reaches them.</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the strongest crypto-only candidate, on licence clarity and on precedent. The BBVA arrangement is the single most useful reference in this document, because it is a regulated bank distributing a CASP's service to retail customers — the same shape as this programme.</div></div>
+  </div>
+
+  <!-- GLOBAL EXCHANGES -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Coinbase · Kraken · Gemini · Crypto.com · OKX</div>
+        <div class="platform-type">Global exchanges holding EU CASP authorisations</div>
+        <div class="platform-target">Primarily retail; institutional arms vary in depth</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licences</div>
+        <span class="verdict-badge vb-split">All crypto only — all CASP-authorised</span>
+        <div class="verdict-detail"><strong>Coinbase Luxembourg S.A.</strong> (CSSF, 20 June 2025) · <strong>Payward Europe Solutions Ltd</strong> and <strong>Payward Global Solutions Ltd</strong> for Kraken (Central Bank of Ireland, 25 June 2025) · <strong>Gemini Intergalactic EU Ltd</strong> (MFSA, 21 August 2025) · <strong>Foris DAX MT Ltd</strong> for Crypto.com and <strong>OKX Europe Ltd</strong> (MFSA, both 27 January 2025).</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Contracts</div>
+        <span class="verdict-badge vb-int">Model A by default</span>
+        <div class="verdict-detail">These are consumer platforms first. The realistic arrangement is introduction — the customer leaves for the exchange's own onboarding and signs the exchange's terms. White-labelling a bank's brand over them is possible in principle but is not their published business.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">When they make sense</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">When the objective is to <strong>have an answer</strong> on crypto quickly without taking balance-sheet, custody or conduct exposure.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Asset breadth and liquidity are far beyond what an infrastructure vendor offers, which matters if the proposition is "everything", not "the top ten".</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Three of the five are Malta-authorised; Luxembourg and Ireland cover the rest. All passport across the EEA.</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The customer leaves the app.</strong> Under Model A the relationship, the data and the balance sit with the exchange, and the referral fee is all that comes back.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">These are direct competitors for the primary relationship, not neutral suppliers.</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">MFSA's speed in authorising several large platforms has itself drawn scrutiny. That is a reputational input to the choice, not a legal one.</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> a fallback, not a strategy. If the MiCA-regulated crypto chip exists to say the bank has crypto, Model A with one of these delivers it in weeks. If it exists to hold balances, it does not.</div></div>
+  </div>
+
+  <!-- ══ MATRIX ══ -->
+  <div class="matrix-section">
+    <div class="matrix-title">Summary matrix — 8 providers</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:13%;">Provider</th>
+          <th style="width:12%;">Crypto</th>
+          <th style="width:12%;">Securities</th>
+          <th style="width:22%;">Authorised entity &amp; regulator</th>
+          <th style="width:13%;">Contract model</th>
+          <th style="width:28%;">Priority for you</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Upvest</td>
+          <td class="yes"><span class="dot" style="background:#1d9e75;"></span>Yes — stated</td>
+          <td class="yes">Yes — BaFin WpIG</td>
+          <td>Upvest GmbH — BaFin (DE), passported; Upvest Securities Ltd — FCA (UK)</td>
+          <td>B or C</td>
+          <td><strong>Adapter 1.</strong> Only candidate covering both perimeters. Confirm the CASP entity in writing.</td>
+        </tr>
+        <tr>
+          <td>Bitpanda</td>
+          <td class="yes"><span class="dot" style="background:#1d9e75;"></span>Yes — CASP</td>
+          <td class="unk">Consumer yes; enterprise not stated</td>
+          <td>BP23 CA Ltd — MFSA (MT), 27 Jan 2025; Bitpanda GmbH — FMA (AT), 9 Apr 2025</td>
+          <td>Co-branded, negotiated</td>
+          <td><strong>Adapter 2.</strong> Best regional fit and bank track record. Two questions to close first.</td>
+        </tr>
+        <tr>
+          <td>Bitstamp by Robinhood</td>
+          <td class="yes"><span class="dot" style="background:#1d9e75;"></span>Venue + execution + custody</td>
+          <td class="no">No</td>
+          <td>Bitstamp Europe S.A. — CSSF (LU), 15 May 2025, N00000003</td>
+          <td>A or B</td>
+          <td><strong>Strongest crypto-only.</strong> BBVA is the closest public precedent to this programme.</td>
+        </tr>
+        <tr>
+          <td>Coinbase</td>
+          <td class="yes"><span class="dot" style="background:#888780;"></span>Yes — CASP</td>
+          <td class="no">No</td>
+          <td>Coinbase Luxembourg S.A. — CSSF (LU), 20 Jun 2025</td>
+          <td>A</td>
+          <td>Fallback. Customer leaves the app.</td>
+        </tr>
+        <tr>
+          <td>Kraken</td>
+          <td class="yes"><span class="dot" style="background:#888780;"></span>Yes — CASP</td>
+          <td class="no">No</td>
+          <td>Payward Europe Solutions Ltd &amp; Payward Global Solutions Ltd — CBI (IE), 25 Jun 2025</td>
+          <td>A</td>
+          <td>Fallback.</td>
+        </tr>
+        <tr>
+          <td>Gemini</td>
+          <td class="yes"><span class="dot" style="background:#888780;"></span>Yes — CASP</td>
+          <td class="no">No</td>
+          <td>Gemini Intergalactic EU Ltd — MFSA (MT), 21 Aug 2025</td>
+          <td>A</td>
+          <td>Fallback.</td>
+        </tr>
+        <tr>
+          <td>Crypto.com</td>
+          <td class="yes"><span class="dot" style="background:#888780;"></span>Yes — CASP</td>
+          <td class="no">No</td>
+          <td>Foris DAX MT Ltd — MFSA (MT), 27 Jan 2025</td>
+          <td>A</td>
+          <td>Fallback.</td>
+        </tr>
+        <tr>
+          <td>OKX</td>
+          <td class="yes"><span class="dot" style="background:#888780;"></span>Yes — CASP</td>
+          <td class="no">No</td>
+          <td>OKX Europe Ltd — MFSA (MT), 27 Jan 2025</td>
+          <td>A</td>
+          <td>Fallback.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ CONTRACT SET ══ -->
+  <div class="explainer" style="margin-top:32px;">
+    <div class="explainer-head">
+      <h2>What actually gets signed</h2>
+      <p>The same documents recur whichever provider is chosen. Under Model A most of them move to the end customer; under Models B and C they are Intesa Digital's to negotiate.</p>
+    </div>
+    <div class="explainer-grid">
+      <div class="exp-col">
+        <div class="exp-col-label">Intesa Digital signs</div>
+        <strong>Master services agreement</strong> with the schedule of permissions actually relied on.<br>
+        <strong>Execution and custody terms</strong> — who holds the assets, segregation, whether sub-custodians are used and who they are.<br>
+        <strong>Outsourcing agreement</strong> meeting the EBA outsourcing guidelines, with audit and regulator access rights.<br>
+        <strong>DORA register entry and exit plan</strong> — a provider of this kind is an ICT third party, and a documented exit strategy is not optional.<br>
+        <strong>Data processing agreement</strong> and the AML responsibility split, including the crypto transfer-of-funds (travel rule) obligations.
+      </div>
+      <div class="exp-col">
+        <div class="exp-col-label">The end customer signs</div>
+        <strong>Model A</strong> — the provider's own account terms, risk disclosures and privacy notice. Intesa Digital's name appears only on the referral.<br>
+        <strong>Models B and C</strong> — Intesa Digital's terms of business, order execution policy, conflicts policy, cost and charges disclosure, and the risk warnings for each asset class. For crypto, the MiCA white paper and marketing-communication rules apply to whoever distributes.
+      </div>
+      <div class="exp-col">
+        <div class="exp-col-label">Easy to miss</div>
+        <strong>Appropriateness, not just suitability.</strong> Execution-only investing still requires an appropriateness assessment, and a knowledge test is a product requirement, not a compliance afterthought.<br>
+        <strong>Product governance.</strong> A target market must be defined and reviewed for every instrument distributed.<br>
+        <strong>Client-asset reporting</strong> and the annual statement obligations that come with holding assets for retail clients.<br>
+        <strong>Tax reporting</strong> — DAC8 extends automatic exchange to crypto-asset reporting, and the operational load lands on whoever faces the client.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAKEAWAY ══ -->
+  <div class="takeaway">
+    <h3>Verdict</h3>
+    <div class="takeaway-grid">
+      <div>
+        <div class="tk"><div><strong>The premise needs correcting.</strong> Bitstamp is crypto only, and Bitpanda's published enterprise line is crypto-led — the stocks and ETFs belong to its consumer product. The provider that genuinely covers both perimeters in one licensed group is <strong>Upvest</strong>.</div></div>
+        <div class="tk"><div><strong>Plan for two counterparties, be pleased if it is one.</strong> Budget, integrate and paper the investing proposition as two procurements; collapsing them later is easy, discovering the gap after signing is not.</div></div>
+        <div class="tk"><div><strong>Choose the contracting model first.</strong> Model A ships in weeks and keeps nothing; Model C keeps everything and costs a licence. Model B — tied agent under a provider's authorisation — is the usual answer for a bank-branded journey.</div></div>
+      </div>
+      <div>
+        <div class="tk"><div><strong>Shortlist:</strong> Upvest for both asset classes; Bitstamp for crypto if a separate securities partner is taken; Bitpanda if the regional distribution relationship outweighs the two open questions.</div></div>
+        <div class="tk"><div><strong>Grandfathering ended on 1 July 2026.</strong> Any provider still trading on a national regime has no lawful basis in the EEA. Check the entity in the register before the first meeting, not after.</div></div>
+        <div class="tk"><div><strong>The EMI licence reaches none of this.</strong> Crypto needs a CASP authorisation and securities a MiFID II permission — directly or through a provider's. That constraint covers the whole Savings &amp; Investments family, not just this chip.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h4>Sources</h4>
+    MiCA CASP register by member state — entities, regulators and authorisation dates, as published 30 September 2026 ·
+    Bitstamp CASP licence under MiCA (CSSF, Luxembourg) · Bitstamp and BBVA retail distribution ·
+    Bitpanda MiCAR approval reporting (January 2025) · Bitpanda Enterprise product line and bank partners ·
+    Upvest licences page (BaFin WpIG permissions, FCA via Upvest Securities Ltd) · Upvest BaFin licences for securities and crypto brokerage and custody.
+    <br><br>
+    For card issuing and BIN sponsorship see <em>Card Processing Providers</em>; for euro rails, safeguarding and IBAN sponsorship see <em>Payment Processors &amp; IBAN Sponsorship</em>; for cross-border payout see <em>FX &amp; Remittance Providers</em>. No provider is repeated across the four documents.
+    <br><br>
+    Draft. Licence entities, regulators and dates are taken from a published register extract and from provider announcements; where the two disagree it is marked in the text. Nothing here should be relied on commercially without confirming the contracting entity and its live permissions in the ESMA CASP register and the relevant national register.
+  </div>
+
+</div>
+
+</body>
+</html>

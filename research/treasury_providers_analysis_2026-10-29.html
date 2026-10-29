@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI Light Treasury — Provider Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a; }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 24px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .clock { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-bottom: 28px; }
+  .clock h2 { font-size: 11px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .clock-claim { font-size: 19px; font-weight: 500; color: #fff; line-height: 1.3; margin: 6px 0 14px; }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .tl { background: #262522; border: 1px solid #3a3835; border-radius: 10px; padding: 12px 14px; }
+  .tl-date { font-size: 11px; font-weight: 500; color: #9FE1CB; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .tl-text { font-size: 11.5px; color: #d3d1c7; line-height: 1.5; }
+  .tl-text strong { color: #fff; font-weight: 500; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+  .gen-peer   { background: #faece7; color: #4a1b0c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .yes { color: #085041; font-weight: 500; }
+  .no  { color: #993c1d; }
+  .unk { color: #888780; font-style: italic; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .questions, .platform-body, .takeaway-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .platform-header { grid-template-columns: 1fr; }
+    .platform-identity, .vc-q1 { border-right: none; border-bottom: 1px solid #ece9e0; }
+    .body-col:first-child { border-right: none; border-bottom: 1px solid #ece9e0; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>EMI Light Treasury — Provider Analysis</h1>
+  <p class="subtitle">What the Treasury module has to do for an electronic money institution, and the one platform worth a scoping conversation</p>
+
+  <!-- ══ REGULATORY CLOCK ══ -->
+  <div class="clock">
+    <h2>Why an EMI treasury is not a small bank treasury</h2>
+    <div class="clock-claim">An EMI has no deposit book, no IRRBB and no liquidity ratio. It has a safeguarding obligation, a currency mismatch and three balances it cannot spend — and the tooling built for the first problem does not fit the second.</div>
+    <div class="timeline">
+      <div class="tl">
+        <div class="tl-date">Since 9 Oct 2025</div>
+        <div class="tl-text">Euro-area PSPs offering credit transfers must also <strong>send instant payments</strong>. Liquidity is consumed continuously, including nights and weekends, against a funding cycle that is not.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">Since 17 Jan 2025</div>
+        <div class="tl-text"><strong>DORA</strong> applies. A treasury platform is an ICT third-party service: register of information, contractual terms, exit strategy and testing — all before the first position is loaded.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">Adoption 2026</div>
+        <div class="tl-text"><strong>PSD3 and the PSR</strong> reached provisional political agreement in November 2025, with final compromise texts in April 2026. EMIs are re-authorised as payment institutions and safeguarding arrangements sit squarely in scope.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">Likely late 2027</div>
+        <div class="tl-text">PSD3 and the PSR take effect, with transitional licensing provisions and <strong>EBA Level 2 standards to follow</strong>. Where safeguarded funds may sit is a Level 2 question with no answer yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions">
+    <div class="q-box q1">
+      <strong>Q1 — Coverage &amp; capability</strong>
+      What does the provider cover against an EMI's actual job list — safeguarding reconciliation, multi-currency position, FX exposure, settlement and prefund liquidity, permitted investment, break management — and is it software or a balance sheet?
+    </div>
+    <div class="q-box q2">
+      <strong>Q2 — Integration &amp; commercial fit</strong>
+      Can a two-person finance function run it? What is the entry commitment, how long is the implementation, and does it sit behind your position model or try to own it?
+    </div>
+  </div>
+
+  <!-- ══ MODEL PRIMER ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Five jobs, and none of them is ALM</div>
+        <div class="platform-type">How to read this analysis</div>
+        <div class="platform-target">An EMI treasury looks nothing like a bank treasury, and most treasury software is built for the latter</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">The EMI job list</div>
+        <span class="verdict-badge vb-mixed">Safeguard · Position · FX · Fund · Reconcile</span>
+        <div class="verdict-detail"><strong>1. Safeguarding adequacy</strong> — safeguarded assets at least equal to e-money outstanding, proven daily and per currency. <strong>2. Position keeping</strong> — what is held where, and how much of it is actually free. <strong>3. FX exposure</strong> — the mismatch between the currency owed and the currency held. <strong>4. Funding</strong> — card prefund, settlement cover, instant-payments buffer. <strong>5. Reconciliation</strong> — nostro, scheme and safeguarding breaks.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">What is not on the list</div>
+        <span class="verdict-badge vb-merge">No IRRBB, no LCR, no deposit modelling</span>
+        <div class="verdict-detail">An EMI does not lend its float, does not run a maturity transformation book and is not subject to the CRR liquidity regime. Gap analysis, EVE sensitivity, behavioural deposit modelling and funds transfer pricing are all absent. Anything sold as "bank ALM" is answering a question the institution does not have — and charging for it.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>The central decision for your Treasury module:</strong> the deliverable is a restriction-aware, currency-by-currency position with a forward schedule attached. That single read model answers the safeguarding test, the FX exposure question and the free-cash question at once. Everything else in this document is an adapter onto it — and the heavyweight ALM market is simply out of scope until a customer holds a banking licence.</div></div>
+  </div>
+
+  <div class="section-head"><h2>The safeguarding position</h2><span>Not a vendor category. The two constraints that decide what any treasury tooling is allowed to do.</span></div>
+
+  <!-- ══ WHAT AN EMI MAY DO WITH THE FLOAT ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">What an EMI may do with the float <span class="gen-tag gen-legacy">Constraint</span></div>
+        <div class="platform-type">Permitted investments · currency matching</div>
+        <div class="platform-target">The question that decides whether an investment module is worth building at all</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Can safeguarded funds be invested?</div>
+        <span class="verdict-badge vb-split">Yes — from a narrow, nationally defined list</span>
+        <div class="verdict-detail">Investment is one of the two safeguarding methods under <strong>Article 10 PSD2</strong> and <strong>Article 7 EMD2</strong> &mdash; not an exception to safeguarding. The permitted universe is narrow and set nationally. The Bank of Lithuania defines secure, liquid low-risk assets as <strong>cash and cash equivalents; bonds issued by a government, central bank or company with a long-term rating of at least BBB, exchange-traded with prices always available; short-term deposits of up to one year at credit institutions; and collective investment schemes investing only in those</strong>. The CSSF frames the same idea by capital treatment — a specific risk requirement no greater than 1.6% — plus UCITS units investing solely in such assets.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Is FX hedging the real obligation?</div>
+        <span class="verdict-badge vb-int">Separate obligation, not an alternative</span>
+        <div class="verdict-detail">Currency matching is a safeguarding adequacy question. CSSF Circular 26/906 recommends holding safeguarded funds in the currency of the funds owed to users, and requires additional protection where they are held in another currency. A multi-currency EMI must test its safeguarding position <strong>currency by currency, not as one converted total</strong> — so investing and managing the open position are two duties that both apply.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">The worked example that makes it concrete</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>A EUR safeguarding account covering USD e-money fell roughly USD 0.81m short — about 2% — purely because the euro weakened.</strong> No payment moved and no customer did anything; the institution was simply under-safeguarded by the close</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">That is a breach produced by an exchange rate, which is why converting everything to a reporting currency hides exactly the risk the regulator is testing</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The mitigation named in supervisory text is "additional protection" rather than any specific instrument — so the control is the measurement, and hedging is one way to act on it</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Own funds are a different pool entirely: capital and retained earnings are not safeguarded and are not bound by this list</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Model the safeguarding test per currency as a first-class daily output</strong> — assets held against e-money outstanding, each currency standing alone, with the shortfall or surplus stated</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The permitted-investment universe is <strong>set nationally and differs in form between regulators</strong>, so it is configuration with an effective date, never a constant in code</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">PSD3 and the PSR revisit safeguarding with the detail deferred to EBA Level 2 standards that do not yet exist — treat today's list as a version, not a fact</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Eligibility enforcement belongs in the platform: an instruction to place funds in an ineligible asset should fail before it reaches a venue, not be caught in an audit</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: both duties are real, and the measurement is the product.</strong> An EMI can invest its float, within a list narrow enough that the investment decision is almost mechanical once eligibility and free balance are known. It must also manage the currency mismatch, because an unhedged position can breach safeguarding with no transaction at all. Knowing how much is free, in which currency, under which national list — that is the hard part, and it sits in your core rather than in any vendor's.</div></div>
+  </div>
+
+  <!-- ══ THE LOCKED POSITIONS ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">The locked positions <span class="gen-tag gen-legacy">Cross-cutting</span></div>
+        <div class="platform-type">Card prefund · safeguarded float · instant-payments buffer</div>
+        <div class="platform-target">The three largest balances in an EMI, and the reason generic treasury tools mislead</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — What is actually happening</div>
+        <span class="verdict-badge vb-merge">Most of the cash is not available</span>
+        <div class="verdict-detail">A card programme requires a <strong>prefund account</strong> held by the BIN sponsor as security against expected transactions, which the sponsor may draw on for scheme liabilities and fees. Safeguarded customer funds are segregated and restricted by regime. An instant-payments buffer must cover 24/7 outflow against a funding cycle that pauses. All three are cash on the balance sheet that the treasurer cannot deploy.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Why generic tools get it wrong</div>
+        <span class="verdict-badge vb-split">They model one entity's own cash</span>
+        <div class="verdict-detail">A corporate treasury system treats a bank balance as spendable. In a regulated payments business the headline balance is mostly other people's money or collateral, so free cash is a computed figure rather than a sum of accounts — and it is the only figure an investment decision may use.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What the position model needs</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>A restriction type on every balance</strong> — own funds, safeguarded, prefund collateral, pledged, in settlement — so free cash is derived rather than assumed</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Forward schedules from the loan book: disbursements committed, collections expected, with the arrears assumption visible and adjustable</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Scheme settlement obligations by value date, since prefund sizing is driven by card volume and its volatility</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A weekend and holiday calendar per rail and counterparty — the instant-payments buffer is a weekend problem before it is a weekday one</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>This is the module's actual product.</strong> Everything else in this document is a vendor; the restriction-aware, per-currency position is the part only your core can assemble</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Prefund sizing is a recurring commercial negotiation with the BIN sponsor — evidencing the right number with data saves the customer real money</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The same model answers the supervisory question on safeguarding adequacy, which makes it two features from one build</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">History matters as much as the current figure: "what was free cash on the day we placed that deposit" is an audit question</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the reason this module cannot simply be bought.</strong> Every vendor here assumes someone hands it a clean, correctly classified position. In an EMI nobody does, because the balances sit across cards, payments, lending and safeguarding. Assembling and classifying them is the work, and your platform is the only component positioned to do it.</div></div>
+  </div>
+  <!-- ══ ATLAR ══ -->
+
+    <!-- ══ EUROPEAN CASH PLATFORMS ══ -->
+  <!-- ══ FX EXECUTION ══ -->
+  <!-- ══ INVESTMENT VENUES ══ -->
+  <!-- ══ SETTLEMENT BANKS ══ -->
+
+    <!-- ══ RECONCILIATION ══ -->
+
+    <div class="section-head"><h2>Draft list of potential providers</h2><span>A user-friendly cloud-native Turkish platform, that can serve as a light core banking solution, and that should be integrated with a core banking system.</span></div>
+
+  <!-- ══ TREASY ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Treasy <span class="gen-tag gen-cloud">T&uuml;rkiye / UK</span></div>
+        <div class="platform-type">Cloud-native treasury platform &middot; London and Istanbul</div>
+        <div class="platform-target">Banks, asset managers and investment funds, microfinance and consumer finance institutions</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 &mdash; Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">Dealing-room scope, modular</span>
+        <div class="verdict-detail">Modules for <strong>Money Markets</strong> (liquidity), <strong>FX and precious metals</strong>, <strong>Risk and Limit Management</strong>, Derivatives, Fixed income and security transactions, Fund Management, Market Data Integration and Treasury Regulatory Compliance. Market data and execution venues are already wired &mdash; Bloomberg, Thomson Reuters, Integral and 360T are named as integrator partners. Position keeping is not described explicitly, and there is no safeguarding model.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 &mdash; Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-split">API-first, composable, cost-positioned</span>
+        <div class="verdict-detail">Cloud-native SaaS on microservices with an API-first design: modules take standardised input messages and return standardised responses, and external services can call them. Customers configure only the modules they need, and the platform is positioned at &ldquo;a fraction of the usual cost&rdquo; of enterprise treasury systems.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Why it is the most interesting name here</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The architecture is the one everything else in this document lacks.</strong> API-first, composable and microservice-based is normal in payments and rare in treasury, where the incumbents are monoliths with a reporting cycle</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The Fimple partnership is in place</strong> &mdash; a treasury platform already connected to a core banking system, which is a materially shorter route than a greenfield adapter</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Modularity means an EMI can take Money Markets, FX and Risk and Limit Management and leave derivatives, securities and fund management unbought &mdash; which is exactly what &ldquo;light&rdquo; should mean commercially</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Market data and FX venue integrations are already built, and rate sourcing with an audit trail is otherwise a surprisingly tedious piece of work</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">What the diligence has to establish</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The module list is a bank dealing room, not an EMI.</strong> Money markets, derivatives, securities and precious metals describe a treasury that trades; an EMI holds a float it must prove is adequate. Confirm what is actually used by an institution that does not deal</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Safeguarding, restriction typing and the per-currency adequacy test are not in the published scope. Assume they stay in your core and the integration carries typed positions outward</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Founded in 2024 with roughly $1.1m raised in July 2025, led by APY Ventures.</strong> No named customers or case studies are published. Under DORA that is a serious concentration, continuity and exit assessment, not a formality</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Bank connectivity in the account-aggregation sense is not described &mdash; market data integration is a different thing. Ask how statements and balances arrive</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the strong co-development candidate in this analysis.</strong> A young, modular, API-first platform that already integrates with Fimple.</div></div>
+  </div>
+
+  <!-- ══ BANK ALM ══ -->
+
+    <!-- ══ SUMMARY MATRIX ══ -->
+  <!-- ══ FINAL TAKEAWAY ══ -->
+</div>
+</body>
+</html>

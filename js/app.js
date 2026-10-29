@@ -7,7 +7,8 @@
     home: document.getElementById('page-home'),
     individuals: document.getElementById('page-individuals'),
     business: document.getElementById('page-business'),
-    solution: document.getElementById('page-solution')
+    solution: document.getElementById('page-solution'),
+    research: document.getElementById('page-research')
   };
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[data-nav]'));
   var nav = document.getElementById('nav');

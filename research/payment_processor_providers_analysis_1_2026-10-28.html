@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Processors &amp; IBAN Sponsorship — Competitive Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a; }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 28px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+  .gen-peer   { background: #faece7; color: #4a1b0c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .yes { color: #085041; font-weight: 500; }
+  .no  { color: #993c1d; }
+  .unk { color: #888780; font-style: italic; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Payment Processors &amp; IBAN Sponsorship — Competitive Analysis</h1>
+  <p class="subtitle">8 routes to EUR and GBP rails for European EMIs · agency banking, vIBAN providers and direct participation</p>
+
+  <div class="questions">
+    <div class="q-box q1">
+      <strong>Q1 — Licence &amp; rail access</strong>
+      What licence does the provider hold, and which rails does it reach directly rather than through a further intermediary? Can it hold safeguarding accounts for an EMI?
+    </div>
+    <div class="q-box q2">
+      <strong>Q2 — IBAN model</strong>
+      Pooled virtual IBANs against a master account, IBANs issued in the end customer's own name, or a sponsored range the EMI controls? The difference drives AML treatment, portability and switching cost.
+    </div>
+  </div>
+
+  <!-- ══ MODEL PRIMER ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Three routes to euro rails</div>
+        <div class="platform-type">How to read this analysis</div>
+        <div class="platform-target">An EMI needs reachability, settlement and safeguarding — these are the only four ways to get them</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">The routes</div>
+        <span class="verdict-badge vb-mixed">Bank · EMI · NCB · Direct</span>
+        <div class="verdict-detail"><strong>1. Agency banking</strong> through a licensed bank (ClearBank, LHV, Banking Circle). <strong>2. vIBAN provision</strong> through another EMI (Clear Junction, OpenPayd, Modulr). <strong>3. Direct participation</strong> in T2, TIPS, RT1 or STEP2-T — open to non-bank PSPs since October 2025.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Why this document matters more than it used to</div>
+        <span class="verdict-badge vb-sep">The ladder is now complete</span>
+        <div class="verdict-detail">Until late 2025 an EMI's ceiling was an intermediary. That ceiling is gone. A core banking platform can now carry a customer from a pooled vIBAN to direct scheme participation — if the architecture was built for it.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Practical consequence for your platform:</strong> do not model "the sponsor" as a configuration value. Model <strong>rail access</strong> as a pluggable capability with four implementations, and make the internal payment object identical regardless of which one settles it. Everything else in this document is a vendor choice your customer makes; this is an architecture choice you make once.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Route 1 — Agency banking from a licensed bank</h2><span>Highest trust, real deposit protection questions resolved, direct scheme membership behind the API.</span></div>
+
+  <!-- ══ CLEARBANK ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">ClearBank <span class="gen-tag gen-cloud">Licensed bank</span></div>
+        <div class="platform-type">UK clearing bank + ClearBank Europe N.V. (ECB)</div>
+        <div class="platform-target">EMIs, PIs, fintechs and corporates needing UK and EU rails under one bank</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-split">Direct member, both perimeters</span>
+        <div class="verdict-detail">A direct member of Faster Payments, Bacs, CHAPS, SEPA Credit Transfer, SEPA Instant and TARGET2. ClearBank Europe N.V. is authorised by the European Central Bank and provides direct euro payment capability. EMIs connect indirectly without their own scheme application.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Client-named accounts + addressable vIBANs</span>
+        <div class="verdict-detail">Supports both safeguarding/operational accounts and addressable vIBANs under a fully licensed banking model, with client-named bank accounts rather than purely pooled structures.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Dual-entity structure covers the UK and the euro area with one commercial relationship — rare and valuable post-Brexit</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Supports SEPA indirect participation: the EMI remains reachable under <strong>its own BIC</strong> while ClearBank handles connectivity and settlement</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Actively supports EMI licence applications: in the recent emoni case, ClearBank supported a De Nederlandsche Bank EMI application granted in March 2026, then provided safeguarding plus SEPA CT, SEPA Instant and T2 connectivity at go-live</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Cloud-native, API-led, with real-time account information and payment execution</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Own-BIC indirect participation is the key feature.</strong> It means the EMI's reachability survives a sponsor change — design your rail adapter to preserve BIC identity independently of the settlement route</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Bank counterparty, so safeguarding is held at a credit institution rather than passed down another EMI chain</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The "we support your licence application" motion maps directly onto your own early-stage EMI customers — a natural co-sell partner</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Pricing and onboarding are oriented to established, well-capitalised institutions</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the strongest default recommendation for a newly licensed EU EMI, and the route that best preserves your customer's independence. An EMI reachable under its own BIC through ClearBank can later migrate to direct T2/TIPS participation without changing how counterparties address it — which is exactly the lifecycle your platform should sell.</div></div>
+  </div>
+
+  <!-- ══ LHV ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">LHV Bank <span class="gen-tag gen-cloud">Licensed bank</span></div>
+        <div class="platform-type">Estonian bank · fintech-specialist banking</div>
+        <div class="platform-target">Fintechs and financial institutions across the UK and Europe</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-split">Full bank · EUR and GBP rails</span>
+        <div class="verdict-detail">Provides SEPA Credit Transfer, SEPA Instant and SEPA Direct Debit, plus UK Faster Payments and Bacs, and SWIFT for international flows — through a cloud-native API called Connect.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Bank accounts with scalable vIBANs</span>
+        <div class="verdict-detail">Bank accounts with scheme access plus scalable virtual accounts carrying vIBANs for reconciliation. Fintechs get a bank counterparty rather than another EMI in the chain.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The deepest fintech-banking franchise in the Baltics, and one of the most widely used EUR counterparties for EU EMIs</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Its BaaS operation powers a large population of fintechs, including well-known names, and runs on <strong>Tuum</strong> as its core — a direct data point on your competitive set</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Direct debit support is a genuine differentiator: many EMI-grade providers offer credit transfers only</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Covers both EUR and GBP flows from one relationship</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">SEPA Direct Debit support makes LHV the natural partner for your Collections module — mandate management is useless without a DD-capable sponsor</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">LHV running Tuum means Tuum has a reference deployment at exactly the kind of institution you are targeting. Treat that as the benchmark to beat on functionality</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong Baltic and Nordic concentration; less presence in Southern Europe</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A bank counterparty simplifies your customers' DORA and concentration-risk documentation</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> first choice where direct debit matters, and the most common incumbent among EU fintechs. Build the LHV adapter early on incumbency grounds, and note that every LHV BaaS customer is already running on a competitor's core.</div></div>
+  </div>
+
+  <!-- ══ BANKING CIRCLE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Banking Circle <span class="gen-tag gen-cloud">Licensed bank</span></div>
+        <div class="platform-type">Luxembourg · high-volume payments infrastructure</div>
+        <div class="platform-target">Large PSPs and EMIs with predictable, high-volume settlement needs</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-split">Direct UK and EU scheme access</span>
+        <div class="verdict-detail">Bank-grade infrastructure with direct access to SEPA, Faster Payments, CHAPS and SWIFT, enabling institutions to reach international markets without building local banking relationships country by country.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Named vIBANs + safeguarding accounts</span>
+        <div class="verdict-detail">Named virtual IBANs with client-level separation alongside safeguarding and operational accounts in multiple currencies — built for payments businesses that need named separation at volume.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Cloud-based, event-driven platform explicitly engineered for scale and automation rather than relationship banking</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Positions itself for regulated institutions needing predictable settlement and strong governance — a procurement-friendly profile</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Owns B4B Payments, so cards and accounts can come from one group (see the card processing analysis)</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Offers a graduation path: programme launch under the group, then a direct Banking Circle relationship at sufficient scale</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The only provider here that can plausibly cover accounts, rails, safeguarding <em>and</em> card BIN sponsorship within one group — a single deep integration with wide coverage</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Volume orientation means small early-stage EMIs may not meet minimums; pair with a lighter option for the low end</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Named vIBANs rather than pooled is the model your Collections module should assume as the default</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong governance posture helps customers' DORA third-party risk documentation</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the best single-group answer for a scaled customer, and the integration with the broadest reach per unit of engineering effort. Prioritise it alongside ClearBank if your early pipeline skews to established PSPs rather than startups.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Route 2 — vIBAN provision from another EMI or PI</h2><span>Faster, cheaper, more flexible — and one more intermediary between your customer and the scheme.</span></div>
+
+  <!-- ══ CLEAR JUNCTION ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Clear Junction <span class="gen-tag gen-baas">UK EMI</span></div>
+        <div class="platform-type">Correspondent + vIBAN infrastructure for regulated firms</div>
+        <div class="platform-target">PIs, EMIs, PSPs, remittance providers and digital-asset platforms</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-both">FCA EMI · GBP and EUR domestic rails</span>
+        <div class="verdict-detail">An FCA-authorised EMI providing correspondent accounts, collection accounts, GBP and EUR domestic rails, SEPA, Faster Payments and CHAPS access, plus fiat and stablecoin payouts.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">vIBAN issuance for your customers</span>
+        <div class="verdict-detail">Virtual IBAN infrastructure built specifically for regulated institutions, including issuing vIBANs for the client's own end customers, with an explicit safeguarding-partner proposition for EMIs.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Compliance-first positioning aimed squarely at firms that mainstream banks decline — EMIs, PSPs and digital-asset businesses</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Explicit emphasis on identifying the specific bank involved in each transaction, which matters for nested-correspondent AML scrutiny</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Supports both fiat and stablecoin payouts — relevant to your Tier 3 digital-asset proposition</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">EMI, not a bank: safeguarding ultimately sits at a credit institution further down the chain</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Nesting is the risk to surface.</strong> An EMI whose rails come from another EMI adds a layer; regulators and correspondent banks increasingly scrutinise those chains</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Your platform should record and expose the full settlement chain per payment — who settled, through whom, at which institution</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Good fit for customers that larger banks reject, which is a meaningful share of the EMI market</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Stablecoin payout capability pairs naturally with the multi-asset ledger decision</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the pragmatic choice for higher-risk or crypto-adjacent customers who cannot get bank agency banking. Integrate it, but build the settlement-chain transparency that makes the nesting defensible to your customer's regulator.</div></div>
+  </div>
+
+  <!-- ══ OPENPAYD ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">OpenPayd <span class="gen-tag gen-baas">UK + Malta EMI</span></div>
+        <div class="platform-type">Embedded finance · multi-currency accounts</div>
+        <div class="platform-target">Embedded-finance builders, marketplaces, FX and remittance platforms</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-both">Dual authorisation, UK and EU</span>
+        <div class="verdict-detail">FCA-authorised EMI in the UK and MFSA-authorised in Malta, giving genuine dual-jurisdiction coverage under its own licences. Rail access spans SEPA, Faster Payments and SWIFT, extended through partners beyond.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Client-named multi-currency IBANs</span>
+        <div class="verdict-detail">Issues multi-currency IBANs <strong>in the client's own name</strong> through a modular API covering accounts, payments and FX — one of the more developer-friendly routes to named rather than pooled IBANs, across 35+ currencies.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Direct dual-jurisdiction authorisation is a real differentiator in enterprise procurement versus partner-EMI structures</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Named IBANs remove some of the nesting that pooled models reintroduce — though every added intermediary in the partner chain puts it back</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong multi-currency and FX layer alongside the account infrastructure</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">EMI safeguarding only: no deposit protection, and EMIs cannot pay interest the way banks do</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The named-IBAN model is materially better for your Collections module: the payer sees the end customer's name, which improves matching and reduces AML friction</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Make named-vs-pooled an explicit attribute in your account model — the AML and reconciliation behaviour genuinely differs</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Map the full partner chain per currency before relying on exotic-currency coverage</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Also sells end-to-end embedded finance, so partially competitive with your customers' propositions</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> the best multi-currency and named-IBAN option among the EMI-route providers, and the reference model for how your platform should represent IBAN ownership. Make the named/pooled distinction first-class in the data model.</div></div>
+  </div>
+
+  <!-- ══ MODULR ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Modulr <span class="gen-tag gen-baas">UK + NL EMI</span></div>
+        <div class="platform-type">Payment accounts · payroll and payout automation</div>
+        <div class="platform-target">Payroll platforms, gig-economy payouts, high-volume payment automation</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-both">FCA EMI + EU entity · direct FPS</span>
+        <div class="verdict-detail">An FCA-regulated EMI with a Dutch-regulated European entity. Reaches SEPA, SEPA Instant, Faster Payments and Bacs, with direct Faster Payments access and 24/7 settlement.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">vIBAN issuance · EUR and GBP</span>
+        <div class="verdict-detail">Virtual IBAN issuance with programmable payment workflows, oriented to high-frequency disbursement rather than retail account provision. EUR and GBP only.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Licence, rails &amp; coverage</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Safeguarded funds are held at credit institutions in designated accounts belonging to a dedicated custodian foundation under Dutch law — a clean, auditable structure</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">As an EMI it cannot lend customer funds or pay interest on balances; no deposit guarantee applies</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deliberately narrow currency scope in exchange for depth on GBP and EUR automation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strongest in payroll, contractor payments and scheduled disbursement</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The custodian-foundation safeguarding structure is worth studying: your safeguarding reconciliation module must handle this shape, not just a single designated account</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Payout-centric design makes it a good partner for marketplace and payroll customers specifically</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Narrow currency coverage limits it as a general-purpose sponsor</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Mature, widely used — likely to appear as an incumbent in UK-exposed prospects</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> specialist rather than general sponsor. Integrate when a payroll or mass-payout customer requires it; do not position it as a default. Its safeguarding structure is the most instructive model in this document for your reconciliation design.</div></div>
+  </div>
+
+  <!-- ══ PAYNETICS (cross-ref) ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Paynetics <span class="gen-tag gen-baas">Dual-licensed EMI</span></div>
+        <div class="platform-type">IBAN sponsorship + BIN sponsorship + acquiring</div>
+        <div class="platform-target">Fintechs, telcos, retailers, PSPs and smaller banks wanting one counterparty</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-both">EMI (BG + UK) · SEPA and SWIFT member</span>
+        <div class="verdict-detail">EU and UK EMI licences, membership of SEPA and SWIFT, and principal membership of Visa, Mastercard and UnionPay. Publishes IBAN sponsorship as a named service alongside BIN sponsorship.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Named IBANs — partner's or end customer's name</span>
+        <div class="verdict-detail">Publishes <strong>dedicated IBANs, not pooled virtual IBANs</strong> — its own materials state "no more virtual IBAN" and allow partners to issue in their own or their customer's name. EUR SEPA with instant, GBP account numbers on Faster Payments, Bacs and CHAPS, and SWIFT for cross-border. IBAN accounts, transfers and e-wallet management come from the same platform that issues the cards and acquires the merchant transactions — the narrowest integration surface of any option here.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit:</strong> covered in full in the card processing analysis. Noted here because it is the only provider across both documents offering BIN sponsorship, IBAN sponsorship and acquiring together. That makes it the lowest-integration-effort option for a small EMI and, for exactly the same reason, the highest concentration of counterparty risk. Recommend it with an explicit second-source plan.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Route 3 — No intermediary</h2><span>Requires our own authorisation and needs a Croatian feasibility analysis.</span></div>
+
+  <!-- ══ DIRECT PARTICIPATION ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Direct participation <span class="gen-tag gen-legacy">ANALYSIS NEEDED — Croatia</span></div>
+        <div class="platform-type">T2 · TIPS · RT1 · STEP2-T</div>
+        <div class="platform-target">Non-bank PSPs with the operational maturity to run scheme participation themselves</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Licence &amp; rail access</div>
+        <span class="verdict-badge vb-int">Open question — needs a Croatian feasibility check</span>
+        <div class="verdict-detail">Since October 2025 non-bank PSPs can be direct participants in T2, TIPS, RT1 and STEP2-T. The Eurosystem policy names <strong>both payment institutions and electronic money institutions</strong> as eligible — so an <em>EMI</em> licence specifically may not be required. <strong>Action: analysis needed on whether this is achievable in Croatia without an EMI licence</strong>, e.g. on a lighter HNB payment-institution authorisation.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — IBAN model</div>
+        <span class="verdict-badge vb-sep">Full scheme participant, if achievable</span>
+        <div class="verdict-detail">The institution settles in central bank money for its own account. Sponsorship economics, cut-off windows, risk appetite and insolvency exposure all disappear. Whether we can reach that position in Croatia under something short of an EMI licence is precisely the open question.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Open questions to resolve with HNB — the analysis</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>1. Does a payment institution authorisation suffice?</strong> The Eurosystem policy admits non-bank PSPs generally, and PI capital is €20,000–125,000 against €350,000 for an EMI. The practical test is the service: holding client funds or issuing e-money requires an EMI, whereas merely <em>executing</em> payments is a PI activity. Confirm which side our intended use falls on</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>2. Has Croatia transposed the SFD and PSD2 amendments?</strong> The TARGET Guideline amendment was postponed from April to October 2025 precisely because some member states had not transposed them. Croatia is in the euro area and therefore in T2 and TIPS, but national transposition must be confirmed, not assumed</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>3. Will HNB grant access to a non-bank PSP, and on what terms?</strong> HNB's published payment-institution authorisation pages set out the Article 84/85 process but say nothing about TARGET, TIPS or SEPA access for PIs. This has to be asked directly</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>4. What are the operational and liquidity conditions?</strong> Non-bank PSPs get <strong>no intraday credit facility</strong>, so every payment is pre-funded from own liquidity; a TARGET account may be used for settlement obligations only, never for safeguarding. Scheme-grade operations — cut-offs, reachability, contingency, business continuity — are a standing obligation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>5. What would it cost to run, not just to obtain?</strong> Capital, pre-funded liquidity, a permanent compliance and operations function, and audited continuity testing. The barrier here is operational and ongoing, not a one-off application</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">What holds regardless of the answer</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Build the rail abstraction either way.</strong> It costs little now and is a rewrite later, and it is what lets a licensed customer migrate from a sponsor to direct participation without re-platforming — a genuine differentiator no competitor markets</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">If the answer is <em>yes, a PI authorisation suffices</em>: this becomes a strategic option worth costing properly, since it would remove sponsor fees and counterparty risk from any platform-operated environment</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">If the answer is <em>no, an EMI licence is required</em>: Route 3 is closed to us, and <strong>Routes 1 and 2 are the only paths</strong> — a licensed bank or an EMI sponsor. Plan on that assumption until the analysis says otherwise</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Either way, intraday liquidity management stays a product requirement for customers who do reach direct participation: position monitoring, funding thresholds, alerts, projected end-of-day position</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Support dual-running — sponsored and direct in parallel during migration, with no interruption to reachability</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Verdict: the most important structural change in European payments infrastructure for this market, and an unresolved question for us specifically. Analysis needed on whether direct participation is achievable in Croatia without an EMI licence</strong> — the Eurosystem rules admit payment institutions as well as EMIs, so the answer may be yes on a lighter HNB authorisation, but nothing in HNB's published material confirms it and it must be asked. Until it is answered, plan on Routes 1 and 2 and build the abstraction anyway: it is cheap now, expensive later, and the customer-facing story holds whichever way our own answer lands.</div></div>
+  </div>
+
+  <!-- ══ SUMMARY MATRIX ══ -->
+  <div class="matrix-section">
+    <div class="matrix-title">Summary matrix — 8 routes to euro and sterling rails</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:13%;">Provider / route</th>
+          <th style="width:13%;">Entity type</th>
+          <th style="width:16%;">Rails reached</th>
+          <th style="width:15%;">IBAN model</th>
+          <th style="width:12%;">Safeguarding for EMIs</th>
+          <th style="width:9%;">Direct debit</th>
+          <th style="width:22%;">Priority for you</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ClearBank</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Bank — UK + ECB-authorised EU</td>
+          <td>FPS, Bacs, CHAPS, SCT, SCT Inst, T2</td>
+          <td>Client-named accounts + addressable vIBANs</td>
+          <td class="yes">Yes — at a bank</td>
+          <td class="unk">Check per entity</td>
+          <td><strong>Adapter 1.</strong> Own-BIC indirect participation preserves customer independence.</td>
+        </tr>
+        <tr>
+          <td>LHV Bank</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Bank — Estonia</td>
+          <td>SCT, SCT Inst, SDD, FPS, Bacs, SWIFT</td>
+          <td>Bank accounts + scalable vIBANs</td>
+          <td class="yes">Yes — at a bank</td>
+          <td class="yes">Yes — SDD</td>
+          <td><strong>Adapter 2.</strong> High incumbency; only clear SDD support. Note: runs Tuum.</td>
+        </tr>
+        <tr>
+          <td>Banking Circle</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Bank — Luxembourg</td>
+          <td>SEPA, FPS, CHAPS, SWIFT</td>
+          <td>Named vIBANs, client-level separation</td>
+          <td class="yes">Yes — at a bank</td>
+          <td class="unk">Not stated</td>
+          <td>High. Widest group coverage — cards via B4B. Volume minimums apply.</td>
+        </tr>
+        <tr>
+          <td>Clear Junction</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>EMI — FCA</td>
+          <td>SEPA, FPS, CHAPS, GBP/EUR domestic</td>
+          <td>vIBANs for your end customers</td>
+          <td class="yes">Yes — EMI-level</td>
+          <td class="unk">Not stated</td>
+          <td>Medium. For customers banks decline; surface the nesting chain.</td>
+        </tr>
+        <tr>
+          <td>OpenPayd</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>EMI — FCA + MFSA</td>
+          <td>SEPA, FPS, SWIFT, partner-extended</td>
+          <td><strong>Client-named</strong> multi-currency IBANs</td>
+          <td class="yes">Yes — EMI-level</td>
+          <td class="unk">Not stated</td>
+          <td>Medium-high. Best named-IBAN model; 35+ currencies.</td>
+        </tr>
+        <tr>
+          <td>Modulr</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>EMI — FCA + DNB</td>
+          <td>SEPA, SCT Inst, FPS, Bacs</td>
+          <td>vIBANs, EUR and GBP only</td>
+          <td class="yes">Yes — custodian foundation</td>
+          <td class="unk">Bacs DD (UK)</td>
+          <td>Specialist. Payroll and mass payout only; study its safeguarding structure.</td>
+        </tr>
+        <tr>
+          <td>Paynetics</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>EMI — Bulgaria + FCA</td>
+          <td>SEPA, SWIFT; plus card schemes</td>
+          <td>Named IBANs (partner or end customer) + cards + acquiring</td>
+          <td class="yes">Yes — EMI-level</td>
+          <td class="unk">Not stated</td>
+          <td>High for small EMIs. One counterparty, one concentration risk.</td>
+        </tr>
+        <tr>
+          <td>Direct participation</td>
+          <td><span class="dot" style="background:#ba7517;"></span>Eurosystem / EBA Clearing</td>
+          <td>T2, TIPS, RT1, STEP2-T — direct</td>
+          <td><strong>Full scheme participant</strong></td>
+          <td class="no">Prohibited on TARGET account</td>
+          <td class="yes">Scheme-level</td>
+          <td><strong>ANALYSIS NEEDED</strong> — is it possible in Croatia without an EMI licence? PIs are eligible under the Eurosystem rules; confirm with HNB. Build the abstraction regardless.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ FINAL TAKEAWAY ══ -->
+  <div class="takeaway">
+    <div class="takeaway-grid">
+      <div>
+        <h3>Q1 — Licence &amp; rail access verdict</h3>
+        <div class="tk">Only three providers here are licensed <strong>banks</strong> with direct scheme membership: ClearBank, LHV and Banking Circle. Everything else is an EMI standing between your customer and the scheme, which adds a layer regulators and correspondent banks increasingly scrutinise.</div>
+        <div class="tk"><strong>SEPA Direct Debit is the sharpest differentiator.</strong> Most providers offer credit transfers; far fewer offer direct debit. Any customer buying your Collections module needs a DD-capable sponsor, which narrows the field substantially.</div>
+        <div class="tk">Dual UK/EU coverage under own licences is rarer than marketing suggests: ClearBank, OpenPayd, Modulr and Paynetics have it; others passport, partner or cover one perimeter only.</div>
+        <div class="tk">Safeguarding is not deposit protection. EMI-route providers safeguard at a credit institution further down the chain, with no deposit guarantee. Your platform should record where client money actually sits, not merely who the contracting provider is.</div>
+      </div>
+      <div>
+        <h3>Q2 — IBAN model verdict and strategy</h3>
+        <div class="tk"><strong>Named versus pooled is the decision that matters.</strong> Named IBANs (OpenPayd, Banking Circle, ClearBank and — confirmed on its own materials — Paynetics) give cleaner reconciliation, better AML treatment and lower switching cost. Pooled vIBANs are cheaper and faster to launch. Make this an explicit attribute in your account model, not an implementation detail.</div>
+        <div class="tk"><strong>Route 3 requires our own authorisation and is unresolved</strong>: the Eurosystem admits payment institutions as well as EMIs, so analysis is needed on whether direct participation is achievable in Croatia without an EMI licence. Until that is answered, Routes 1 and 2 are our only paths.</div>
+        <div class="tk"><strong>Treat sponsorship as a stage, not a state.</strong> Pooled vIBAN → named IBAN → own BIC via indirect participation → direct participation in T2/TIPS. Four rungs, one platform, no re-implementation. No core banking vendor in your competitive set markets this.</div>
+        <div class="tk"><strong>Shortlist for build:</strong> ClearBank and LHV as bank-route adapters — these are the rails we can actually use. Direct participation is an adapter built for <em>licensed customers</em>, not routes we can supply, and own-BIC operation must still work in release one because so many EU EMIs already run that way. Add Clear Junction or OpenPayd when a specific customer requires the EMI route.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

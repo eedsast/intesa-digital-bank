@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX &amp; Remittance Providers — Competitive Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a; }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 14px; }
+
+  /* ── Draft banner ── */
+  .draft {
+    max-width: 900px; margin: 0 auto 24px;
+    background: #faeeda; border: 1px solid #ba7517; border-radius: 10px;
+    padding: 12px 16px; font-size: 12px; color: #633806; line-height: 1.55;
+  }
+  .draft strong { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 24px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; flex-wrap: wrap; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+  .tier-chip { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 9px; border-radius: 4px; }
+  .chip-a { background: #1d9e75; color: #fff; }
+  .chip-b { background: #7f77dd; color: #fff; }
+  .chip-c { background: #b4b2a9; color: #fff; }
+  .chip-d { background: #ba7517; color: #fff; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+  .gen-peer   { background: #faece7; color: #4a1b0c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .yes { color: #085041; font-weight: 500; }
+  .no  { color: #993c1d; }
+  .unk { color: #888780; font-style: italic; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .questions, .platform-body, .takeaway-grid { grid-template-columns: 1fr; }
+    .platform-header { grid-template-columns: 1fr; }
+    .platform-identity, .vc-q1 { border-right: none; border-bottom: 1px solid #ece9e0; }
+    .body-col:first-child { border-right: none; border-bottom: 1px solid #ece9e0; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>FX &amp; Remittance Providers — Competitive Analysis</h1>
+  <p class="subtitle">10 providers across 2 routes for the FX &amp; Remittance proposition · payout reach, corridor economics and settlement</p>
+
+  <div class="draft">
+    <strong>Draft — proposal for document six</strong>
+    Proposed as a separate analysis rather than a fifth route in the <em>Payment Processors &amp; IBAN Sponsorship</em> document, because this category answers a different question. That document asks how an institution reaches <em>euro rails</em>; its four routes are mutually exclusive answers. These providers answer how value reaches a <em>beneficiary abroad</em> — and a customer needs both. None of them issues an IBAN, so the IBAN-model question that frames the payments document does not apply to a single entry here. Organised as two routes by where value lands: <strong>Route 1 pay-to-account</strong> (bank account or mobile wallet) and <strong>Route 2 push-to-card</strong> (scheme-owned, reached through a sponsor). <strong>No company appears in both documents.</strong> The deciding test is whether a provider can make an institution reachable in SEPA and hold its safeguarded funds — Banking Circle and Clear Junction can, so they stay in the payments analysis; Airwallex and Currencycloud cannot, so they are assessed here. Scope, depth and the provider shortlist are open for comment before this is finalised.
+  </div>
+
+  <div class="questions">
+    <div class="q-box q1">
+      <strong>Q1 — Reach &amp; last mile</strong>
+      Which payout methods in which corridors — bank account, mobile wallet, push-to-card, cash — and how much of the headline country count is the provider's own licensed reach versus partner-supplied?
+    </div>
+    <div class="q-box q2">
+      <strong>Q2 — Commercial &amp; liquidity model</strong>
+      Spread or fee? Pre-funded or just-in-time? Who holds the licence in each corridor, and what is the settlement asset — fiat, central bank money, or stablecoin?
+    </div>
+  </div>
+
+  <!-- ══ MODEL PRIMER ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Why this is its own document</div>
+        <div class="platform-type">How to read this analysis</div>
+        <div class="platform-target">Euro-rail access and cross-border payout reach are two different purchases</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">The distinction</div>
+        <span class="verdict-badge vb-mixed">Rails ≠ reach</span>
+        <div class="verdict-detail">A sponsor from the payments document (ClearBank, LHV, Banking Circle, Clear Junction) makes an institution <strong>reachable in SEPA</strong>. A provider here makes it able to <strong>deliver value to a beneficiary in another country and currency</strong>, usually outside SEPA, often into a mobile wallet rather than an account. Neither substitutes for the other.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Where our platform sits</div>
+        <span class="verdict-badge vb-split">Margin engine, routing, treasury</span>
+        <div class="verdict-detail">Execution and last-mile reach are bought — nobody builds 150-country payout coverage. What we own is the <strong>rate and margin engine, the corridor routing logic and the treasury position view</strong>, exactly as the FX &amp; Remittance value proposition sets out. No core banking vendor in our competitive set sells those as a module.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>The commercial reason this category deserves its own analysis:</strong> in every other module the revenue is a fee, and the provider is a cost line. Here the revenue is the <strong>FX spread</strong>, and the provider's wholesale rate <em>is</em> our customer's cost of goods. Provider choice therefore sets their gross margin directly — which makes it a product decision rather than a procurement one, and makes multi-provider routing by corridor the single highest-value feature in the module.</div></div>
+  </div>
+
+  <div class="section-head"><span class="tier-chip chip-a">Route 1</span><h2>Pay-to-account</h2><span>Value lands in a bank account or mobile wallet. Wholesale reach networks first, then the account- and FX-led providers that serve banked beneficiaries in major currencies.</span></div>
+
+  <!-- ══ TERRAPAY ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">TerraPay <span class="gen-tag gen-cloud">Reference model</span></div>
+        <div class="platform-type">Payout hub · SWIFT SUPE + API · wallet-led</div>
+        <div class="platform-target">Banks, digital wallets, MTOs, merchants and financial institutions · 32 markets of registration</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-sep">Account + wallet, SWIFT or API</span>
+        <div class="verdict-detail">Real-time account-to-account and account-to-wallet payout over a stated network of 158 countries, 3.7bn+ mobile wallets and 7.5bn+ bank accounts. Two entry routes: existing SWIFT members route current MT and ISO 20022 traffic through TerraPay with GPI tracking; non-SWIFT members use one API.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-both">Pre-funded, correspondent replacement</span>
+        <div class="verdict-detail">Pre-funded multi-currency liquidity in place of the nostro-dependent correspondent model — its core efficiency claim. States 31 regulatory approvals and licences across 32 markets and operation as a Supervised Financial Institution (SUPE) on SWIFT, but names no individual regulators or jurisdictions publicly.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Business model</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Wholesale infrastructure, never a consumer brand.</strong> TerraPay sells reach to the institutions that own the customer relationship — the opposite of Wise or Revolut, and the reason it can partner with MTOs rather than compete with them</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The SWIFT route is the distinctive commercial wedge: a bank keeps its existing messaging, GPI tracking and operational processes, and changes only where the payment lands. That removes the integration objection that normally blocks a bank from adopting a payout network</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Mobile-wallet interoperability is the asset. Bank-account payout is widely available; wallet payout across emerging-market corridors is where the reach is genuinely hard to replicate</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Product lines extend beyond raw payout — payee verification, global workforce payouts, media payouts — i.e. packaging the same network for named use cases</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Expanding by partnership rather than by licence: a 2026 Deutsche Bank arrangement widened reach, alongside wallet and travel-payment integrations</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Pre-funding is a ledger requirement, not a detail.</strong> Funds positioned at the network must be modelled as a distinct in-transit position per currency, never as cash — with exposure limits and reconciliation against partner settlement</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Its published figures are internally inconsistent: 158 countries in the page body against "210+ send and 150+ receive countries" in the same site's metadata. Treat all counts as vendor claims</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">No specific licences are named publicly, so the contracting entity and its authorisation must be confirmed per corridor before a regulated customer's flow depends on it</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Push-to-card coverage is not emphasised in its public materials — verify corridor by corridor rather than assuming parity with the scheme networks</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">ISO 20022 native (pacs.008), which aligns with the payments microservice schema already designed</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the reference model for the category and a strong first adapter.</strong> The SWIFT-plus-API dual entry is the feature worth copying in our own abstraction: a customer should be able to keep its existing messaging and change only the destination. Its one structural vulnerability is the same as every hub's: pre-funded liquidity is working capital, and anything that reduces the need for it — Nium's just-in-time funding, or stablecoin settlement — attacks precisely that cost.</div></div>
+  </div>
+
+  <!-- ══ THUNES ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Thunes <span class="gen-tag gen-cloud">Closest comparator</span></div>
+        <div class="platform-type">Direct Global Network · member network · Singapore</div>
+        <div class="platform-target">MTOs, marketplaces, banks and platforms running programmatic mass payouts · Uber, Deliveroo, Grab, Western Union, Remitly, Ria, Revolut</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-split">Deepest wallet-first coverage</span>
+        <div class="verdict-detail">140 countries and 220+ payment methods, with reach stated as 4bn+ mobile wallets, 8bn+ bank endpoints, 15bn+ cards and 500m+ stablecoin wallets. Real-time FX execution in 90 currencies through its own treasury system. Access via REST API, a SWIFT pay-to-wallets bridge, or a Temenos core banking integration.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-both">Member network, licences in key markets</span>
+        <div class="verdict-detail">Members connect once and transact with each other. No published rate card — pricing is negotiated on volume, corridors and payout methods, with per-country FX and fee breakdowns disclosed after onboarding. Holds MAS Major Payment Institution (Singapore), FCA Authorised Payment Institution (UK), <strong>ACPR Payment Institution (France)</strong> and US money transmission licences in all 50 states.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Where it is stronger than TerraPay</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Names its licences, including an EU one.</strong> An ACPR payment institution authorisation in France is a concrete, checkable EU footprint — materially easier for a regulated customer's third-party risk assessment than "31 approvals across 32 markets"</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The <strong>Temenos core banking integration</strong> is strategically interesting: it shows payout networks are already being distributed through core banking platforms, which is the channel our own module would occupy</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">USDC and USDT payouts through a Circle partnership launched in late 2025 — settlement-asset optionality without our platform taking on any digital-asset exposure</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Reference base skews to the exact customer types our platform targets, including MTOs and neobanks</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Disbursements only: no inbound multi-currency accounts, no cards, no spend management. A complement to our platform, never a substitute — which is exactly what we want in an adapter</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Public reviews report slow support on compliance holds and an Asia-based support footprint, which can mean delayed resolution in European hours. Worth testing in a pilot before committing a customer's volume</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Its own figures conflict between pages (3bn versus 4bn+ wallets), and the most detailed public breakdown is published by a direct competitor</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Significant integration effort reported for custom API and webhook work — budget for it rather than assuming a quick adapter</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the closest single comparator to TerraPay, and on current evidence the stronger first adapter for an EU-licensed customer base</strong> — because it names an ACPR authorisation rather than describing its licensing in aggregate. The Temenos integration is the detail worth studying hardest: it is proof that this category already sells through core banking platforms, and therefore that our module has a precedent to point at.</div></div>
+  </div>
+
+  <!-- ══ NIUM ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Nium <span class="gen-tag gen-baas">Broadest surface</span></div>
+        <div class="platform-type">Payouts + issuing + stablecoin settlement · Singapore</div>
+        <div class="platform-target">Banks, fintechs, marketplaces, payroll, travel, airlines, spend-management platforms</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-sep">190+ countries, 100+ real-time corridors</span>
+        <div class="verdict-detail">Payouts to 190+ countries in 100+ currencies with 100+ real-time corridors, landing in bank accounts, cards or wallets depending on local availability. Routes over local rails, real-time networks or SWIFT. Access via the Nium network, an existing SWIFT connection, or stablecoin funding.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-split">Just-in-time funding — no local pre-funding</span>
+        <div class="verdict-detail">States 40+ licences, authorisations and registrations across 40+ markets. <strong>Just-in-time funding removes the need to pre-fund local accounts</strong> — a direct attack on the working-capital cost of the hub model. Also supports USDC funding with local-currency payout, or settlement in USDC or fiat.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What distinguishes it</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Just-in-time funding is the headline commercial difference.</strong> If it holds in practice across the corridors a customer needs, it removes the pre-funded working capital that TerraPay and Thunes both require — the single biggest hidden cost of this category</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Widest licence count stated in the set (40+ markets), and the broadest product surface — it also issues cards, including a dual-network stablecoin card platform on Visa and Mastercard launched in 2026</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Joined the Circle Payments Network in 2026 as a payout partner, which positions it on both sides of the fiat/stablecoin transition rather than defending one</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Highest stated country count here at 190+, though as always the real question is which corridors are real-time and which are SWIFT with a local leg</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Product overlap is a genuine issue.</strong> Nium issues cards and sells accounts, so it competes with parts of our own platform and with our customers' propositions. Partner deliberately and scope the relationship narrowly to payout</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Verify just-in-time funding corridor by corridor. It is unlikely to be universal, and the corridors where pre-funding is still required are exactly the emerging-market ones that matter most</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">"Licensed in 40+ markets" needs resolving into which entity contracts for EU flows and under which authorisation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Breadth has a cost: a provider doing payouts, cards, accounts and stablecoins is harder to hold to account on any one of them than a disbursement specialist</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the most commercially interesting of the three hubs, and the one to interrogate hardest.</strong> Just-in-time funding, if real at corridor level, changes the economics of the whole proposition — pre-funding is working capital our customers would rather not tie up. Treat the claim as the central question of a pilot rather than a feature to accept, and keep the relationship scoped to payout so the card and account overlap stays out of the way.</div></div>
+  </div>
+
+  <!-- ══ DANDELION ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Dandelion <span class="gen-tag gen-cloud">Euronet group</span></div>
+        <div class="platform-type">Real-time payout network · built on Ria's licensed footprint</div>
+        <div class="platform-target">Banks, fintechs and MTOs buying payout as a service · Euronet Money Transfer segment</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-both">The only one with real cash reach</span>
+        <div class="verdict-detail">A real-time cross-border payments network sold as payments-as-a-service, built on Euronet and Ria's own licensed and agent footprint. Added Visa Direct to extend card-endpoint reach. Account, wallet and — distinctively — <strong>physical cash payout at scale</strong> through the Ria agent network.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-split">Owns its own licensed last mile</span>
+        <div class="verdict-detail">Unlike the pure aggregators, much of the network is Euronet's own regulated money-transfer business rather than partner-supplied. That means fewer intermediaries in the chain and a single accountable counterparty — at the cost of less neutrality, since Euronet also competes with its customers through Ria.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What distinguishes it</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Cash payout is the capability nobody else here has at scale.</strong> For migrant remittance corridors where the beneficiary is unbanked and has no wallet, cash pickup is not a legacy feature — it is the only delivery method that works</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Owning the licensed last mile rather than renting it shortens the settlement chain, which matters for both AML scrutiny and failure attribution</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The Visa Direct addition shows the hubs and the schemes are combining rather than purely competing — a provider can be a Visa Direct competitor in one corridor and a customer in another</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Listed-group parentage makes financial standing verifiable, which simplifies a regulated customer's counterparty assessment</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Channel conflict is structural.</strong> Euronet owns Ria, a consumer MTO. A customer building a remittance proposition is buying rails from a competitor — the same objection that applies to Swan and Engine by Starling in the core banking analysis</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Wallet reach is likely narrower than Thunes or TerraPay; the strength is cash and account, not mobile money interoperability</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Agent-network economics are different from API economics — expect corridor pricing that reflects physical cost, not just scheme fees</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Public technical documentation is thinner than the API-first providers; integration effort needs scoping directly</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the right answer specifically where cash matters, and a reminder that "payout reach" is not one market.</strong> A customer serving banked beneficiaries in Asian wallet corridors and a customer serving unbanked beneficiaries in cash corridors need different providers. That is the clearest possible argument for building corridor-level routing rather than picking one partner — and it is the feature our module would be sold on.</div></div>
+  </div>
+
+  <!-- ══ ONAFRIQ ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Onafriq <span class="gen-tag gen-cloud">Regional specialist</span></div>
+        <div class="platform-type">Pan-African payments · formerly MFS Africa</div>
+        <div class="platform-target">Businesses, mobile money operators, banks, fintechs and merchants with African exposure</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-sep">40 African markets, wallet-dominant</span>
+        <div class="verdict-detail">A network across 40 African markets connecting over 500 million mobile money wallets and 200 million bank accounts, plus a large agent footprint. Covers domestic and cross-border disbursements and collections, card issuing and processing, agency banking and treasury services.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-mixed">Regional depth over global breadth</span>
+        <div class="verdict-detail">Deliberately narrow geography, deep interoperability. Partnered with Mastercard on mobile money transactions, cross-border remittances and settlement. Licensing and settlement arrangements are market-by-market and not consolidated in public materials.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What distinguishes it</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Mobile money interoperability is the whole product.</strong> In African corridors the wallet <em>is</em> the account, and the fragmentation between operators is the problem a global hub solves least well</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Offers collections as well as disbursements, which matters for a customer with two-way African flows rather than payout only</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The relevant question for us is not Onafriq versus TerraPay globally, but whether the global hubs' African wallet coverage is deep enough — or whether a regional specialist is needed underneath</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Also issues cards and provides agency banking, so it is a broader platform than a pure payout network</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Single-region. Relevant only if a customer's corridors are African, which makes this a conditional adapter rather than a core one</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The 300,000-agent figure in its own materials is ambiguous as to whether it covers one market or the whole network — a small example of why every count here needs sourcing</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">African corridor compliance, FX controls and liquidity repatriation are materially harder than intra-EU flows and need country-specific advice</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Industry wallet-penetration figures are often quoted from GSMA sector reports rather than a provider's own reach — do not conflate the two when sizing</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the template for regional specialists generally, not just Africa.</strong> The decision pattern it illustrates applies to Latin America and South-East Asia equally: a global hub gives breadth, a regional specialist gives depth, and the routing layer decides which to use per corridor. Include one regional specialist in the architecture from the start so the routing logic is exercised by a real second opinion rather than being theoretical.</div></div>
+  </div>
+
+  <!-- ══ CURRENCYCLOUD ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Currencycloud <span class="gen-tag gen-baas">Visa-owned</span></div>
+        <div class="platform-type">FX-first multi-currency wallets and payment execution</div>
+        <div class="platform-target">Platforms whose primary need is conversion and cross-border payout rather than domestic accounts</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-mixed">Account-led, 35+ currencies, partner-extended</span>
+        <div class="verdict-detail">Multi-currency wallets with conversion and payment execution across 35+ currencies through a long-established API. Rail reach spans SEPA, UK Faster Payments and US and APAC rails, much of it extended through partners rather than held directly — so the settlement chain varies by corridor.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-sep">FX execution is the product</span>
+        <div class="verdict-detail">Acquired by Visa in 2021 and now part of Visa Cross-Border Solutions, which makes balance-sheet certainty a non-issue. The account layer exists to serve the FX product rather than the other way round — this is an execution and conversion provider, not an IBAN sponsor and not a wallet-reach network.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Why it belongs here rather than in the payments analysis</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>It was always the wrong fit for the IBAN-sponsorship question.</strong> The payments analysis asks how an institution becomes reachable in SEPA under its own BIC; Currencycloud does not answer that. It answers how a payment is converted and delivered, which is this document's question</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Visa ownership gives it the strongest counterparty profile of any Route 1 provider — relevant for a customer whose risk function has to justify a third-party dependency</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Broadest currency coverage among the account-led providers, and a mature API with a long track record in cross-border platforms</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Natural pairing with a bank sponsor from the payments analysis: ClearBank or LHV for euro rails, Currencycloud for conversion and exotic-currency payout</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Weak where this category is hardest.</strong> Mobile-wallet and cash last mile are not its strength, so a customer with emerging-market corridors needs a pay-to-account hub alongside it</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Partner-extended reach means the real settlement chain differs by corridor — map it per currency rather than trusting the headline count</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Architecturally it proves the split our abstraction needs:</strong> FX execution and payout reach are separate capabilities that can and should be sourced from different providers</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Our FX booking model must therefore support an external rate and execution provider, not only an internal rate card</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the conversion and execution leg, paired with a reach provider rather than replacing one.</strong> Moving it out of the payments analysis fixes a categorisation error — it was listed there as a rail complement when its actual function is FX execution and payout. Here it sits in its proper company, and its real lesson is architectural: keep FX execution and corridor reach as separate adapter interfaces so either can be swapped without touching the other.</div></div>
+  </div>
+
+  <!-- ══ WISE PLATFORM ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Wise Platform <span class="gen-tag gen-baas">Owns its rail</span></div>
+        <div class="platform-type">Embedded remittance · direct domestic scheme memberships</div>
+        <div class="platform-target">Banks and fintechs embedding consumer-grade transfers in their own product</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-both">Fewer corridors, deeper ownership</span>
+        <div class="verdict-detail">Embeds Wise's own network inside a partner's product, backed by direct membership of domestic payment systems on major corridors rather than partner-supplied reach. Narrower corridor set than the hubs, but more of it is Wise's own rail end to end.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-merge">Consumer pricing — and a consumer brand</span>
+        <div class="verdict-detail">Consumer-grade speed and transparent pricing are the proposition, which sets a hard ceiling on the margin a partner can add. Wise is also a large consumer remittance brand in its own right, so a customer embedding it is embedding a competitor.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What distinguishes it</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Direct domestic scheme membership on major corridors means fewer intermediaries, better economics and genuinely fast settlement where it operates — the same "own the rail" logic as direct T2/TIPS participation in the payments document</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Transparent pricing is a market-shaping force: it is why "FX spread as revenue" is under structural pressure across this whole category</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong fit for a European customer whose corridors are major and banked, rather than emerging-market and wallet-based</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The margin ceiling is the strategic problem.</strong> If the underlying provider publishes its rate, the customer's spread is visible and compressible — which directly undermines the revenue model of the FX &amp; Remittance proposition</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Channel conflict is explicit, not incidental: Wise competes for the same end customer</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Corridor coverage is the narrowest of the providers analysed here — it is a depth play, not a reach play</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Speed claims in public material are Wise-wide consumer figures, not platform-partner figures</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: include it, but understand what it signals.</strong> Wise Platform is the clearest evidence that transparent pricing is coming for this category. Any FX proposition we build should assume spreads compress over time, which argues for pricing the <em>module</em> on capability — margin engine, routing, treasury — rather than assuming our customers can sustain wide spreads indefinitely.</div></div>
+  </div>
+
+  <!-- ══ AIRWALLEX ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Airwallex <span class="gen-tag gen-baas">Widest currency set</span></div>
+        <div class="platform-type">Global accounts, FX and payouts · multi-licensed</div>
+        <div class="platform-target">Global platforms, marketplaces and PSPs with multi-region flows — and SMEs directly</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-sep">60+ currencies, account- and card-led</span>
+        <div class="verdict-detail">The widest stated currency coverage of any provider here, with rail reach spanning SEPA, SEPA Instant, UK Faster Payments, US ACH and APAC rails, plus local accounts across Europe, North America and Asia-Pacific. Account and card last mile; not a mobile-wallet or cash network.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-both">Own licences, region by region</span>
+        <div class="verdict-detail">Holds licences across several jurisdictions including the EU, so more of the chain is its own authorisation rather than a partner's — but which entity contracts for a given corridor must be confirmed per corridor. Well capitalised and still expanding its regulatory footprint.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Why it belongs here rather than in the payments analysis</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>It fails the euro-rail test and passes this one.</strong> Airwallex cannot make a European EMI reachable in SEPA under its own BIC and is not a safeguarding counterparty — so it never answered the payments document's questions. Payout reach, FX execution and local accounts are precisely this document's questions</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Genuinely global design centre rather than Europe-first, which is a real differentiator for a customer whose flows span three regions rather than concentrating on the euro area</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Multi-licensed rather than partner-dependent across its core corridors, which shortens the settlement chain and simplifies a regulated customer's third-party risk file</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Useful as a secondary payout and FX rail behind a European primary sponsor from the payments analysis</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>It competes downstream with our customers.</strong> Airwallex sells business accounts, cards and spend management direct to SMEs, so an EMI whose proposition is SME multi-currency accounts is buying rails from a rival — the same objection that applies to Wise Platform here and to Dandelion through Ria</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Its own SME product set also overlaps our Business Account and Expense Management modules; scope the partnership to payout and FX and keep it there</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Weak where this category is hardest: no mobile-wallet or cash last mile, so emerging-market corridors still need a Route 1 reach network alongside it</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Verify which legal entity and licence covers each corridor before quoting the headline 60+ currency figure to a customer</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the breadth option, and a correction of an earlier filing error.</strong> It previously sat as a cross-reference line on the grounds that it appeared in the payments analysis — but that analysis had down-weighted it precisely <em>because</em> its global breadth was surplus to a euro-rail question. Here that breadth is the point. Pair it with a wallet-capable reach network and keep the relationship narrow enough that its own SME products stay out of our customers' way.</div></div>
+  </div>
+
+  <div class="section-head"><span class="tier-chip chip-b">Route 2</span><h2>Push-to-Card (scheme-owned)</h2><span>Value lands on a card. Owned by the schemes and reached through a sponsor or enabler rather than contracted directly.</span></div>
+
+  <!-- ══ VISA DIRECT / MASTERCARD MOVE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Visa Direct &amp; Mastercard Move <span class="gen-tag gen-baas">Scheme-owned</span></div>
+        <div class="platform-type">Push-to-card led, extending to account, wallet and cash</div>
+        <div class="platform-target">Reached through a sponsor bank, acquirer or enabler — rarely contracted directly</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Reach &amp; last mile</div>
+        <span class="verdict-badge vb-sep">Card endpoints at unmatched scale</span>
+        <div class="verdict-detail">Visa Direct states 195+ countries and 160 currencies; Mastercard's network states 200+ countries and 150+ currencies with around 10 billion endpoints across accounts, wallets, cards and ATMs, with Mastercard Move adding cash locations. Visa Direct supports push and pull; Mastercard Send is push-only.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Commercial &amp; liquidity</div>
+        <span class="verdict-badge vb-int">Access is sponsored, not direct</span>
+        <div class="verdict-detail">In practice a business cannot connect directly — access runs through a sponsor bank, acquirer or payment partner, which means the commercial terms come from the enabler rather than the scheme. Mastercard allows a wider range of financial institutions and aggregators to act as sponsor.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What they are good for</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Push-to-card is their unique capability.</strong> Paying a beneficiary who has a card but no usable account details, in seconds, is something the account-and-wallet hubs do less well or not at all</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Highest stated country and currency coverage of any entry here, backed by the schemes' own balance sheets and brand — an easy counterparty for a conservative customer to approve</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Already adjacent to the Cards module: a customer issuing on Visa or Mastercard through a sponsor is one relationship away from payout on the same scheme</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Both schemes are being adopted <em>by</em> the Route 1 providers — Dandelion added Visa Direct — so these are as much a component of pay-to-account networks as a competitor to them</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The sponsor requirement is the whole story commercially.</strong> Terms, onboarding and corridor availability depend on the enabler, so "Visa Direct coverage" is never the coverage a given customer actually gets</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Card-first means weakest exactly where remittance demand is strongest — unbanked, uncarded beneficiaries in wallet or cash corridors</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Cross-border timing and cost vary by country, currency, compliance requirement and partner, so published speed claims are not a planning basis</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Public comparisons of the two are inconsistent even on whether direct API access is possible — confirm with the schemes, not with secondary sources</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the push-to-card leg of the routing policy, accessed through whichever sponsor the customer already uses for issuing.</strong> The architectural consequence is worth stating plainly: because these are reached through an enabler, our adapter should target the <em>enabler's</em> API, not the scheme's. That is the same pattern as the card module — abstract the processor, not the network.</div></div>
+  </div>
+
+  <!-- ══ SUMMARY MATRIX ══ -->
+  <div class="matrix-section">
+    <div class="matrix-title">Summary matrix — 10 providers across 2 routes</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:13%;">Provider</th>
+          <th style="width:10%;">Route</th>
+          <th style="width:15%;">Stated reach</th>
+          <th style="width:15%;">Payout methods</th>
+          <th style="width:14%;">Liquidity model</th>
+          <th style="width:13%;">EU licence named</th>
+          <th style="width:20%;">Priority for us</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TerraPay</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>158 countries*; 3.7bn wallets, 7.5bn accounts</td>
+          <td>Account, wallet · SWIFT or API</td>
+          <td>Pre-funded multi-currency</td>
+          <td class="unk">31 licences / 32 markets, none named</td>
+          <td><strong>Reference model.</strong> Copy the SWIFT-plus-API dual entry in our abstraction.</td>
+        </tr>
+        <tr>
+          <td>Thunes</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>140 countries, 90 currencies, 220+ methods*</td>
+          <td>Account, wallet, card, stablecoin</td>
+          <td>Member network, own treasury</td>
+          <td class="yes">ACPR (France) + FCA + MAS</td>
+          <td><strong>Adapter 1.</strong> Named EU licence; Temenos integration is the channel precedent.</td>
+        </tr>
+        <tr>
+          <td>Nium</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>190+ countries, 100+ currencies, 100+ real-time*</td>
+          <td>Account, card, wallet</td>
+          <td><strong>Just-in-time — no local pre-funding</strong></td>
+          <td class="unk">40+ markets, EU entity unconfirmed</td>
+          <td><strong>Interrogate the JIT claim.</strong> Scope narrowly — it also sells cards and accounts.</td>
+        </tr>
+        <tr>
+          <td>Dandelion (Euronet)</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>Not stated publicly; Ria agent footprint</td>
+          <td>Account, wallet, card (Visa Direct), <strong>cash</strong></td>
+          <td>Owns much of its licensed last mile</td>
+          <td class="unk">Via Euronet/Ria entities</td>
+          <td><strong>The cash answer.</strong> Channel conflict — Euronet owns Ria.</td>
+        </tr>
+        <tr>
+          <td>Onafriq</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account · regional</td>
+          <td>40 African markets; 500m wallets, 200m accounts</td>
+          <td>Wallet-dominant, account, agent</td>
+          <td>Market-by-market</td>
+          <td class="no">African markets only</td>
+          <td>Conditional. Include one regional specialist to exercise the routing logic.</td>
+        </tr>
+        <tr>
+          <td>Visa Direct</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Push-to-card</td>
+          <td>195+ countries, 160 currencies*</td>
+          <td>Card-led; account, wallet, some cash</td>
+          <td>Via sponsor/enabler</td>
+          <td class="unk">Through the enabler</td>
+          <td>Push-to-card leg. <strong>Adapt the enabler's API, not the scheme's.</strong></td>
+        </tr>
+        <tr>
+          <td>Mastercard Move</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Push-to-card</td>
+          <td>200+ countries, 150+ currencies, ~10bn endpoints*</td>
+          <td>Card-first; account, wallet, ATM, cash</td>
+          <td>Via sponsor/enabler</td>
+          <td class="unk">Through the enabler</td>
+          <td>Alternative push-to-card leg. Wider range of permitted sponsors.</td>
+        </tr>
+        <tr>
+          <td>Wise Platform</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>Major corridors only</td>
+          <td>Account, direct domestic schemes</td>
+          <td>Own scheme memberships</td>
+          <td class="yes">Own EU entity</td>
+          <td>Depth not reach. <strong>Signals spread compression</strong> — price the module on capability.</td>
+        </tr>
+        <tr>
+          <td>Currencycloud (Visa)</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>35+ currencies, partner-extended</td>
+          <td>Account, major currencies</td>
+          <td>FX execution-led</td>
+          <td class="unk">Visa Cross-Border Solutions</td>
+          <td><strong>Moved here from the payments analysis.</strong> The conversion and execution leg — pair with a reach provider.</td>
+        </tr>
+        <tr>
+          <td>Airwallex</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Pay-to-account</td>
+          <td>60+ currencies — widest in the set</td>
+          <td>Account, card · no wallet or cash</td>
+          <td>Multi-licensed by region</td>
+          <td class="yes">EU licences held</td>
+          <td><strong>Moved here from the payments analysis.</strong> The breadth option; competes downstream with our customers.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:10.5px;color:#888780;margin-top:10px;line-height:1.5;">* All reach figures are vendor-published and several conflict with each other — TerraPay's own site states 158 countries in one place and "210+ send / 150+ receive" in another; Thunes' wallet count differs between its body text and its FAQ. The most detailed public breakdown of Thunes is published by a direct competitor. Treat every number as a claim to verify, not a fact.</p>
+  </div>
+
+  <!-- ══ FINAL TAKEAWAY ══ -->
+  <div class="takeaway">
+    <div class="takeaway-grid">
+      <div>
+        <h3>Q1 — Reach &amp; last mile verdict</h3>
+        <div class="tk"><strong>There is no single best provider, and that is the finding.</strong> Wallet corridors point to Thunes or TerraPay, cash corridors to Dandelion, card endpoints to the schemes, major-currency accounts to the carry-overs, and African wallets to a regional specialist. Any customer with real corridor spread needs two or three.</div>
+        <div class="tk"><strong>That makes corridor-level routing the product</strong>, not a refinement of it. It is also the one capability in this document that no provider sells, because each one's interest is to be the single answer.</div>
+        <div class="tk"><strong>Headline country counts are the least useful number in the category.</strong> The questions that matter are which corridors are real-time rather than SWIFT-plus-local-leg, which payout methods are live per corridor, and how much of the reach is owned versus partner-supplied.</div>
+        <div class="tk"><strong>Only Thunes names an EU authorisation</strong> (ACPR, France) among the Route 1 pay-to-account providers. For a Croatian vendor selling to EU-licensed institutions whose supervisors will ask about third-party risk, that is a procurement advantage worth weighting heavily.</div>
+      </div>
+      <div>
+        <h3>Q2 — Commercial model verdict, and what to build</h3>
+        <div class="tk"><strong>Pre-funding is the hidden cost of this category</strong> — it is working capital tied up at a counterparty. Nium's just-in-time funding claim attacks it directly, and verifying that claim corridor by corridor should be the first question of any pilot.</div>
+        <div class="tk"><strong>Spread revenue is under structural pressure.</strong> Wise publishes its rates, just-in-time and stablecoin settlement lower the pre-funding floor, and transparent total-cost disclosure is now the competitive axis. Price our module on capability — margin engine, routing, treasury view — not on a share of a spread that is compressing.</div>
+        <div class="tk"><strong>Proposed build order:</strong> Thunes as adapter one on EU-licence grounds, Currencycloud as the FX execution leg, a push-to-card leg through whichever sponsor the customer already uses for issuing, then TerraPay or Nium as the second reach provider once a pilot has tested pre-funding economics. Regional specialists and cash corridors on demand.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

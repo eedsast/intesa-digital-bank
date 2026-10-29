@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Banking Providers — Full Competitive Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a; }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 28px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+  .gen-peer   { background: #faece7; color: #4a1b0c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Core Banking Providers — Full Competitive Analysis</h1>
+  <p class="subtitle">13 platforms across four tiers · architecture, segment, commercial model, functional breadth and vendor viability</p>
+
+  <div class="questions">
+    <div class="q-box q1">
+      <strong>Dimension 1 — Platform</strong>
+      Architecture and deployment: cloud-native or modernised legacy, multi-tenant SaaS or self-hosted, configuration-driven or code-driven, module boundaries.
+    </div>
+    <div class="q-box q2">
+      <strong>Dimension 2 — Business</strong>
+      Target segment, commercial and licensing model, functional breadth, implementation profile, and vendor viability — ownership, funding and consolidation risk.
+    </div>
+  </div>
+
+  <!-- ══ MARKET STRUCTURE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Market structure</div>
+        <div class="platform-type">Four tiers, not one market</div>
+        <div class="platform-target">Vendors compete inside tiers, almost never across them</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">The tiers</div>
+        <span class="verdict-badge vb-mixed">Next-gen · Incumbent · Fintech-tier · BaaS</span>
+        <div class="verdict-detail"><strong>Cloud-native next-gen</strong> chasing tier 1–3 banks. <strong>Incumbent enterprise</strong> defending installed bases. <strong>Fintech-tier platforms</strong> serving EMIs and PIs on modest budgets. <strong>BaaS operators</strong> selling technology bundled with their own licence.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Where you actually compete</div>
+        <span class="verdict-badge vb-merge">Fintech tier, with next-gen expectations</span>
+        <div class="verdict-detail">Your buyers are EMIs and PIs with fintech-tier budgets, but they shortlist against Tuum and Mambu and expect next-gen architecture. The tier you sell into and the tier you are measured against are different — that gap defines the product problem.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Read this document with that asymmetry in mind.</strong> Thought Machine and Temenos are not your competition for deals; they set the architectural expectations your prospects arrive with. Advapay <em>is</em> your competition for deals, and it sets the price expectation. Tuum sits uncomfortably in between and is the single most dangerous name on this list for you.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Tier 1 — Cloud-native next-generation cores</h2><span>Built this decade, cloud-first, sold to banks. They define what "modern" means in every RFP you will see.</span></div>
+
+  <!-- ══ THOUGHT MACHINE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Thought Machine <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Vault Core + Vault Payments · SaaS / self-hosted</div>
+        <div class="platform-target">Tier 1–3 banks and scaled fintechs · JPMorgan Chase, Lloyds, Standard Chartered, Intesa Sanpaolo</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Smart contracts on a universal engine</span>
+        <div class="verdict-detail">A deliberately product-agnostic Universal Product Engine: the core does not "know" the product it runs. Every product — current account, savings, time deposit, credit card, mortgage — is a Python smart contract on one event-sourced ledger. Vault Payments is a separate product, sellable to banks running other cores.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Enterprise · developer-heavy</span>
+        <div class="verdict-detail">Enterprise licensing with substantial implementation partners. A Product Library of 200+ pre-written smart contracts shortens the start, but the operating model assumes in-house engineering capability.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vault Core: ledger, product engine, posting, event sourcing — all account changes as immutable events</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vault Payments: standalone, ISO 20022 native, rails-based configuration, card issuing on Mastercard, dynamic account routing that decouples instrument from funding source</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Named a Gartner Magic Quadrant Leader for Retail Core Banking in 2025, with both products recognised</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deployable as SaaS or self-hosted — important for banks with data-residency constraints</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> the most architecturally coherent platform in the market, and the reference for payments-as-a-separate-product</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> every product is code. That is powerful for a bank with a platform team and prohibitive for a 20-person EMI</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> cost and implementation profile exclude the fintech tier entirely</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vault Payments selling into non-Vault-Core banks proves payments is a standalone market</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> not a deal competitor, but the architectural benchmark your prospects cite. Your counter-position is explicit: configuration where they require code. An EMI should be able to launch a product without hiring a Python engineer — say that plainly, because it is the real difference and it is in your favour for this segment.</div></div>
+  </div>
+
+  <!-- ══ MAMBU ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Mambu <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Multi-tenant SaaS · composable banking</div>
+        <div class="platform-target">Fintechs, digital banks, EMIs, credit unions · 260+ clients across 65 countries</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Composable, API-configured engines</span>
+        <div class="verdict-detail">Multi-tenant SaaS with lending, deposits and payments as independently licensable engines configured through APIs. Deposits is a single module spanning current accounts, savings, wallets and term deposits, with product type as a configuration parameter.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-split">Modular licensing, mid-market up</span>
+        <div class="verdict-detail">The clearest composable commercial model in the market: customers license the modules they need and expand. Mambu Payments launched in May 2025 following the acquisition of Numeral, with existing customers expanding onto it.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deposits engine covers current, savings, group savings, wallets and term deposits, plus Islamic profit-sharing structures, in one configurable module</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Lending engine with strong heritage in microfinance and consumer lending</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Payments natively integrated with the core: routing updates GL accounts and handles AML suspense accounts automatically; SEPA CT/DD, UK Faster Payments, real-time payments</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Broad connector ecosystem — customers historically integrated third-party PSPs and card providers through it</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> configuration-driven, fast to launch, the broadest reference base in the digital-bank segment</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> the composable licensing model is the one to emulate commercially</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> the merged deposits module means a change to term-deposit maturity logic touches the same engine as current accounts</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> multi-tenant SaaS limits deep customisation — a recurring complaint from customers with unusual products</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> Mambu is the commercial model to copy and the functional boundary to improve on. Its merged deposits engine is a simplification you have deliberately rejected; its composable licensing is a structure you should adopt wholesale. Expect Mambu in most competitive deals above the smallest EMIs.</div></div>
+  </div>
+
+  <!-- ══ TUUM ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Tuum <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Modular microservices · API-first SaaS · formerly Modularbank</div>
+        <div class="platform-target">EMIs, PSPs, fintechs and digital banks · LHV, Zenus, Solidgate</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">True modules, sold separately</span>
+        <div class="verdict-detail">Modular microservices sold module by module or as a full core replacement. Core Banking covers accounts, transactions and FX; Cards, Lending and Payments are distinct modules. Deposits sit inside Core Banking alongside current accounts.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Your segment, your pitch</span>
+        <div class="verdict-detail">Explicitly positioned for EMI and PSP flows, with modular licensing and progressive adoption. This is the closest architectural and commercial comparator to what you are building.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Payments across SEPA, SWIFT, FX and local rails with smart routing; pre-integrated with LHV Connect, Banking Circle, Currencycloud and CENTROlink</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Upgraded during H1 2025 for ISO 20022, nostro reconciliation and inter-group payments with multi-currency nostro/vostro logic</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deposit products — fixed, notice and flexible — with automated lifecycle and interest logic inside the Core Banking module</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Islamic finance deposit structures added in H1 2025; LHV's BaaS operation runs on Tuum</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> the pre-integrated rail and sponsor connectors are a genuine moat — matching that list is a multi-year effort</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> a marquee reference (LHV) at exactly the institution type you target</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for them:</strong> accounts and deposits stay merged, forfeiting the EMI licensing upsell lever</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for them:</strong> no invoicing, receivables automation, loyalty or merchant-embedded credit — the business-layer gap is unaddressed</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you: this is the competitor to plan against, not Mambu or Thought Machine.</strong> Same segment, same architecture, same commercial model, already installed at your reference prospects. You do not beat Tuum on core banking parity. You beat it on the business layer — invoicing, collections, embedded credit — and on the DDA/Deposits split that gives EMIs a cleaner, cheaper entry price.</div></div>
+  </div>
+
+  <!-- ══ 10x ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">10x Banking <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">SuperCore · "meta core" · SaaS on AWS</div>
+        <div class="platform-target">Tier 1–2 banks, building societies, BaaS operators · Chase UK, Westpac, Old Mutual</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Ledger + product engine, nothing else</span>
+        <div class="verdict-detail">A deliberately narrow scope: SuperCore is the ledger and ProductKit the product engine, with everything else reached through SmartAdapters and partners. Kafka-based event streaming enables real-time flow to partners without tight coupling. Polyglot customisation in any language.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Enterprise, partner-dependent</span>
+        <div class="verdict-detail">Large-bank enterprise licensing. No native payments engine: payments go to specialist partners, with Paymentology pre-integrated for card issuing and processing. ISO 20022 support arrives through partner integrations rather than the core.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">ProductKit abstracts deposit and lending products across retail, SME and corporate as one domain</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Pre-built modules for savings, deposits and current accounts, all configured on one engine</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Chase UK and Westpac run term deposits and current accounts on the same platform instance</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Appears in Gartner's European retail core banking evaluations</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> intellectual clarity — be the best ledger, partner for everything else</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> single pre-integrated card partner is a concentration dependency</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> no native payments engine is a real gap for payment-led institutions, which is most of your market</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Tier 1–2 focus puts it outside your competitive set in practice</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> a useful negative example. 10x's partner-only payments strategy works for banks that already have payment infrastructure. EMIs do not — payments <em>is</em> their business. Owning a native payments module is right for your segment precisely where it is wrong for 10x's.</div></div>
+  </div>
+
+  <!-- ══ ENGINE BY STARLING ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Engine by Starling <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Bank-built core licensed as managed SaaS</div>
+        <div class="platform-target">Banks and licensed institutions launching digital propositions</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Proven in production at a real bank</span>
+        <div class="verdict-detail">Starling Bank's own core and digital banking stack, licensed to other institutions as managed SaaS. The whole proposition is that it runs a profitable licensed bank in production, not just a vendor demo.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Full stack, bank-shaped</span>
+        <div class="verdict-detail">Core plus channels delivered together as a managed service. Appears in Gartner's European retail core banking evaluations. The product is shaped by Starling's own bank model, which is both its credibility and its constraint.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Core ledger, products, payments and customer-facing channels as an integrated stack</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Built around UK retail and SME banking patterns, with deposit-taking assumed</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Managed delivery model: the vendor operates the platform rather than handing over software</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A growing category — bank-built cores sold outward also includes propositions from other digital banks</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> production provenance at a real licensed bank is a credibility argument no pure vendor can match</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> shaped by a deposit-taking bank's needs — the EMI model is not its design centre</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> customers are buying from a competitor in the deposit market, a recurring commercial objection</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Full-stack delivery means less freedom over channels and customer experience</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> rarely in your deals, but it sets a bar on credibility. Your equivalent of "proven in production" is reference implementations and demonstrable operational transparency — which, under DORA, your customers need from you anyway.</div></div>
+  </div>
+
+  <!-- ══ PISMO BY VISA ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Pismo by Visa <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Cloud-native core banking + issuer processing · owned by Visa</div>
+        <div class="platform-target">Large banks and scaled fintechs wanting core and card processing on one platform</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-both">Core + card processing in one cloud stack</span>
+        <div class="verdict-detail">Founded 2016 in São Paulo and acquired by Visa for US$1bn (closed January 2024). Cloud-native, API-first platform on AWS covering accounts, ledger, credit, debit and commercial transactions, with connections to local rails such as Pix. Management and engineering still run as a separate unit inside Visa.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Sold by Visa's global sales force to big issuers</span>
+        <div class="verdict-detail">Visa's stated goal is for Pismo to be the "platform of choice" for its issuing partners. Serves Mastercard-aligned issuers too. References are tier-one: Itaú (renewed 2024), Citi (corporate DDA, 2024), and historically Revolut, N26, Nubank and Cora. Europe went from no customers before the acquisition to one major bank live and three in implementation (early 2025).</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Core banking ledger and accounts, including corporate demand deposit accounts (the Citi use case)</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Issuer processing built in</strong> — credit, debit, prepaid and commercial cards on the same platform as the accounts, which no other Tier 1 core in this analysis offers natively</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Rail-agnostic payment connections, including real-time local schemes</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Live in Brazil, Mexico, Chile, the US, Europe, India and Australia</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> Visa's balance sheet removes vendor-viability risk entirely, and its sales force puts Pismo in front of every large issuer</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> one vendor for core and card processing collapses the integration you would otherwise build to a separate processor (see <em>Card Processing Providers</em>)</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> scheme ownership — Mastercard-led issuers and regulators may question neutrality, and pricing will favour Visa-issued programmes</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> design centre is large banks; EMI-sized deals and European references are still thin</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> the one Tier 1 vendor that bundles card issuing with the core, backed by the scheme itself. It will rarely meet you in small EMI deals, but it defines the "core plus cards from one vendor" expectation. Your answer is scheme neutrality — pluggable processors and BIN sponsors behind the Cards integration module — plus the business layer Pismo does not offer.</div></div>
+  </div>
+
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Fimple <span class="gen-tag gen-cloud">Next-gen</span></div>
+        <div class="platform-type">Composable cloud-native core &middot; T&uuml;rkiye</div>
+        <div class="platform-target">Retail, participation and investment banks, and fintechs &mdash; T&uuml;rkiye, MENA and CIS</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Composable, API-first, cloud or on-premise</span>
+        <div class="verdict-detail">Founded in 2019, cloud-native and microservice-based with an API-first design &mdash; its own materials cite more than 5,500 API services and go-live in weeks. Two products: Fimple Core and Fimple Process Designer for configuration and workflow. Available as cloud SaaS or on-premise.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-mixed">Regional challenger, modular licensing</span>
+        <div class="verdict-detail">$12m Series A announced February 2025, led by DN Capital and Smartfin with APY Ventures and Tera Portfolio participating. Named customers are Turkish banks &mdash; Aytemiz Investment Bank, Misyon Bank, Hedef Investment Bank and Q Investment Bank &mdash; with clients in five further countries and stated expansion into MENA and CIS. Pricing is not published.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Core banking, digital banking and payments, with banking and lending modules licensed separately rather than as one front-to-back block</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Process Designer puts journey and workflow configuration in the bank&rsquo;s hands instead of the vendor&rsquo;s backlog</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Partnerships extend the stack rather than replace it &mdash; Plumery for digital banking journeys, Treasy for treasury</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> the modular, API-first architecture Tier 1 claims, at a regional price point and with a shorter decision cycle</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> its strongest markets are T&uuml;rkiye, MENA and CIS. The EU is the target here, and that is precisely where it has least to show &mdash; no named EU bank, and the participation-banking strength does not carry</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> the named banks are small investment and participation banks, not scaled retail &mdash; so the volume and product-breadth evidence is thin</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> EU deployment raises questions this analysis cannot answer from public sources &mdash; data residency, SEPA scheme readiness and local regulatory reporting</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">&#128161;</div><div><strong>Implication for you: the closest thing in this document to the platform you are building, and therefore the most useful comparison.</strong> Composable licensing, API-first delivery and a partner ecosystem rather than a monolith is the same thesis &mdash; which makes Fimple a competitor in MENA and CIS and a credible partner elsewhere. The direct experience from the Kovanica implementation is worth more here than any published comparison.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Tier 2 — Incumbent enterprise cores</h2><span>Large installed bases, modernising under pressure. They shape vocabulary and expectations more than they threaten your deals.</span></div>
+
+  <!-- ══ TEMENOS ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Temenos <span class="gen-tag gen-legacy">Incumbent</span></div>
+        <div class="platform-type">Transact · microservices in progress · SaaS + on-premise</div>
+        <div class="platform-target">3,000+ banks in 150 countries · 41 of the top 50 global banks</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-int">Legacy core, microservices overlay</span>
+        <div class="verdict-detail">Transact is progressively decomposing into independently deployable services. Payments came first, ahead of core banking microservices; the later "Accounts and Deposits" service manages current, checking and deposit accounts in real time as one unit, preserving the T24 boundary.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Enterprise, modular adoption</span>
+        <div class="verdict-detail">Enterprise licensing with the largest installed base in the market. Microservices can be deployed in front of legacy infrastructure, so banks adopt incrementally rather than replacing wholesale.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The broadest functional footprint of any vendor here: retail, corporate, wealth, Islamic, treasury, payments, financial crime mitigation, analytics</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Payments microservice integrates with SWIFT, SEPA and real-time schemes across 150+ countries and can overlay existing T24 estates</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Accounts and Deposits supports any currency with a wide range of interest calculation methods and configurable business rules</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Published benchmark of 150,080 TPS on Temenos Banking Cloud for a combined solution including payments, FCM, data hub and digital channels</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> unmatched functional depth, geographic coverage and regulatory localisation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> decades of architectural debt; the microservices evolution preserves legacy boundaries rather than rethinking them</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> implementation cost and duration place it beyond the fintech tier entirely</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Its "Accounts and Deposits" naming is industry precedent for the merged model you are rejecting</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> not a competitor, but a vocabulary-setter. When a prospect says "accounts and deposits" as one phrase, they are speaking Temenos. Your product naming has to work against that habit — be explicit that you split demand accounts from term deposits, and explain the licensing reason rather than the architectural one.</div></div>
+  </div>
+
+  <!-- ══ ORACLE FLEXCUBE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Oracle FLEXCUBE <span class="gen-tag gen-legacy">Incumbent</span></div>
+        <div class="platform-type">Universal banking · on-premise + Oracle Cloud</div>
+        <div class="platform-target">Large banks across 115+ countries · reaches roughly 10% of the world banking population</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-merge">Universal banking monolith</span>
+        <div class="verdict-detail">Retail accounts, corporate accounts, deposits, loans and treasury integrated in one platform, with product configuration rather than service boundaries defining behaviour. Designed for traditional branch operations, not composable deployment.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Suite licensing, everything bundled</span>
+        <div class="verdict-detail">Payments are a core component rather than a separately priced add-on. The universal banking philosophy bundles the full suite — the commercial model cloud-native vendors were created to displace.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Processes more than 26 billion transactions daily across its global installed base</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Comprehensive single customer view across all product types in one system</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Open APIs allow integration with third-party payment hubs despite the bundled model</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Now integrated with Oracle Cloud Infrastructure AI services, though the payments architecture remains traditional</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> proven at enormous scale with deep regulatory coverage in emerging markets</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> architecture and commercial model both date from the universal-banking era</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Notably, some EMIs run FLEXCUBE today — FinXP is a documented example</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Least relevant comparator for your market, but a live source of displacement opportunities</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> the clearest illustration of the model you are displacing — and a real pipeline. An MFSA-licensed EMI running an Oracle universal-banking core is paying enterprise cost for a platform designed for branch banking. Those institutions are findable and reachable.</div></div>
+  </div>
+
+  <!-- ══ FINACLE ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Infosys Finacle <span class="gen-tag gen-legacy">Incumbent</span></div>
+        <div class="platform-type">Cloud-ready, API-first in progress · SaaS + on-premise</div>
+        <div class="platform-target">100+ countries · large retail, corporate and private banks · strong in Asia, Middle East and Africa</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-int">CASA heritage, modernising</span>
+        <div class="verdict-detail">Retail accounts, deposits and lending as integrated modules, organised around the CASA concept — current account and savings account combined. Cloud-native microservices evolution is ongoing, but the CASA plus term-deposit model persists in most deployments.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-sep">Enterprise, with a separate payments hub</span>
+        <div class="verdict-detail">Finacle Payments is a distinct, separately licensable payments hub that can run independently of Finacle Core Banking — the same separation pattern seen at Temenos and Thought Machine. Backed by Infosys's scale and implementation capacity.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Payments hub supporting SWIFT, SEPA, ISO 20022 and local schemes, licensable to banks running other cores</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deep regulatory and payment-scheme coverage in emerging markets</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Appears in Gartner's European retail core banking evaluations</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Infosys's scale supports complex multi-market deployments</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> implementation muscle few vendors can match</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> CASA conversion between account types is cited as a source of confusion even in recent versions — architectural debt from the original design</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Services-led commercial model: licence plus substantial implementation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Not present in the EMI segment in any meaningful way</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> CASA is the term your buyers' staff learned on the job, and Finacle's own conversion difficulties are the best available argument for your split. A clean boundary between demand accounts and term deposits avoids exactly the conversion complexity that an inherited CASA model creates.</div></div>
+  </div>
+
+  <!-- ══ NORTH AMERICAN / OTHER INCUMBENTS ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Finastra, FIS and Fiserv <span class="gen-tag gen-legacy">Incumbent</span></div>
+        <div class="platform-type">Essence, Phoenix · HORIZON, IBS · DNA, Finxact, Premier</div>
+        <div class="platform-target">Primarily North American banks and credit unions, plus Finastra's European Essence base</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-int">Portfolios, not platforms</span>
+        <div class="verdict-detail">Each vendor sells several cores at once for different institution sizes. Fiserv's Finxact is the genuinely cloud-native entry in that portfolio; the rest are modernised long-lived platforms. FIS was named a Leader in the August 2026 Gartner Magic Quadrant for Retail Core Banking Systems, North America, for both HORIZON and IBS.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Processing-bundled, geography-bound</span>
+        <div class="verdict-detail">Commercials typically bundle core licensing with payment processing and other services. Finastra, Vista-owned, has been narrowing to lending and payments after agreeing to sell its core banking unit to Pollen Street Capital — a reported transaction worth verifying before citing.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Finastra Essence appears in Gartner's European retail core banking evaluations; Phoenix serves the North American market</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">FIS serves more than 3,000 regional and community banks across its core banking solutions</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Fiserv runs DNA, Finxact, Portico and Premier in parallel for different segments</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Finxact is widely cited alongside Mambu and Thought Machine as a cloud-native core</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> enormous installed bases and bundled economics that are hard to dislodge</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> multi-core portfolios create roadmap ambiguity — which platform gets the investment?</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution:</strong> private-equity ownership and divestment activity are reshaping this tier</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Essentially absent from the European EMI segment</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> irrelevant to your pipeline, relevant to your narrative. This tier demonstrates what happens to core banking vendors that accumulate platforms instead of focusing: portfolio sprawl, divestments and roadmap uncertainty. "One platform, one roadmap" is a credible differentiator against anyone in this group.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Tier 3 — Fintech-tier platforms</h2><span>Your actual competition for deals. Modest budgets, EMI and PI buyers, bring-your-own-licence delivery.</span></div>
+
+  <!-- ══ ADVAPAY MACROBANK ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Advapay (Macrobank) <span class="gen-tag gen-peer">Fintech tier</span></div>
+        <div class="platform-type">Front-to-back core for EMIs and PIs · Estonia</div>
+        <div class="platform-target">EMIs, PIs, PSPs, MSBs, remittance providers, e-wallet operators, crypto businesses</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-sep">Front-to-back, three delivery models</span>
+        <div class="verdict-detail">An engine, API, web and mobile interfaces and back office in one configurable platform, available as cloud SaaS, software licence or source-code ownership. Macrobank 3.1 runs on .NET 10, Apache Ignite, RabbitMQ, OpenTelemetry and Kubernetes-ready infrastructure.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Direct head-to-head, price-led</span>
+        <div class="verdict-detail">Transparent, startup-friendly commercials: a monthly SaaS fee with pay-as-you-go additions, scaling to licence or source-code ownership. Third-party listings have quoted SaaS from around €7,000 per month and one-time figures in the mid five figures, though Advapay does not publish a universal price.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Customer and business profiles, account and IBAN structures, multi-currency products, transaction posting, payment workflows, FX, tariffs, fees and limits</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">CENTROlink and SEPA readiness marketed explicitly — a direct signal about what this segment expects</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Nostro and vostro management with reconciliation and correspondent-account accounting</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Co-branded card issuing, internet and mobile banking, OTP/MAC two-factor, AML/KYC workflows</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Adjacent services: EMI and PI licensing support, payment infrastructure setup, crypto-fiat wallet software</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> bundling licensing consultancy with software is a powerful land motion for pre-licence startups</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> source-code ownership answers the vendor-dependency objection outright</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for them:</strong> front-to-back monolith rather than independently licensable modules — no upsell ladder</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for them:</strong> no business layer — no invoicing, receivables automation, embedded credit or loyalty</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you: this is who you will actually meet in deals, and who sets the price expectation.</strong> Two lessons worth taking directly. First, bundling licensing support with software is how this tier wins pre-licence customers — your consulting background makes that replicable. Second, their monolithic delivery has no upsell ladder, which is precisely the weakness your modular licensing and DDA/Deposits split exploit.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Tier 4 — BaaS operators</h2><span>Technology bundled with their own licence. They remove your buyer from the market entirely.</span></div>
+
+  <!-- ══ SOLARIS + VODENO ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Solaris &amp; Vodeno <span class="gen-tag gen-baas">BaaS</span></div>
+        <div class="platform-type">Licence + technology sold together</div>
+        <div class="platform-target">Non-bank brands, retailers and fintechs embedding regulated services without their own licence</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Architecture &amp; deployment</div>
+        <span class="verdict-badge vb-both">API surface over a licensed entity</span>
+        <div class="verdict-detail">Solaris exposes digital accounts, cards, issuing and processing, lending and digital-asset custody through one API under a full German banking licence. Vodeno's Cloud Platform runs on Google Cloud with blockchain-based smart contracts for product logic, paired with Aion Bank's ECB licence.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Segment &amp; commercial model</div>
+        <span class="verdict-badge vb-merge">Bundled, no modular pricing</span>
+        <div class="verdict-detail">Neither sells a standalone payments or accounts module. Vodeno holds direct scheme memberships with Mastercard, Visa and EBA Clearing — unusual for BaaS — and is backed by Warburg Pincus, NatWest and the EBRD.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Functional scope</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Solaris: accounts, cards, issuing and processing, lending, custody — BaFin-supervised compliance bundled with the technology</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vodeno: local and cross-border payments, FX, SEPA and SWIFT via direct scheme membership, with Aion Bank branches across Belgium, Poland, Germany and Sweden</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vodeno's deposits carry Belgian deposit-guarantee coverage through the Aion ECB licence — unavailable to EMI-only partners</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vodeno lists current accounts separately from savings and term deposits in its catalogue, though the underlying service split is not publicly documented</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Strengths &amp; cautions</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Strength:</strong> deposit guarantee and lending capability that no software-only vendor can replicate</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for buyers:</strong> the partner operates inside the BaaS provider's licence, product boundaries and risk appetite</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Caution for buyers:</strong> unit economics erode as volume grows, which is what eventually drives brands to their own licence</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Both compete for the customer who might otherwise get licensed and buy software</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Implication for you:</strong> BaaS is not a competing core banking product — it is a competing <em>answer to the same question</em>, and for a pre-revenue brand it usually wins. Your market begins where BaaS economics stop working. Build the pitch around that threshold: the volume and margin point at which owning the licence and the software beats renting both.</div></div>
+  </div>
+
+  <!-- ══ SUMMARY MATRIX ══ -->
+  <div class="matrix-section">
+    <div class="matrix-title">Summary matrix — 13 platforms</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:13%;">Platform</th>
+          <th style="width:11%;">Tier</th>
+          <th style="width:17%;">Architecture</th>
+          <th style="width:16%;">Target segment</th>
+          <th style="width:17%;">Commercial model</th>
+          <th style="width:26%;">Competitive relationship to you</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Thought Machine</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Universal product engine, Python smart contracts; payments a separate product</td><td>Tier 1–3 banks</td><td>Enterprise licence, developer-heavy</td><td>Benchmark, not competitor. Counter with configuration over code.</td></tr>
+        <tr><td>Mambu</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Multi-tenant SaaS, composable engines, merged deposits module</td><td>Digital banks, fintechs, EMIs</td><td>Modular licensing per engine</td><td>Occasional competitor. Copy the licensing model; beat the merged deposits.</td></tr>
+        <tr><td>Tuum</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Modular microservices; deposits inside Core Banking</td><td><strong>EMIs, PSPs, fintechs</strong></td><td>Module by module or full core</td><td><strong>Primary competitor.</strong> Beat on business layer and the DDA/Deposits split.</td></tr>
+        <tr><td>10x Banking</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Meta core: ledger + ProductKit, partners for everything else</td><td>Tier 1–2 banks, BaaS</td><td>Enterprise, partner-dependent</td><td>Negative example. Partner-only payments fails in EMI-land.</td></tr>
+        <tr><td>Engine by Starling</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Bank-built full stack, managed SaaS</td><td>Licensed banks</td><td>Managed service, full stack</td><td>Rare in your deals. Sets the credibility bar.</td></tr>
+        <tr><td>Pismo by Visa</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Cloud-native core + issuer processing on AWS</td><td>Large banks, scaled fintechs</td><td>Platform licence, sold via Visa</td><td>Rare in EMI deals. Sets the "core + cards from one vendor" bar — counter with scheme neutrality.</td></tr>
+        <tr><td>Fimple</td><td><span class="dot" style="background:#1d9e75;"></span>Next-gen</td><td>Composable, API-first; cloud or on-premise</td><td>Retail, participation and investment banks &mdash; T&uuml;rkiye, MENA, CIS</td><td>Modular licensing, price not published</td><td>Same thesis as yours at regional scale. Competitor in MENA/CIS, credible partner elsewhere.</td></tr>
+        <tr><td>Temenos</td><td><span class="dot" style="background:#ba7517;"></span>Incumbent</td><td>Transact decomposing into microservices; "Accounts and Deposits" as one service</td><td>3,000+ banks, 150 countries</td><td>Enterprise, incremental adoption</td><td>Vocabulary-setter. Your naming must work against CASA habits.</td></tr>
+        <tr><td>Oracle FLEXCUBE</td><td><span class="dot" style="background:#993c1d;"></span>Incumbent</td><td>Universal banking, configuration not service boundaries</td><td>Large banks, 115+ countries</td><td>Bundled suite licence</td><td>Displacement pipeline — some EMIs run it today (e.g. FinXP).</td></tr>
+        <tr><td>Infosys Finacle</td><td><span class="dot" style="background:#ba7517;"></span>Incumbent</td><td>CASA-centric, modernising; separate Payments Hub</td><td>Large banks, Asia/MEA strength</td><td>Licence plus heavy services</td><td>Its CASA conversion pain is your best argument for splitting.</td></tr>
+        <tr><td>Finastra / FIS / Fiserv</td><td><span class="dot" style="background:#993c1d;"></span>Incumbent</td><td>Multi-core portfolios; Finxact cloud-native; Finastra core unit divesting</td><td>North America, plus Essence in EU</td><td>Core bundled with processing</td><td>Not in your pipeline. "One platform, one roadmap" counter-narrative.</td></tr>
+        <tr><td>Advapay (Macrobank)</td><td><span class="dot" style="background:#4a1b0c;"></span>Fintech tier</td><td>Front-to-back .NET platform; SaaS, licence or source code</td><td><strong>EMIs, PIs, PSPs, MSBs</strong></td><td>Monthly SaaS from ~€7k, or one-time</td><td><strong>Direct head-to-head.</strong> Sets price. Copy the licensing-support land motion.</td></tr>
+        <tr><td>Solaris</td><td><span class="dot" style="background:#7f77dd;"></span>BaaS</td><td>API over a full German bank licence</td><td>Brands embedding finance</td><td>Bundled, no modular pricing</td><td>Removes buyers from the market. Its graduates are your prospects.</td></tr>
+        <tr><td>Vodeno</td><td><span class="dot" style="background:#7f77dd;"></span>BaaS</td><td>Google Cloud platform + Aion Bank ECB licence; direct scheme memberships</td><td>Banks, retailers, e-commerce</td><td>Full-stack BaaS</td><td>Deposit guarantee is unreplicable. Compete where BaaS economics break.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ FINAL TAKEAWAY ══ -->
+  <div class="takeaway">
+    <div class="takeaway-grid">
+      <div>
+        <h3>What the landscape actually shows</h3>
+        <div class="tk"><strong>The functional floor is settled.</strong> Every tier ships a ledger, multi-currency accounts, product configuration, payments and APIs. Nobody wins a deal on those any more, and nobody survives without them.</div>
+        <div class="tk"><strong>Payments separation is universal; accounts/deposits separation is not.</strong> Temenos, Thought Machine, Finacle, Mambu and Tuum all treat payments as a distinct product. Only Vodeno shows any catalogue-level split between current accounts and deposits — and even that may be presentational.</div>
+        <div class="tk"><strong>The tier boundaries are commercial, not technical.</strong> What separates Tuum from Advapay is not architecture quality — it is price, implementation model and who answers the phone. That is the boundary you have to pick a side of, deliberately.</div>
+      </div>
+      <div>
+        <h3>Positioning conclusions</h3>
+        <div class="tk"><strong>Price at the fintech tier, build at the next-gen tier.</strong> Your buyers have Advapay budgets and Tuum expectations. Modular licensing with a genuinely cheap entry module (wallet or DDA only) is how both get satisfied.</div>
+        <div class="tk"><strong>Tuum is the name to plan against.</strong> Same segment, same architecture, better references, pre-integrated with the sponsors in the companion payments analysis. Differentiate on the business layer and the licensing-aware module split, never on core parity.</div>
+        <div class="tk"><strong>Three reliable sources of pipeline:</strong> institutions outgrowing the BYOL tier, brands whose BaaS economics have stopped working, and EMIs running enterprise cores built for branch banking. All three are identifiable and reachable without a broad marketing spend.</div>
+        <div class="tk"><strong>Consolidation is the macro risk and the macro opportunity.</strong> Marqeta buying TransactPay, Finastra divesting its core unit, Treezor changing hands — every ownership change puts an installed base into play. Build the migration tooling early; it is a sales asset, not just an engineering convenience.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

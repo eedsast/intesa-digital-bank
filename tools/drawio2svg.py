@@ -82,6 +82,19 @@ for c in cells:
     elif sh == 'rhombus' or c['style'].startswith('rhombus'):
         parts.append(f'<path d="M{x+w/2} {y}L{x+w} {y+h/2}L{x+w/2} {y+h}L{x} {y+h/2}z" '
                      f'fill="{fill}" stroke="{st}"/>')
+    elif sh and 'resourceIcon' in sh:
+        # draw.io resource icons render as a tinted rounded tile; approximate with
+        # the tile plus a simple white three-node glyph so it reads as an icon.
+        cx, cy = x+w/2, y+h/2
+        u = min(w, h)/8
+        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" '
+                     f'fill="{fill}" stroke="none"/>')
+        parts.append(f'<g stroke="#fff" stroke-width="1.6" fill="#fff">'
+          f'<circle cx="{cx-2*u:.1f}" cy="{cy:.1f}" r="{u*.55:.1f}"/>'
+          f'<circle cx="{cx+1.6*u:.1f}" cy="{cy-1.7*u:.1f}" r="{u*.55:.1f}"/>'
+          f'<circle cx="{cx+1.6*u:.1f}" cy="{cy+1.7*u:.1f}" r="{u*.55:.1f}"/>'
+          f'<path d="M{cx-2*u:.1f} {cy:.1f}L{cx+1.6*u:.1f} {cy-1.7*u:.1f}'
+          f'M{cx-2*u:.1f} {cy:.1f}L{cx+1.6*u:.1f} {cy+1.7*u:.1f}" fill="none"/></g>')
     elif sh and 'annotation_2' in sh:
         continue
     else:

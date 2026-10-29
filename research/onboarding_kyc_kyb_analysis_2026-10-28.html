@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding KYC/KYB — Competitive Analysis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4ef; padding: 40px 24px; min-height: 100vh; color: #2c2c2a; }
+  h1 { font-size: 20px; font-weight: 500; text-align: center; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 900px; margin: 0 auto 24px; }
+  .q-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+  .q1 { background: #e6f1fb; border: 1px solid #378add; color: #0c447c; }
+  .q2 { background: #e1f5ee; border: 1px solid #1d9e75; color: #085041; }
+  .q-box strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ── Regulatory clock banner ── */
+  .clock { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-bottom: 28px; }
+  .clock h2 { font-size: 11px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .clock-claim { font-size: 19px; font-weight: 500; color: #fff; line-height: 1.3; margin: 6px 0 14px; }
+  .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .tl { background: #262522; border: 1px solid #3a3835; border-radius: 10px; padding: 12px 14px; }
+  .tl-date { font-size: 11px; font-weight: 500; color: #9FE1CB; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .tl-text { font-size: 11.5px; color: #d3d1c7; line-height: 1.5; }
+  .tl-text strong { color: #fff; font-weight: 500; }
+
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #d3d1c7; }
+  .section-head h2 { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .section-head span { font-size: 11px; color: #888780; }
+
+  .platform { background: #ffffff; border: 1px solid #d3d1c7; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+  .platform-header { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; border-bottom: 1px solid #ece9e0; }
+  .platform-identity { padding: 16px 18px; border-right: 1px solid #ece9e0; display: flex; flex-direction: column; justify-content: center; }
+  .platform-name { font-size: 16px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .platform-type { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .platform-target { font-size: 11px; color: #5f5e5a; line-height: 1.4; }
+
+  .verdict-cell { padding: 14px 16px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; }
+  .vc-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .vc-q1 { border-right: 1px solid #ece9e0; }
+  .vc-q1 .vc-label { color: #185fa5; }
+  .vc-q2 .vc-label { color: #085041; }
+
+  .verdict-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
+  .vb-sep   { background: #e6f1fb; color: #0c447c; border: 0.5px solid #378add; }
+  .vb-int   { background: #faeeda; color: #633806; border: 0.5px solid #ba7517; }
+  .vb-both  { background: #eeedfe; color: #26215c; border: 0.5px solid #7f77dd; }
+  .vb-split { background: #e1f5ee; color: #085041; border: 0.5px solid #1d9e75; }
+  .vb-merge { background: #faece7; color: #4a1b0c; border: 0.5px solid #993c1d; }
+  .vb-mixed { background: #f1efe8; color: #444441; border: 0.5px solid #b4b2a9; }
+
+  .verdict-detail { font-size: 12px; color: #5f5e5a; line-height: 1.5; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .body-col { padding: 14px 18px; font-size: 12px; color: #2c2c2a; line-height: 1.6; }
+  .body-col:first-child { border-right: 1px solid #ece9e0; }
+  .body-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .point { display: flex; gap: 7px; margin-bottom: 5px; }
+  .point-dot { flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #b4b2a9; margin-top: 6px; }
+  .point-text { color: #5f5e5a; }
+  .point-text strong { color: #2c2c2a; font-weight: 500; }
+
+  .insight { background: #f1efe8; border-top: 1px solid #ece9e0; padding: 10px 18px; font-size: 11px; color: #5f5e5a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+  .insight-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .insight strong { color: #2c2c2a; font-weight: 500; }
+
+  .gen-tag { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .gen-cloud  { background: #e1f5ee; color: #085041; }
+  .gen-legacy { background: #faeeda; color: #633806; }
+  .gen-baas   { background: #eeedfe; color: #26215c; }
+  .gen-peer   { background: #faece7; color: #4a1b0c; }
+
+  .matrix-section { margin-top: 32px; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin-bottom: 14px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; border-radius: 12px; overflow: hidden; }
+  .matrix-table th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: #1a1a18; color: #f1efe8; }
+  .matrix-table td { padding: 9px 12px; border-bottom: 0.5px solid #ece9e0; background: #fff; vertical-align: top; line-height: 1.45; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table tr:nth-child(even) td { background: #fafaf8; }
+  .matrix-table td:first-child { font-weight: 500; color: #1a1a18; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .yes { color: #085041; font-weight: 500; }
+  .no  { color: #993c1d; }
+  .unk { color: #888780; font-style: italic; }
+
+  .takeaway { background: #1a1a18; color: #f1efe8; border-radius: 14px; padding: 22px 24px; margin-top: 24px; }
+  .takeaway h3 { font-size: 12px; font-weight: 500; color: #9FE1CB; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .takeaway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tk { display: flex; gap: 8px; font-size: 12px; color: #d3d1c7; line-height: 1.55; margin-bottom: 8px; }
+  .tk::before { content: '→'; color: #9FE1CB; flex-shrink: 0; }
+
+  .sources { margin-top: 24px; padding: 16px 18px; background: #fff; border: 1px solid #d3d1c7; border-radius: 12px; font-size: 11px; color: #5f5e5a; line-height: 1.6; }
+  .sources h4 { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; margin-bottom: 8px; }
+  .sources a { color: #185fa5; text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .questions, .platform-body, .takeaway-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .platform-header { grid-template-columns: 1fr; }
+    .platform-identity, .vc-q1 { border-right: none; border-bottom: 1px solid #ece9e0; }
+    .body-col:first-child { border-right: none; border-bottom: 1px solid #ece9e0; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Onboarding KYC/KYB — Competitive Analysis</h1>
+  <p class="subtitle">15 providers and routes for the Onboarding module · identity, business verification, screening and orchestration</p>
+
+  <!-- ══ REGULATORY CLOCK ══ -->
+  <div class="clock">
+    <h2>Why this module is time-critical</h2>
+    <div class="clock-claim">Three regulations redraw European onboarding inside three years — and one of them has already moved sanctions screening off the transaction and onto the customer base.</div>
+    <div class="timeline">
+      <div class="tl">
+        <div class="tl-date">Already in force</div>
+        <div class="tl-text">The <strong>Instant Payments Regulation</strong> (Art. 5d, SEPA Regulation as amended) bars transaction-level EU sanctions screening inside an instant transfer. The whole customer base is screened <strong>daily and on every list update</strong> instead, with an annual report.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">End of Dec 2026</div>
+        <div class="tl-text">Each member state must provide at least one <strong>EU Digital Identity Wallet</strong> to its citizens. National rollout is uneven.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">10 July 2027</div>
+        <div class="tl-text">The <strong>AMLR</strong> (Regulation (EU) 2024/1624) applies directly in every member state and repeals Directive 2015/849. One harmonised CDD regime replaces 27 national ones.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">End of Dec 2027</div>
+        <div class="tl-text">Relying parties — banks and financial institutions included — <strong>must accept the wallet</strong> when a customer presents it, and register in the national register of relying parties.</div>
+      </div>
+      <div class="tl">
+        <div class="tl-date">2028</div>
+        <div class="tl-text"><strong>AMLA</strong>, based in Frankfurt, begins direct supervision of a first group of high-risk financial groups operating in at least six member states.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions">
+    <div class="q-box q1">
+      <strong>Q1 — Coverage &amp; capability</strong>
+      What does the provider actually cover — document and biometric identity, AML screening, business verification and UBO discovery, ongoing monitoring — and how much of it is its own data versus resold?
+    </div>
+    <div class="q-box q2">
+      <strong>Q2 — Integration &amp; commercial fit</strong>
+      Does it fit a provider-agnostic orchestration layer, or does it want to own the journey? What is the pricing shape, and what is the minimum commitment an early-stage EMI has to swallow?
+    </div>
+  </div>
+
+  <!-- ══ MODEL PRIMER ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Five capabilities, not one</div>
+        <div class="platform-type">How to read this analysis</div>
+        <div class="platform-target">"KYC provider" conflates five distinct markets with different vendors, data moats and economics</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">The capability stack</div>
+        <span class="verdict-badge vb-mixed">IDV · Screening · KYB · Monitoring · Orchestration</span>
+        <div class="verdict-detail"><strong>1. IDV</strong> — document capture, NFC chip read, liveness, face match. <strong>2. AML screening</strong> — sanctions, PEP, adverse media. <strong>3. KYB</strong> — registry data, company structure, UBO discovery. <strong>4. Ongoing monitoring</strong> — re-screening, perpetual KYC, event triggers. <strong>5. Orchestration</strong> — the journey, routing, fallback, risk scoring, case management, audit.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Where your platform sits</div>
+        <span class="verdict-badge vb-split">Layer 5, never layers 1–4</span>
+        <div class="verdict-detail">Layers 1 to 4 are data and model businesses with real moats — registry licences, document libraries, screening lists, fraud telemetry across billions of events. Layer 5 is workflow, risk policy and audit trail, which is exactly what a core banking platform is good at and what the point solutions do worst.</div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>The central decision for your Onboarding module:</strong> build the orchestration layer and treat every provider as a swappable adapter. Multi-provider is not an architectural luxury — prospects arrive with existing contracts, pass rates differ by corridor and document type, and fallback routing between two IDV vendors measurably raises completion. A platform welded to one vendor loses deals on procurement grounds alone, and inherits that vendor's outages. <strong>Ask every vendor the licensing question before the technical one:</strong> may you embed the service and bill your own customer, or must the customer contract directly? Most of this market sells to the obliged entity, and the answer cuts the shortlist faster than any feature matrix.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Full-stack platforms</h2><span>IDV, screening and increasingly KYB from one vendor. The default choice, and the one most likely to want the journey too.</span></div>
+
+  <!-- ══ SUMSUB ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Sumsub <span class="gen-tag gen-cloud">Full stack</span></div>
+        <div class="platform-type">IDV + AML + KYB + workflow builder</div>
+        <div class="platform-target">Fintech, crypto and gaming · the most common incumbent in EU fintech</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-split">Broadest single-vendor coverage</span>
+        <div class="verdict-detail">Document and biometric IDV, AML screening, business verification and ongoing monitoring under one contract, with strong fraud-prevention tooling. Frequently cited as the benchmark others position against.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-int">Wants to own the journey</span>
+        <div class="verdict-detail">Ships a customisable workflow builder — convenient standalone, competitive with your orchestration layer. Published plans (vendor's own pricing page, October 2026): <strong>Basic at $1.35 per verification with a $149 monthly minimum</strong>, <strong>Compliance at $1.85 with a $299 minimum</strong> adding AML screening, ongoing AML monitoring and address verification. KYB, transaction monitoring and fraud prevention sit on the custom plan only, so a business-account proposition is a sales conversation, not a signup.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Single contract covering IDV, AML and business verification removes vendor-management overhead for a small compliance team</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Deep experience in the exact high-risk verticals your EMI customers operate in — crypto, gaming, high-risk merchant</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong fraud and anti-abuse layer beyond pure identity matching</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Very high incumbency: a large share of prospects will already be integrated, which makes the adapter immediately useful</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Its workflow builder overlaps your module.</strong> Position your orchestration as the layer that spans Sumsub <em>and</em> the customer's other providers, with the risk policy and audit trail in your platform</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A dense alternatives-and-migration content market exists around Sumsub, which usually signals pricing and lock-in friction at renewal</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Pricing figures in public comparisons are inconsistent and often published by competitors — treat them as directional only</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Make sure the adapter captures the raw evidence, not just the verdict; under the AMLR your customer must be able to show <em>why</em> a decision was made</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: Adapter 1, on incumbency grounds.</strong> The single most likely provider to already be in place at a prospect, and the broadest coverage if they have none. Integrate it first, but treat its workflow builder as the thing your module replaces rather than wraps — otherwise you are selling a second journey engine on top of one the customer already has.</div></div>
+  </div>
+
+  <!-- ══ VERIFF ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Veriff <span class="gen-tag gen-cloud">Full stack</span></div>
+        <div class="platform-type">IDV + AML + KYB (via Vespia) · Estonia</div>
+        <div class="platform-target">Conversion-sensitive consumer onboarding · EU-headquartered</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-split">IDV-led, now genuinely KYB-capable</span>
+        <div class="verdict-detail">Strong document and biometric IDV with good global document coverage. In February 2026 Veriff acquired Estonian KYB provider <strong>Vespia</strong> — registry data across 300+ jurisdictions, shareholder and UBO verification through complex ownership structures, risk-based onboarding workflows and ongoing monitoring — with integration targeted for mid-2026.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-both">EU vendor, conversion-optimised</span>
+        <div class="verdict-detail">Third-party comparisons cite roughly $1.39 per IDV check with a monthly minimum near $209 and typically annual contracts. Reported revenue above $100 million and rapid volume growth at the end of 2025 — a financially solid counterparty.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">EU-headquartered and EU-hosted, which materially simplifies your customers' GDPR and data-residency documentation versus a US vendor</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Conversion and user experience are its stated design centre — the metric that actually decides a consumer fintech's acquisition cost</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The Vespia acquisition closes its one real gap and gives it credible UBO discovery through layered ownership chains</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Vespia's co-founder, Veriff's second-ever employee, returned with the team — a sign of genuine integration rather than an asset purchase</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">KYB is newly acquired, not matured in-house. Verify the integrated product against a real layered ownership structure before relying on it in a deal</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Annual contracts and minimums are heavier than a pure usage model for a pre-revenue EMI</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The acquisition is a signal about the whole market: single-purpose IDV is consolidating into trust platforms, so expect more of this</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Design the adapter so IDV and KYB are separately addressable even within one vendor — consolidation can be reversed by a divestment</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: Adapter 2, and the EU-sovereignty answer.</strong> For a Croatian vendor selling to EU-licensed institutions, an EU-headquartered provider is a procurement advantage you should name explicitly. The Vespia deal is also the clearest evidence in this document that IDV and KYB are converging — which validates building one adapter interface that covers both.</div></div>
+  </div>
+
+  <!-- ══ ONDATO ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Ondato <span class="gen-tag gen-cloud">Full stack</span></div>
+        <div class="platform-type">Compliance suite · Lithuania</div>
+        <div class="platform-target">Regulated entities wanting a full compliance suite — strongly Baltic/Lithuanian EMI exposure</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-split">Suite built for regulated firms</span>
+        <div class="verdict-detail">Identity verification, AML screening, business onboarding and ongoing compliance workflows, positioned explicitly at regulated entities rather than at general-purpose identity use cases.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-int">Highest minimum in the set</span>
+        <div class="verdict-detail">Third-party comparisons cite roughly $1.64 per IDV check against a monthly minimum near $666 — the heaviest entry commitment among the providers surveyed, aimed at established institutions rather than startups.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Lithuanian base aligns with the densest EMI market in the EU — the same market CENTROlink makes essential in the payments analysis</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Regulated-entity focus means the compliance artefacts and audit outputs are built for supervision, not for a growth team</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Suite breadth reduces the number of vendors a small compliance function has to manage</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">EU vendor, EU hosting — same procurement advantage as Veriff</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The monthly minimum excludes exactly the early-stage EMI that your entry-tier pricing is designed to win — pair it with a usage-priced alternative</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Less global document coverage emphasis than Sumsub or Veriff; check corridor coverage against each customer's market</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Public information is thinner than for the larger players — verify capability claims directly</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Strong candidate for co-selling into Lithuanian EMI prospects, where you share a customer profile</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: roadmap adapter, high co-sell value.</strong> Geographically and commercially aligned with your densest target market, but priced for institutions that already have revenue. Worth an early partnership conversation precisely because you are selling to the same Lithuanian EMI population.</div></div>
+  </div>
+
+  <!-- ══ IDENFY / SHUFTI / DIDIT ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">iDenfy, Shufti, Didit <span class="gen-tag gen-peer">Value tier</span></div>
+        <div class="platform-type">IDV + AML + KYB at low entry cost</div>
+        <div class="platform-target">Early-stage EMIs, startups and price-sensitive programmes</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-both">Surprisingly complete for the price</span>
+        <div class="verdict-detail">All three cover IDV plus AML screening, and all three market KYB. Shufti advertises broad language and document support; Didit publishes a free core KYC tier with per-check pricing for AML, phone and proof-of-address, plus a named workflow orchestrator and coverage claimed across 220+ countries.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-split">Usage-priced, no real minimum</span>
+        <div class="verdict-detail">The practical answer for a customer with no volume yet. Didit's published model is free core KYC then roughly $0.30 per IDV, $0.27 per AML, $0.20 per proof of address; Shufti is cited in the $1–2 range. Low commitment is the whole proposition.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Removes the onboarding-cost objection entirely for a pre-revenue customer, which keeps your own entry-tier pricing credible</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">iDenfy is EU-based (Lithuania) and competes directly on migration away from the incumbents</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Usage pricing aligns provider cost with your own per-onboarded-customer pricing model — clean pass-through</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Useful as the <strong>fallback leg</strong> in multi-provider routing even when a premium vendor is primary</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Verify fraud resilience, not just pass rate.</strong> The gap between tiers shows up under adversarial conditions — injection attacks and deepfakes — not in happy-path testing</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Much of the public comparison content in this tier is vendor-published self-ranking; prices and coverage claims need independent confirmation</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Check where data is processed and stored before offering these to a customer with EU data-residency commitments</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Supervisory expectations do not scale down with price: a cheap check that fails an AMLR audit is more expensive than a premium one</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: essential for the entry tier, and the strongest argument for your orchestration layer.</strong> A platform that lets a customer start on a low-cost provider and graduate to a premium one — or run both, routing by document type and corridor — converts a pricing objection into a product feature. That is only possible if no provider is hard-wired.</div></div>
+  </div>
+
+  <!-- ══ ONFIDO ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Onfido <span class="gen-tag gen-baas">Enterprise IDV</span></div>
+        <div class="platform-type">Document + biometric IDV · part of Entrust · UK origin</div>
+        <div class="platform-target">Enterprises needing AI-led document and biometric verification at scale</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">IDV-led, fraud-telemetry strength</span>
+        <div class="verdict-detail">Document verification and biometric face matching with AML screening alongside, positioned at enterprises rather than at self-serve integrations. Since being acquired by <strong>Entrust</strong> it sits inside a wider identity and credential business — which is where its distinctive asset now comes from: fraud telemetry across more than a billion verification events in 195 countries and 30+ industries.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-int">Custom pricing, enterprise motion</span>
+        <div class="verdict-detail">Pricing is quoted rather than published; third-party comparisons estimate roughly $2–3 per IDV check, placing it above Sumsub and Veriff and well above the value tier. Expect an enterprise procurement cycle rather than a signup.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Strengths</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The best published view of the adversary in this document.</strong> Entrust's fraud analysis — deepfakes at roughly one in five biometric fraud attempts, injection attacks up 40% year on year, deepfaked selfies up 58% — comes from Onfido's own verification estate</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">That telemetry is the product: fraud resilience at this tier is a function of how many attacks the model has already seen, which is not something a newer entrant can shortcut</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Long track record in UK and EU regulated onboarding, with established supervisory familiarity — an easier internal approval for a conservative compliance function</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Entrust ownership brings credential issuance, PKI and authentication alongside onboarding — relevant if a customer wants SCA and identity from one supplier</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Cautions &amp; implications</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>No KYB.</strong> Public materials do not describe business verification or UBO discovery, so a customer with business accounts needs a second provider — unlike Sumsub or post-Vespia Veriff</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Enterprise pricing and procurement put it out of reach for the early-stage EMIs your entry tier targets; it belongs on the premium leg of a routing policy</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Acquisition integration is a watch item: product roadmap and support model can shift when an independent IDV vendor becomes a line in a larger security portfolio</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The fraud statistics it publishes are vendor-sourced from its own event data — directionally reliable, but not an independent benchmark, and worth stating as such if you cite them in a pitch</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: the premium leg of a routing policy, not a default.</strong> Onfido is the clearest argument for why provider choice is a fraud-resilience decision rather than a price comparison — and the clearest argument for multi-provider routing, since the right answer is often a cheaper vendor for low-risk flows and Onfido for the high-value or high-risk ones. Its missing KYB reinforces the same conclusion: no single provider covers the whole module, which is exactly why your orchestration layer is the product.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Specialists — KYB and screening</h2><span>Deeper than the full-stack platforms in one layer. Where the hard problems actually live.</span></div>
+
+  <!-- ══ KYB SPECIALISTS ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">KYB &amp; UBO specialists <span class="gen-tag gen-baas">Specialist</span></div>
+        <div class="platform-type">Registry data · ownership chains · Kyckr, Vespia, Creditsafe, Dun &amp; Bradstreet, GLEIF</div>
+        <div class="platform-target">Any proposition with business customers — which means your entire Business Account module</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">Primary-source registry data</span>
+        <div class="verdict-detail">Live company-registry retrieval across jurisdictions, officer and shareholder data, ownership-chain traversal to identify beneficial owners, and company-level monitoring. The value is the registry coverage and the graph traversal, neither of which a generalist IDV vendor builds well.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-int">Priced per lookup, per jurisdiction</span>
+        <div class="verdict-detail">Costs vary sharply by country because registry access terms vary — some registries are free and open, others charge per document. Budget per-corridor rather than per-check, and expect the economics to differ wildly between, say, Estonia and Italy.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What the AMLR demands here</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>25% threshold</strong> for beneficial ownership, direct or indirect, with control tested in parallel — so ownership percentage alone is not sufficient logic</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Registers must be consulted</strong> and discrepancies between the register and what the customer declared <strong>reported within 14 calendar days</strong> — that is a workflow obligation with a clock, not a data lookup</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A lower 15% threshold would require a Commission delegated act, which the Commission has indicated it will not adopt before 1 October 2027 — so build the threshold as configuration, not a constant</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Customer data refresh at most every year for higher-risk customers and every five years for others, with records kept five years after the relationship ends</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The ownership graph belongs in your data model.</strong> Entities, holdings, percentages, control relationships, evidence per edge and a computed UBO set — with history, because the question "who was the UBO when we onboarded them" is an audit question</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The <strong>14-day discrepancy report</strong> is a case type with an SLA. Build it as a first-class workflow with its own queue, not a note on the customer record</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Multi-source is the norm in KYB: no single provider covers every jurisdiction well, so routing by country is mandatory rather than optional</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The LEI (via GLEIF) is free, open and increasingly useful as a cross-reference key — worth supporting even though no vendor sells it</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: KYB is the half to build properly, and the half everyone neglects.</strong> IDV is a commodity with five good vendors; UBO discovery through a four-layer cross-border holding structure is not. Since your Business Account proposition carries the highest ARPU in the value-proposition document and depends entirely on KYB, this is where the Onboarding module should be deepest — the ownership graph, the evidence trail and the discrepancy workflow, with registry data bought per jurisdiction.</div></div>
+  </div>
+
+  <!-- ══ SCREENING SPECIALISTS ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Screening specialists <span class="gen-tag gen-baas">Specialist</span></div>
+        <div class="platform-type">Sanctions · PEP · adverse media · ComplyAdvantage, LSEG, Dow Jones, Moody's</div>
+        <div class="platform-target">Every institution — screening is the one check with no risk-based exemption</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">List quality is the product</span>
+        <div class="verdict-detail">Consolidated sanctions lists, PEP databases with family and close-associate linkage, adverse media with relevance classification, and update latency measured in minutes rather than days. The differentiator is false-positive rate at a given recall level, not list count.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-both">Bundled or standalone</span>
+        <div class="verdict-detail">Every full-stack platform in this document includes AML screening, so a standalone specialist is a deliberate upgrade — usually chosen when false-positive volume has become the compliance team's dominant cost, or when a supervisor has challenged the bundled list quality.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What the AMLR demands here</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Customers, beneficial owners and controlling persons must be checked <strong>regularly</strong> against EU targeted financial sanctions — not only at onboarding</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Enhanced monitoring for PEPs, with measures continuing <strong>at least 12 months after the person leaves office</strong> — a date-driven obligation the platform must track</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">CDD on new relationships and on occasional transactions at €10,000, with lower thresholds of <strong>€1,000 for transfers of funds and for crypto-asset service providers</strong> and €2,000 for gambling</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">AMLA's draft guidelines on ongoing monitoring closed consultation on 3 September 2026 and are not yet final — design for the direction, not the current letter</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>And one obligation that is not AMLR at all.</strong> Under the Instant Payments Regulation, a PSP offering SCT Inst screens its <strong>whole customer base at least daily</strong> and immediately on every list update, and is barred from screening EU lists inside the transfer itself. Non-EU regimes — OFAC, OFSI, national and trade measures — still require transaction-level screening where they apply</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Screening is continuous, not an onboarding step.</strong> The architecture is a persistent subject register re-screened on every list delta, with alerts flowing into the same case queue as onboarding reviews</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Store the match decision <em>and</em> the list version that produced it. "We screened them in 2027 and they were clear" is only defensible if you can show the list as it stood</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The €1,000 transfer-of-funds threshold means screening is wired into the <strong>payment path</strong>, not just the customer record — which connects this module to Money Send and Instant Payments</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Screening is therefore two ports, not one.</strong> A customer-base sweep with list-delta reprocessing and no latency budget, and a sub-second payment filter for the non-EU regimes. Different vendors, different SLAs, different legal bases — collapsing them into one interface is what makes an instant-payments deployment fail</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">False-positive reduction is the clearest, most measurable application of AI in the whole platform — and the one with a human decision point already built in</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: bundle by default, support a standalone upgrade path.</strong> Start with the full-stack provider's screening and make the adapter boundary clean enough that a customer can swap in a specialist list provider later without touching the journey. That upgrade usually happens at the point a supervisor asks a hard question — and being able to answer it in a configuration change rather than a project is a retention event.</div></div>
+  </div>
+
+  <!-- ══ LICENSED SCREENING DATA ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">Licensed screening data <span class="gen-tag gen-cloud">Build-your-own</span></div>
+        <div class="platform-type">OpenSanctions · bulk dataset, on-premise, reseller licence</div>
+        <div class="platform-target">A platform that resells compliance rather than renting it per customer</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">Sanctions and PEP, not adverse media</span>
+        <div class="verdict-detail">A consolidated, deduplicated sanctions and PEP dataset built from 470+ public sources, refreshed four times daily, delivered in bulk or deployed on-premise, ISO/IEC 27001 certified and already embedded under commercial products including Chainalysis and Quantexa. Adverse media is not in it — that stays a commercial feed.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-split">Flat-rate licence you may redistribute</span>
+        <div class="verdict-detail">An explicit <strong>reseller/OEM licence to embed the data in products you sell</strong> — the one route in this document that does not price per screened customer. The underlying data is CC BY-NC, so commercial use needs the licence, but the licence is flat-rate rather than per-subject.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">Why this changes the economics</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A per-subject screening contract scales with <strong>your customers' customers</strong> — a permanent margin tax on every institution you onboard, and one that is visible in your price list</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A flat-rate data licence plus your own matcher turns screening into a fixed cost amortised across every deployment, improving with each new customer rather than eroding</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">It is the natural fit for the IPR daily sweep, where the requirement is completeness and list-delta speed over a <em>known</em> customer base and the matching problem is bounded</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">On-premise deployment answers the data-residency question outright, with no sub-processor to document</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">What you are taking on</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Matching is the hard part, and it becomes yours.</strong> Transliteration, Arabic name order, corporate aliases, fuzzy thresholds and the false-positive rate are exactly what the commercial feeds are paid for</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">A weak matcher is a finding in <em>your customer's</em> supervisory audit, not yours — which is a harder conversation than a vendor outage</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Fixed cost lands before the first customer does, which collides with a development budget cap — name the tension rather than discovering it at renewal</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Adverse media and enhanced PEP still come from a commercial feed, billed to the institution as a per-customer add-on</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: suite first for speed, licensed data later for margin — in that order.</strong> Ship Phase 1 on a bundled provider's screening to get a working product out, with every call behind your own interface so nothing in the core knows the vendor's name. Replace the screening layer with a licensed dataset once a second customer justifies the fixed cost. The reverse order spends capital before there is anything to amortise it across.</div></div>
+  </div>
+
+  <div class="section-head"><h2>Non-vendor routes</h2><span>Identity sources that are not a market. Both are obligations, and both arrive before 2028.</span></div>
+
+  <!-- ══ EUDI WALLET ══ -->
+  <div class="platform">
+    <div class="platform-header">
+      <div class="platform-identity">
+        <div class="platform-name">EU Digital Identity Wallet <span class="gen-tag gen-legacy">Obligation</span></div>
+        <div class="platform-type">eIDAS 2.0 · member-state issued · high assurance</div>
+        <div class="platform-target">Every relying party in the EU, including your customers</div>
+      </div>
+      <div class="verdict-cell vc-q1">
+        <div class="vc-label">Q1 — Coverage &amp; capability</div>
+        <span class="verdict-badge vb-sep">Person identification data, high assurance</span>
+        <div class="verdict-detail">The wallet supplies verified person identification data — name, date of birth, nationality — at the "high" assurance level, issued by the member state. Under the AMLR, wallet-based identification is treated as equivalent to a face-to-face meeting for remote onboarding, with the detail to be set in technical standards.</div>
+      </div>
+      <div class="verdict-cell vc-q2">
+        <div class="vc-label">Q2 — Integration &amp; commercial fit</div>
+        <span class="verdict-badge vb-int">Free data, mandatory acceptance</span>
+        <div class="verdict-detail">There is no per-check cost and no vendor to negotiate with — but from end-2027 acceptance is an obligation, not an integration option, and relying parties must register in the national register of relying parties under Regulation (EU) 2025/848.</div>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="body-col">
+        <div class="body-col-label">What it does and does not solve</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Solves:</strong> the identity-proofing step for wallet-holding EU residents, at high assurance, with no document capture, no liveness check and no per-verification fee</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Does not solve:</strong> screening, risk rating, affordability, post-onboarding fraud detection or KYB — one credible estimate puts the wallet at roughly a fifth of the total onboarding need</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Rollout is uneven across member states, so journeys must accept the wallet <strong>and</strong> the existing document path indefinitely — not switch over</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">The AMLR separately allows verification via electronic identification at "substantial" or "high" assurance with relevant qualified trust services, so national eIDs matter too, not only the wallet</div></div>
+      </div>
+      <div class="body-col">
+        <div class="body-col-label">Implications for your platform</div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>The journey engine needs a wallet path as a peer of the document path</strong>, selected per customer and per member state — this is a design assumption, not a feature to add later</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Relying-party registration is an onboarding step for <em>your customer as an institution</em>. A platform that walks them through it is selling something no competitor currently offers</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text"><strong>Adopt NFC chip reading now.</strong> A "high" assurance identity needs a trust anchor — either a face-to-face check or reading the chip in a recent passport or ID card — and private operators may read those chips with consent under Regulation (EU) 2025/1208. It is the same building block the wallet relies on and it serves everyone without a wallet during the transition</div></div>
+        <div class="point"><div class="point-dot"></div><div class="point-text">Dates here come from secondary analysis of the regulations; confirm against the primary texts before any customer commitment</div></div>
+      </div>
+    </div>
+    <div class="insight"><div class="insight-icon">💡</div><div><strong>Fit: build the path before the obligation bites.</strong> This is the single clearest differentiation opportunity in the Onboarding module. Member states must offer wallets by end-2026 and relying parties must accept them by end-2027, which means every EU institution has a project ahead of it — and none of the core banking vendors in your competitive set markets wallet readiness today. Shipping a wallet-capable journey engine ahead of the deadline turns a compliance obligation into your sales opening.</div></div>
+  </div>
+
+  <!-- ══ EGYPT — CBE DFI / HAWEYA ══ -->
+  <!-- ══ FRAUD / DEEPFAKE ══ -->
+  <!-- ══ SUMMARY MATRIX ══ -->
+  <div class="matrix-section">
+    <div class="matrix-title">Summary matrix — 15 providers and routes</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:13%;">Provider / route</th>
+          <th style="width:11%;">Type</th>
+          <th style="width:9%;">IDV</th>
+          <th style="width:9%;">AML screening</th>
+          <th style="width:11%;">KYB / UBO</th>
+          <th style="width:14%;">Pricing shape</th>
+          <th style="width:9%;">EU-based</th>
+          <th style="width:24%;">Priority for you</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sumsub</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Full stack</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Business verification</td>
+          <td>$1.35 IDV, $149 min · $1.85 with AML, $299 min (vendor-published)</td>
+          <td class="unk">Not stated</td>
+          <td><strong>Adapter 1.</strong> Highest incumbency. Its workflow builder competes with your module.</td>
+        </tr>
+        <tr>
+          <td>Veriff</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Full stack</td>
+          <td class="yes">Yes — core strength</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes — via Vespia, Feb 2026</td>
+          <td>~$1.39 IDV, ~$209 min, annual*</td>
+          <td class="yes">Estonia</td>
+          <td><strong>Adapter 2.</strong> EU-sovereignty answer; verify new KYB on a layered structure.</td>
+        </tr>
+        <tr>
+          <td>Ondato</td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Full stack</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Business onboarding</td>
+          <td>~$1.64 IDV, ~$666 min*</td>
+          <td class="yes">Lithuania</td>
+          <td>Roadmap + co-sell. Same Lithuanian EMI market as you; minimum excludes startups.</td>
+        </tr>
+        <tr>
+          <td>iDenfy</td>
+          <td><span class="dot" style="background:#4a1b0c;"></span>Value tier</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td>Usage-based, low entry</td>
+          <td class="yes">Lithuania</td>
+          <td>Entry-tier default and fallback leg. EU-based at a low price point.</td>
+        </tr>
+        <tr>
+          <td>Shufti</td>
+          <td><span class="dot" style="background:#4a1b0c;"></span>Value tier</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes — KYB named</td>
+          <td>~$1–2 IDV*</td>
+          <td class="unk">Not stated</td>
+          <td>Fallback leg. Broad language and document support.</td>
+        </tr>
+        <tr>
+          <td>Didit</td>
+          <td><span class="dot" style="background:#4a1b0c;"></span>Value tier</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="unk">Marketed, unconfirmed</td>
+          <td>Free core KYC, ~$0.30 IDV / $0.27 AML*</td>
+          <td class="no">San Francisco</td>
+          <td>Entry tier. Has its own orchestrator — check data residency for EU customers.</td>
+        </tr>
+        <tr>
+          <td>Onfido (Entrust)</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Enterprise IDV</td>
+          <td class="yes">Yes — core strength</td>
+          <td class="yes">Yes</td>
+          <td class="no">No — needs a second provider</td>
+          <td>Custom, ~$2–3 IDV est.*</td>
+          <td class="unk">UK origin, Entrust-owned</td>
+          <td><strong>Premium leg of the routing policy.</strong> Best fraud telemetry in the set; no KYB.</td>
+        </tr>
+        <tr>
+          <td>Jumio</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Enterprise IDV</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="unk">Not stated</td>
+          <td>Custom, ~$3–5 IDV est.*</td>
+          <td class="no">US</td>
+          <td>Low priority. Enterprise pricing, limited fit for your segment.</td>
+        </tr>
+        <tr>
+          <td>Persona</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Infrastructure</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="unk">Not stated</td>
+          <td>~$1.50 IDV est., ~$500 min*</td>
+          <td class="no">US</td>
+          <td>Competitive overlap — sells customisable identity infrastructure, i.e. orchestration.</td>
+        </tr>
+        <tr>
+          <td>Trulioo</td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Data-centric</td>
+          <td class="yes">Data-based</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td>Volume-based, custom</td>
+          <td class="no">Canada/US</td>
+          <td>Roadmap. 195+ country data coverage for corridor gaps.</td>
+        </tr>
+        <tr>
+          <td>KYB specialists<br><span style="font-weight:400;color:#888780;">Kyckr, Creditsafe, D&amp;B, GLEIF</span></td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Specialist</td>
+          <td class="no">No</td>
+          <td class="unk">Varies</td>
+          <td class="yes">Primary-source registry + UBO</td>
+          <td>Per lookup, varies by jurisdiction</td>
+          <td class="yes">Mixed, EU coverage</td>
+          <td><strong>High.</strong> Route by country. Build the ownership graph yourself.</td>
+        </tr>
+        <tr>
+          <td>Screening specialists<br><span style="font-weight:400;color:#888780;">ComplyAdvantage, LSEG, Dow Jones</span></td>
+          <td><span class="dot" style="background:#7f77dd;"></span>Specialist</td>
+          <td class="no">No</td>
+          <td class="yes">Yes — list quality is the product</td>
+          <td class="no">No</td>
+          <td>Per subject screened / subscription</td>
+          <td class="unk">Mixed</td>
+          <td>Bundle first, keep a clean swap path for the supervisor-driven upgrade.</td>
+        </tr>
+        <tr>
+          <td>OpenSanctions<br><span style="font-weight:400;color:#888780;">licensed data, OEM</span></td>
+          <td><span class="dot" style="background:#1d9e75;"></span>Build-your-own</td>
+          <td class="no">No</td>
+          <td class="yes">Sanctions + PEP, no adverse media</td>
+          <td class="no">No</td>
+          <td>Flat-rate licence, redistributable</td>
+          <td class="yes">Berlin, on-premise option</td>
+          <td><strong>The margin decision.</strong> Fixed cost instead of a per-customer tax — but the matcher becomes yours.</td>
+        </tr>
+        <tr>
+          <td>EUDI Wallet</td>
+          <td><span class="dot" style="background:#ba7517;"></span>Obligation</td>
+          <td class="yes">High assurance PID</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td>No cost — acceptance mandatory end-2027</td>
+          <td class="yes">Member-state issued</td>
+          <td><strong>Build the path now.</strong> No competitor markets wallet readiness. Adopt NFC alongside.</td>
+        </tr>
+        <tr>
+          <td>Egypt CBE DFI / Haweya</td>
+          <td><span class="dot" style="background:#ba7517;"></span>Obligation</td>
+          <td class="yes">National eKYC platform</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td>No vendor — per-bank CBE approval</td>
+          <td class="no">Egypt</td>
+          <td><strong>Separate connector.</strong> Cannot be served by extending an EU contract. Approval path has a lead time.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:10.5px;color:#888780;margin-top:10px;line-height:1.5;">* Pricing is drawn from third-party and vendor-published comparisons that disagree with one another, and several figures are explicitly marked as estimates at source. Treat every number as directional and confirm with the vendor before using it commercially.</p>
+  </div>
+
+  <!-- ══ FINAL TAKEAWAY ══ -->
+  <div class="takeaway">
+    <div class="takeaway-grid">
+      <div>
+        <h3>Q1 — Coverage &amp; capability verdict</h3>
+        <div class="tk"><strong>IDV is a commodity; KYB is not.</strong> Seven providers do document and biometric identity well enough that the choice comes down to price, corridor, fraud resilience and data residency. UBO discovery through layered cross-border ownership remains genuinely hard — Onfido, the strongest IDV name here, does not offer it at all — and it is what your highest-ARPU module depends on.</div>
+        <div class="tk"><strong>The market is consolidating toward trust platforms.</strong> Veriff's acquisition of Vespia in February 2026 is the clearest signal: buyers want identity, KYC, KYB, screening and monitoring from one partner. Expect further consolidation and design adapters that survive it.</div>
+        <div class="tk"><strong>Screening is continuous, not a step.</strong> The AMLR requires regular re-screening of customers, beneficial owners and controllers, PEP measures lasting at least 12 months after office, and a €1,000 CDD threshold for transfers of funds and CASPs — which pushes screening into the payment path.</div>
+        <div class="tk"><strong>Screening has already moved off the transaction.</strong> The Instant Payments Regulation bars EU-list screening inside an instant transfer and requires the whole customer base to be screened daily and on every list update, while non-EU regimes still demand a transaction-level filter. That is two products with two latency budgets, and a vendor that only screens at onboarding satisfies neither.</div>
+        <div class="tk"><strong>The verification layer is itself under attack.</strong> With injection attacks up 40% year on year and deepfakes at roughly one in five biometric fraud attempts, provider selection is a fraud-resilience decision dressed as a pricing decision. Test adversarially.</div>
+      </div>
+      <div>
+        <h3>Q2 — What this means for the module</h3>
+        <div class="tk"><strong>Build layer 5, buy layers 1 to 4.</strong> Own the journey engine, the risk model, the ownership graph, the case management and the audit trail. Buy identity, screening and registry data as routed, swappable adapters. This is the same orchestration principle as cards and payment rails.</div>
+        <div class="tk"><strong>Two deadlines are the sales opening.</strong> Every EU institution must accept the EUDI Wallet by end-2027 and comply with the AMLR from 10 July 2027. No core banking vendor in the competitive set markets readiness for either. A wallet-capable, AMLR-shaped journey engine is a differentiator with a known expiry date — ship it before the obligation makes it ordinary.</div>
+        <div class="tk"><strong>Ask for embedding rights before you ask for a demo.</strong> Most of this market sells to the obliged entity, not to a platform that resells. Whether you may embed and bill your own customer decides the shortlist — and the three commercial shapes are not equal: pass-through earns nothing, resale earns a spread that erodes as the customer grows, and a flat-rate embedded licence is the only one that compounds across deployments.</div>
+        <div class="tk"><strong>Three AMLR obligations are workflows, not lookups:</strong> the 14-day registry-discrepancy report, the risk-tiered refresh cycle (annual for higher-risk, five-yearly otherwise), and meaningful human intervention in onboarding and refusal decisions. Each needs its own queue, SLA and audit record — and each is a feature the point solutions leave to the customer.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
