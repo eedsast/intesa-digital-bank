@@ -238,6 +238,13 @@ ul{margin:0;padding:0;list-style:none}
 .card .taglist{margin-top:4px}
 .tag{font-size:12.5px;line-height:1.3;border:1px solid var(--line);border-radius:7px;padding:5px 9px;color:var(--ink-soft);background:var(--paper)}
 
+/* Chips whose product needs a licence the EMI does not have. */
+.fam li.lic,.tag.lic{background:#FFF3DF;border-color:#D98A14;color:#6B3E00;font-weight:600}
+.lic-key{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.5;
+  color:var(--ink-soft);margin-top:14px;max-width:70ch}
+.lic-dot{flex:0 0 auto;width:11px;height:11px;border-radius:3px;margin-top:4px;
+  background:#FFF3DF;border:1px solid #D98A14}
+
 /* research links: a card that is a link, so no .tag inside — the product
    modal binds to .tag and would otherwise fire on these. */
 .rcard{text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}

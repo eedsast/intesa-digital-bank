@@ -9,7 +9,8 @@ window.PRODUCTS = {
     "Mobile app": {
       "description": "The primary channel. Everything a customer can do — open the account, pay, borrow, save, freeze a card — happens here first, on iOS and Android. Not a wrapped web view: biometric unlock, push notifications and NFC all need real platform API access.",
       "solution": "Both (iOS and Android) solutions will be internally developed by IVS in Flutter technology.",
-      "saas": "Not needed."
+      "saas": "Not needed.",
+      "prerequisites": "No external prerequisites."
     },
     "Premium plans": {
       "description": "Paid monthly tiers bundling the value-add products — higher FX allowances, insurance, a better card, family accounts. The subscription line is predictable revenue that does not depend on transaction volume.",
@@ -50,28 +51,33 @@ window.PRODUCTS = {
     "Standing orders": {
       "description": "A fixed amount sent to the same beneficiary on a schedule — rent, a savings transfer, a loan repayment. Controlled by the customer, unlike a direct debit.",
       "prerequisites": "Nothing external.",
-      "solution": "Will be provided as part of the Payments microservice in MVP.",
+      "solution": "Can be provided as part of the Payments microservice in MVP.",
       "saas": "Not needed."
     },
     "Money Send / Money Receive": {
       "description": "Sending and receiving money by phone number or alias instead of by IBAN, resolved through a directory. Instant and free between customers of the bank.",
       "prerequisites": "Nothing external.",
-      "solution": "Will be provided as part of the Payments microservice in MVP.",
+      "solution": "Can be provided as part of the Payments microservice in MVP.",
       "saas": "Not needed."
     },
     "QR Payments": {
       "description": "Scanning a code to pay, with the beneficiary and amount filled in automatically. Covers the EPC standard printed on invoices and bills as well as collection in store.<br>Dynamic and static QR code linking is both possible.",
       "prerequisites": "Nothing external.",
-      "solution": "Will be provided as part of the Payments microservice. The best fit is when it is integrated with the Marketplace, Loyalty and BNPL modules.",
+      "solution": "Can be provided as part of the Payments microservice. The best fit is when it is integrated with the Marketplace, Loyalty and BNPL modules.",
       "saas": "Not needed."
     },
     "Utility payments": {
       "description": "Scan the barcode on a utility, telecom or insurance bill and the payee, amount, model and reference fill themselves in &mdash; one tap to pay, nothing retyped. Bill presentment, where bills arrive in the app on their own, is a possibility for the next phase.",
       "prerequisites": "<strong>Nothing external.</strong> HUB-3A in Croatia is published by the banking association and free to implement. You need no biller agreement and no aggregator contract to read a bill.",
-      "solution": "Solution will be delivered by IVS as a <strong>Scan &amp; Pay</strong> feature: the customer scans the barcode on the bill, the app decodes payee IBAN, amount, model and reference, and raises a credit transfer through the Payments microservice.",
+      "solution": "Solution can be delivered by IVS as a <strong>Scan &amp; Pay</strong> feature: the customer scans the barcode on the bill, the app decodes payee IBAN, amount, model and reference, and raises a credit transfer through the Payments microservice.",
       "saas": "Not needed."
     },
-    "Pay parking": "Starting and stopping a parking session from the banking app, charged to the account. Small revenue per use, but high frequency — which is what makes an app habitual.",
+    "Pay parking": {
+      "description": "Starting and stopping a parking session from the banking app, charged to the account. Small revenue per use, but high frequency — which is what makes an app habitual.",
+      "prerequisites": "Nothing external.",
+      "solution": "In some countries &mdash; not Croatia &mdash; integration with a local pay-parking operator is possible. Otherwise it could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
     "FX remittance": {
       "description": "Sending money abroad, including outside the euro area, at a rate and fee shown before the customer confirms. The product for diaspora and cross-border households.",
       "prerequisites": "<strong>Liquidity provider</strong> &mdash; could be Intesa’s local bank.<br><strong>Treasury function</strong> &mdash; for hedging execution.<br><strong>Open position monitoring and FX revaluation</strong> as a capability of the GL / Bookings service.<br><strong>Conversion charges as a markup over the ECB reference rate.</strong> Regulation (EU) 2021/1230 Article 4 requires the total conversion charge to be expressed as a percentage markup over the latest ECB reference rate, shown before the payment is initiated.",
@@ -81,111 +87,189 @@ window.PRODUCTS = {
     "Individual Debit Card": {
       "description": "The everyday card on a personal account: every purchase is drawn straight from the balance, issued virtual at signup and in plastic on request. Everything else in this family &mdash; wallets, limits, blocking, ATM &mdash; is a control on this card.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "<strong>Enfuce</strong> &mdash; EMI licensed in Finland (FIN-FSA) and the UK (FCA), Visa and Mastercard principal, sponsors BIN, runs corporate programmes and sponsored credit; dual-perimeter and the best documented of the set.<br><strong>Paynetics</strong> &mdash; EMI in Bulgaria and the UK, principal on Visa, Mastercard and UnionPay, and the only provider here covering BIN sponsorship, IBAN and acquiring in one place.<br><strong>RS2</strong> &mdash; holds a BaFin EMI licence in Germany with Visa and Mastercard principal membership through Beyond by RS2, so it provides BIN but not IBAN sponsorship.<br><strong>Wallester</strong> &mdash; EMI under the Estonian FSA and the UK FCA, Visa principal only, sponsor plus processor, strong on corporate cards but a partial competitor on expense management.<br><strong>B4B Payments</strong> &mdash; e-money licences with the FCA and the Bank of Lithuania, part of the Banking Circle group, sponsor plus programme management, and the lowest counterparty risk.<br><strong>Edenred Payment Solutions</strong> &mdash; EMI with the FCA and the National Bank of Belgium, owns both the licence and the processor, and reaches clients through the PSD2 agent model.<br><strong>Marqeta</strong> &mdash; a processor that gained an EMI through the 2025 TransactPay acquisition and now sponsors in the UK and EU, including true credit, with few European references so far.<br><strong>Monavate</strong> &mdash; UK FCA EMI only, sponsors Visa and Mastercard including an ATM BIN, but a small sponsor on a single perimeter.<br><strong>BPC</strong> &mdash; technology vendor and SaaS processor (SmartVista) with no licence and no scheme membership, so a separate sponsor is required; live at Artea Bank in Lithuania.<br><strong>Paymentology</strong> &mdash; issuer-processor only, no licence and no scheme membership, integrates with 10x Core, and is relevant mainly for expansion beyond the EEA."
     },
     "Instant virtual card": {
       "description": "A card number issued the moment the account opens and pushed straight to Apple Pay or Google Pay, so the customer can spend before any plastic arrives.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Contactless physical": {
       "description": "The plastic card, posted to the customer. Still needed for ATMs, for merchants that do not take wallets, and because many customers do not consider an account real without one.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.<br><br><strong>Card manufacture and distribution</strong><br><strong>AUSTRIACARD</strong> &mdash; the regional fit: nine personalisation centres, a Croatian office, Visa- and Mastercard-certified premises, and the Stellar metal range alongside recycled PVC and corn-based PLA cards.<br><strong>IDEMIA</strong> &mdash; the largest card manufacturer and personalisation bureau, with metal card lines and fulfilment.<br><strong>Thales</strong> &mdash; EU manufacture, personalisation and mailing, certified with both schemes.<br><strong>Giesecke+Devrient</strong> &mdash; German manufacturer and bureau, strong on EU data residency.<br><strong>CompoSecure</strong> &mdash; the metal card specialist behind most premium programmes, usually reached through the processor.<br><strong>AKD</strong> &mdash; the Croatian card and document producer, the short route to local personalisation and distribution.<br><br>The card processor usually has the major card producers / distributors already certified, so settle the processor first.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA.<br><br><strong>Plastic / metal card provider (embossing) with assured distribution.</strong> A manufacturer and personalisation bureau certified by the card processor, with card production, PIN mailing and delivery to the customer covered end to end."
     },
     "Individual Credit Card": {
       "description": "A card drawing on a revolving credit line instead of the account balance: the customer settles in full or carries a balance and pays interest, and the line replenishes as it is repaid. Revolving is a card-processor capability, so the processor must support it natively.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA.<br><br><strong>Lending permission in the EMI licence.</strong> A revolving line is consumer credit. The licence approved by the national bank must cover it, and the Consumer Credit Directive obligations &mdash; pre-contractual information, creditworthiness assessment, right of withdrawal &mdash; apply in full.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider, which must carry <strong>revolving credit</strong> natively &mdash; not every processor in the list does. The credit line itself is held and serviced on the Intesa side.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider, which must carry <strong>revolving credit</strong> natively &mdash; not every processor in the list does. The credit line itself is held and serviced on the Intesa side.",
       "saas": "<strong>Enfuce</strong> &mdash; EMI licensed in Finland (FIN-FSA) and the UK (FCA), Visa and Mastercard principal, sponsors BIN, runs corporate programmes and sponsored credit; dual-perimeter and the best documented of the set.<br><strong>Paynetics</strong> &mdash; EMI in Bulgaria and the UK, principal on Visa, Mastercard and UnionPay, and the only provider here covering BIN sponsorship, IBAN and acquiring in one place.<br><strong>RS2</strong> &mdash; holds a BaFin EMI licence in Germany with Visa and Mastercard principal membership through Beyond by RS2, so it provides BIN but not IBAN sponsorship.<br><strong>Wallester</strong> &mdash; EMI under the Estonian FSA and the UK FCA, Visa principal only, sponsor plus processor, strong on corporate cards but a partial competitor on expense management.<br><strong>B4B Payments</strong> &mdash; e-money licences with the FCA and the Bank of Lithuania, part of the Banking Circle group, sponsor plus programme management, and the lowest counterparty risk.<br><strong>Edenred Payment Solutions</strong> &mdash; EMI with the FCA and the National Bank of Belgium, owns both the licence and the processor, and reaches clients through the PSD2 agent model.<br><strong>Marqeta</strong> &mdash; a processor that gained an EMI through the 2025 TransactPay acquisition and now sponsors in the UK and EU, including true credit, with few European references so far.<br><strong>Monavate</strong> &mdash; UK FCA EMI only, sponsors Visa and Mastercard including an ATM BIN, but a small sponsor on a single perimeter.<br><strong>BPC</strong> &mdash; technology vendor and SaaS processor (SmartVista) with no licence and no scheme membership, so a separate sponsor is required; live at Artea Bank in Lithuania.<br><strong>Paymentology</strong> &mdash; issuer-processor only, no licence and no scheme membership, integrates with 10x Core, and is relevant mainly for expansion beyond the EEA."
     },
     "Metal & Designed Cards": {
       "description": "Premium and designed card editions sold with the paid tiers. There is little margin in the card itself; its job is to make the subscription feel worth paying for and to get the card chosen at the till.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA.<br><br><strong>Plastic / metal card provider (embossing) with assured distribution.</strong> A manufacturer and personalisation bureau certified by the card processor, with card production, PIN mailing and delivery to the customer covered end to end.",
       "saas": "<strong>AUSTRIACARD</strong> &mdash; the regional fit: nine personalisation centres, a Croatian office, Visa- and Mastercard-certified premises, and the Stellar metal range alongside recycled PVC and corn-based PLA cards.<br><strong>IDEMIA</strong> &mdash; the largest card manufacturer and personalisation bureau, with metal card lines and fulfilment.<br><strong>Thales</strong> &mdash; EU manufacture, personalisation and mailing, certified with both schemes.<br><strong>Giesecke+Devrient</strong> &mdash; German manufacturer and bureau, strong on EU data residency.<br><strong>CompoSecure</strong> &mdash; the metal card specialist behind most premium programmes, usually reached through the processor.<br><strong>AKD</strong> &mdash; the Croatian card and document producer, the short route to local personalisation and distribution.<br><br>The card processor usually has the major card producers / distributors already certified, so settle the processor first.",
-      "solution": "Solution will be provided with a customised integration between the card processor and the plastic card producer / distributor, where one is not already in place."
+      "solution": "Solution can be provided with a customised integration between the card processor and the plastic card producer / distributor, where one is not already in place."
     },
     "Apple Pay & Google Pay": {
       "description": "Tokenised card credentials held in the phone&rsquo;s wallet. Expected rather than optional &mdash; in any market where Apple Pay and Google Pay are available, a card programme without them reads as incomplete.",
-      "solution": "Solution will be delivered by IVS / Kodilion, integrating Google Pay and Apple Pay, the card processor and the mobile app.",
+      "solution": "Solution can be delivered by IVS / Kodilion, integrating Google Pay and Apple Pay, the card processor and the mobile app.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA.<br><br><strong>Tokenisation enablement.</strong> The processor must be enabled on Visa VTS and Mastercard MDES. Apple requires a signed issuer agreement with per-transaction issuer fees; Google does not charge.",
       "saas": "Not needed."
     },
     "Merchant & category locks": {
       "description": "Customer-set rules blocking whole merchant categories or named merchants on a card — gambling, online purchases, subscriptions. Sold as control; it also reduces disputed-transaction volume.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Card instalments": {
       "description": "Converting a purchase into instalments at the moment of payment, on the card itself, rather than through a separate loan application.<br><br><strong>Note &mdash; overlaps with BNPL.</strong> Card instalments and BNPL Pay in 3 / financing answer the same customer need on different rails: one after the purchase on the card, one at the point of purchase. Offered side by side they compete for the same basket, so positioning and marketing have to separate them deliberately.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Per-card limits": {
       "description": "Daily, monthly and per-transaction ceilings the customer sets for themselves, separate from the bank's own risk limits.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Card blocking & freeze": {
       "description": "Two actions on the card's status: a reversible freeze when the card is misplaced, and a permanent block when it is lost or stolen. One field on the card record, checked at every authorisation.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "BNPL — Pay in 3, interest-free": {
       "description": "A capability to split an individual purchase into three or four payments. Usually interest-free for the customer; the merchant funds the cost. The EMI earns a merchant fee and carries the credit risk.",
-      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor capped at 12 months.</strong> No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
+      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor is capped by the licence</strong>, usually at 12 months. No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
       "solution": "Solution is ready and can be provided by Kodilion / Sideros.",
       "saas": "Not needed."
     },
     "BNPL — Financing 4–24 months": {
       "description": "Longer-tenor instalment credit for larger baskets, with interest paid by the customer. The APR and the total amount payable must be disclosed before acceptance, as consumer-credit rules require.",
-      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor capped at 12 months.</strong> No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
+      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor is capped by the licence</strong>, usually at 12 months. No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
       "solution": "Solution is ready and can be provided by Kodilion / Sideros.",
       "saas": "Not needed."
     },
     "Split a past transaction": {
       "description": "Converting a card purchase that has already settled into instalments after the fact, with no new application and no involvement from the merchant.",
-      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor capped at 12 months.</strong> No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
+      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor is capped by the licence</strong>, usually at 12 months. No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
       "solution": "Solution is ready and can be provided by Kodilion / Sideros.",
       "saas": "Not needed."
     },
-    "Overdraft": "A pre-assessed limit sitting on the current account, charged only for the days it is used. The easiest credit product to place, because nobody wants to apply for one at the moment they need it.",
-    "Consumer loans": "An unsecured personal loan decided from data the bank already holds rather than from a submitted file, with a decision in principle before any paperwork.",
-    "Salary advance": "Drawing part of this month's earned salary before payday for a flat fee. Priced to undercut unarranged overdraft, which is what it actually competes against.",
-    "Instant-access savings": "An interest-bearing pot beside the current account with no notice period. The product that stops an idle balance drifting to a competitor.",
-    "Term deposits": "Money committed for a fixed period at a fixed rate. Stable funding for the bank, a known return for the customer.",
-    "Goal pots": "Named sub-balances for a deposit, a holiday or a tax bill. No new product underneath — it is a presentation layer on the account, and it materially changes saving behaviour.",
+    "Consumer loans": {
+      "description": "An unsecured personal loan decided from data the bank already holds rather than from a submitted file, with a decision in principle before any paperwork.",
+      "prerequisites": "<strong>An EMI licence does not, in general, permit general-purpose lending.</strong> Advancing cash that the customer may spend on anything is credit business, and an e-money authorisation does not carry it. The product can therefore be offered only in cooperation with an appropriately authorised bank or lender, which holds the loan and the credit risk while Intesa Digital owns the journey, the decisioning and the servicing.<br><br><strong>This is what separates it from BNPL.</strong> A BNPL plan finances one identified purchase at the point of sale and is merchant-funded; a consumer loan hands over cash with no purchase attached. The two are treated differently for exactly that reason, so the BNPL chips are not marked.<br><br><strong>Consumer Credit Directive obligations apply either way</strong> &mdash; pre-contractual information, a creditworthiness assessment and the right of withdrawal &mdash; and they fall on whoever faces the customer.",
+      "solution": "Solution is ready and can be provided by Kodilion / Sideros as part of the Loan management microservice.",
+      "saas": "Not needed."
+    },
+    "Salary advance": {
+      "description": "Drawing part of this month's earned salary before payday for a flat fee. Priced to undercut unarranged overdraft, which is what it actually competes against.",
+      "prerequisites": "<strong>Contract with the employer must be signed.</strong>",
+      "solution": "Solution is ready and can be provided by Kodilion / Sideros as part of the Loan management microservice.",
+      "saas": "Not needed."
+    },
+    "Instant-access savings": {
+      "description": "An interest-bearing pot beside the current account with no notice period. The product that stops an idle balance drifting to a competitor.",
+      "prerequisites": "Nothing external.",
+      "solution": "Solution can be provided by Kodilion / Sideros as part of the Accounts / Deposits microservice.",
+      "saas": "Not needed."
+    },
+    "Term deposits": {
+      "description": "Money committed for a fixed period at a fixed rate. Stable funding for the bank, a known return for the customer.",
+      "prerequisites": "Nothing external.",
+      "solution": "Solution can be provided by Kodilion / Sideros as part of the Accounts / Deposits microservice.",
+      "saas": "Not needed."
+    },
+    "Goal pots": {
+      "description": "Named sub-balances for a deposit, a holiday or a tax bill. No new product underneath — it is a presentation layer on the account, and it materially changes saving behaviour.",
+      "prerequisites": "Nothing external.",
+      "solution": "Solution can be provided by Kodilion / Sideros as part of the Accounts / Deposits microservice.",
+      "saas": "Not needed."
+    },
     "Automatic saving rules": {
       "description": "One rule engine, two triggers: round every card payment up to the nearest euro, or move a fixed amount on payday. The destination is a goal pot or an investment portfolio, chosen by the customer. Small amounts, but the habit starts without a decision each time.",
-      "prerequisites": "<strong>Conditional on the destination.</strong> Nothing external when the money lands in a goal pot or savings balance. When it lands in a portfolio, the investment-services permission and MiFID II obligations of that destination apply &mdash; appropriateness testing and ex-ante and ex-post cost disclosure &mdash; exactly as on <strong>Fractional stocks &amp; ETFs</strong>.",
-      "solution": "Will be delivered by Kodilion / Sideros as a contribution-rules engine over the Payments and Accounts microservices: a trigger (card authorisation or schedule), an amount rule and a destination. The destinations themselves are separate products.",
-      "saas": "Not needed for the rules engine; the destination brings its own provider, if any."
+      "prerequisites": "No external dependencies when the money lands in a goal pot or savings balance. When it lands in a portfolio, the investment-services permission and MiFID II obligations of that destination apply &mdash; appropriateness testing and ex-ante and ex-post cost disclosure &mdash; exactly as on <strong>Fractional stocks &amp; ETFs</strong>.",
+      "solution": "Can be delivered by Kodilion / Sideros as a rules engine over the Accounts / Deposits microservices. Events are triggered on card authorisation or by schedule. Where the destination is an investment product, the integration with the third-party provider of that product covers the service.",
+      "saas": "Not needed for savings balances or goal pots."
     },
-    "Fractional stocks & ETFs": "Buying a slice of a share rather than a whole one, funded from the same balance. Requires an investment-services permission and the cost disclosures that come with it.",
-    "Commodities": "Exposure to gold and other commodities, usually through fractional units or an exchange-traded commodity rather than physical holding. In demand during inflationary periods and in markets with a tradition of holding gold.",
-    "Pension savings": "Third-pillar retirement contributions with the local tax relief applied in the app. Long-dated, sticky balances, and a reason the customer never closes the account.",
-    "MiCA-regulated crypto": "Buying, holding and selling crypto-assets under the EU regime, shown in the same portfolio view as everything else. Needs a crypto-asset service provider authorisation and the custody arrangements that come with it.",
+    "Fractional stocks & ETFs": {
+      "description": "Buying a slice of a share rather than a whole one, funded from the same balance. Requires an investment-services permission and the cost disclosures that come with it.",
+      "prerequisites": "<strong>An EMI licence does not reach listed securities.</strong> This is a MiFID II investment service, so it is offered either by distributing an authorised firm’s service &mdash; as introducer or as tied agent under Article 29 &mdash; or by Intesa Digital holding its own investment-services permission for reception and transmission of orders, execution and safekeeping.<br><br><strong>Conduct obligations fall on whoever faces the customer.</strong> An appropriateness assessment on every execution-only order, a defined and reviewed target market under product governance, ex-ante and ex-post costs and charges disclosure, a best-execution policy, and client-asset segregation with the annual statements that go with it.<br><br><strong>A fraction is not a share.</strong> The customer usually holds a beneficial interest in a share rather than the share itself, which carries different voting, settlement and ownership consequences. That has to be disclosed plainly, and the provider must state how fractions are held and what happens on a corporate action.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "See the <strong>Crypto &amp; Stock Trading Providers</strong> analysis on the Research page &mdash; the licences each provider holds, the contracts the customer signs, and which of the three contracting models each one fits."
+    },
+    "Commodities": {
+      "description": "Exposure to gold and other commodities, usually through fractional units or an exchange-traded commodity rather than physical holding. In demand during inflationary periods and in markets with a tradition of holding gold.",
+      "prerequisites": "<strong>An EMI licence does not reach listed securities.</strong> This is a MiFID II investment service, so it is offered either by distributing an authorised firm’s service &mdash; as introducer or as tied agent under Article 29 &mdash; or by Intesa Digital holding its own investment-services permission for reception and transmission of orders, execution and safekeeping.<br><br><strong>Conduct obligations fall on whoever faces the customer.</strong> An appropriateness assessment on every execution-only order, a defined and reviewed target market under product governance, ex-ante and ex-post costs and charges disclosure, a best-execution policy, and client-asset segregation with the annual statements that go with it.<br><br><strong>The product form decides the regime.</strong> A physically backed ETC or a commodity fund is a transferable security and sits inside the MiFID perimeter above. A commodity derivative brings position limits and transaction reporting on top. Spot physical metal is not a MiFID instrument at all but raises its own storage, delivery and VAT questions &mdash; investment gold is VAT-exempt, other metals are not. Settle which of the three is being sold before anything else.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "See the <strong>Crypto &amp; Stock Trading Providers</strong> analysis on the Research page &mdash; the licences each provider holds, the contracts the customer signs, and which of the three contracting models each one fits."
+    },
+    "MiCA-regulated crypto": {
+      "description": "Buying, holding and selling crypto-assets under the EU regime, shown in the same portfolio view as everything else. Needs a crypto-asset service provider authorisation and the custody arrangements that come with it.",
+      "prerequisites": "<strong>An EMI licence is not a CASP authorisation.</strong> Under Regulation (EU) 2023/1114 the firm operating the trading platform, executing orders or holding the crypto-assets must be an authorised CASP for those specific services. The transitional regime ended on <strong>1 July 2026</strong>, so a provider still trading on a national registration has no lawful basis in the EEA.<br><br><strong>Distribution is regulated too.</strong> Whoever puts the service in front of the customer is subject to MiCA’s marketing-communication rules and to the white-paper requirements for the assets listed, so the contracting model &mdash; introduce, tied agent or own authorisation &mdash; has to be settled before launch.<br><br><strong>Operational obligations.</strong> Segregation of clients’ crypto-assets from the firm’s own, the transfer-of-funds travel rule under Regulation (EU) 2023/1113, complaints handling, and DAC8 reporting on crypto-asset holdings.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "See the <strong>Crypto &amp; Stock Trading Providers</strong> analysis on the Research page &mdash; the licences each provider holds, the contracts the customer signs, and which of the three contracting models each one fits."
+    },
     "Crypto-to-fiat & fiat-to-crypto conversion": {
       "description": "Buying crypto with the account balance and selling it back to euro inside the app. <strong>Note &mdash; overlaps with the crypto exchange integration.</strong> A CASP partner taken for <em>MiCA-regulated crypto</em> already performs this conversion natively, so this is a separate product only if crypto is <em>not</em> delivered through an exchange integration. Taking both means paying twice for the same capability.",
-      "prerequisites": "<strong>The provider must be a MiCA-authorised CASP.</strong> Specifically for <em>exchange of crypto-assets for funds</em>, held by a named EEA entity and passported into each market served. The transitional regime ended on <strong>1 July 2026</strong>, so a provider still trading on a national registration has no lawful basis in the EEA.<br><br><strong>A payment or e-money licence as well.</strong> MiCA does not cover the fiat leg. Paying euro out to a customer or a merchant is a payment service, so the provider needs a PI or EMI authorisation alongside the CASP &mdash; or it must route the fiat through one that has it.<br><br><strong>Travel rule and AML.</strong> Regulation (EU) 2023/1113 requires originator and beneficiary information on crypto transfers, and the AMLR obligations apply to the conversion itself. Agree in writing which party performs which check.<br><br><strong>Distribution follows the same rules.</strong> Whoever puts the service in front of the customer is subject to MiCA's marketing-communication requirements, so the model &mdash; introduce, tied agent, or own authorisation &mdash; has to be settled before launch.<br><br><strong>Outsourcing and DORA.</strong> An ICT third party of this kind needs a register entry, audit and regulator access rights, and a documented exit plan.",
+      "prerequisites": "<strong>An EMI licence does not cover this service.</strong> Exchanging crypto for funds is a MiCA crypto-asset service, so Intesa Digital either distributes an authorised CASP’s service or holds its own CASP authorisation.<br><br><strong>The provider needs both halves.</strong> A CASP authorisation covers the exchange; paying euro out is a payment service, so the provider must also hold a payment or e-money licence, or route the fiat leg through someone who does.<br><br><strong>Obligations follow whoever faces the customer</strong> &mdash; the transfer-of-funds travel rule under Regulation (EU) 2023/1113, the AML checks on the conversion, and MiCA’s marketing-communication rules. Transitional relief ended on 1 July 2026, so confirm every candidate in the register before shortlisting.",
       "solution": "Integration with a selected third-party provider.",
-      "saas": "<strong>MoonPay</strong> &mdash; MoonPay Europe B.V., MiCA authorisation from the AFM in the Netherlands (notice dated 30 December 2024) covering fiat-to-crypto on-ramp and crypto-to-fiat off-ramp, and listed on the AMF white list. The best-documented licence position in this set.<br><strong>ForumPay</strong> &mdash; publishes on-ramp and off-ramp alongside its merchant gateway, with instant conversion and daily settlement in EUR, USD, GBP or stablecoin. It names no licensing entity publicly, so the CASP authorisation and contracting entity must be obtained directly.<br><strong>Transak</strong> &mdash; the widely used white-label ramp, built to sit inside someone else's app rather than carry its own brand. Licence position to be confirmed.<br><strong>Ramp Network</strong>, <strong>Banxa</strong>, <strong>Mercuryo</strong> &mdash; the remaining established ramps in the European market, each to be checked against the register before shortlisting.<br><br>Confirm every candidate in the national register and in the ESMA CASP file: the authorised entity, the permissions it actually carries, and whether it has passported into the markets in scope."
+      "saas": "<strong>MoonPay</strong> &mdash; MoonPay Europe B.V., MiCA-authorised by the AFM in the Netherlands, covering both on-ramp and off-ramp.<br><strong>ForumPay</strong> &mdash; on-ramp and off-ramp alongside its merchant gateway, with instant conversion and daily settlement; it publishes no licensing entity, so ask for it directly.<br><strong>Transak</strong> &mdash; the widely used white-label ramp, built to sit inside someone else’s app rather than carry its own brand.<br><strong>Ramp Network</strong> &mdash; a developer-focused ramp with a similar embedded model.<br><strong>Banxa</strong> &mdash; a ramp sold to exchanges and wallets, with wide local payment-method coverage."
     },
-    "Loyalty points & challenges": "Points earned on spending, plus time-limited challenges that reward a particular behaviour. Needs an event stream, a points ledger and a redemption path behind it.",
-    "Cashback": "A share of spend returned to the customer, funded by the merchant rather than by the bank. The simplest reward to understand and the easiest to compare, which makes the rate the battleground.",
-    "Marketplace offers": "Merchant offers surfaced in the app at the moment they are relevant, with the merchant paying for placement or for the conversion. This is the product that turns the two-sided model into revenue.",
-    "Open-banking aggregation": "Balances and transactions from the customer's other banks, pulled read-only through PSD2 interfaces. It makes the app worth opening before the salary moves, and it sharpens the affordability assessment behind every credit offer.",
-    "Budget manager": "Spending categorised automatically and budgets set per category, across every connected account rather than only this one.",
-    "Subscription manager": "Recurring charges detected across connected accounts, with the next thirty days of commitments, an alert when a price rises, and a route to stopping one.",
-    "Shared pots & bill splitting": "A pot that several people pay into, and a request sent to settle a share. An acquisition product — one customer brings the others into the app.",
-    "Tax refund": "Help preparing and filing the annual income tax return, drawing on a full year of categorised spending to identify deductible items.",
+    "Loyalty points & challenges": {
+      "description": "Points earned on spending, plus time-limited challenges that reward a particular behaviour. Needs an event stream, a points ledger and a redemption path behind it.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Cashback": {
+      "description": "A share of spend returned to the customer, funded by the merchant rather than by the bank. The simplest reward to understand and the easiest to compare, which makes the rate the battleground.",
+      "prerequisites": "<strong>Nothing external.</strong><br><br><strong>One licence constraint worth designing around.</strong> Article 12 of the E-Money Directive prohibits granting interest, or any other benefit linked to the length of time the customer holds the e-money. A reward tied to <em>spending</em> is fine; a reward tied to <em>holding a balance</em> is prohibited interest, whatever it is called. Keep every mechanic event-driven &mdash; earned on a transaction, never accrued on a balance.<br><br><strong>And one commercial one.</strong> The Interchange Fee Regulation caps consumer interchange at 0.2% on debit and 0.3% on credit, so card revenue cannot fund a competitive rate. Merchant-funded is the only model that scales.",
+      "solution": "Could be delivered by Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Marketplace offers": {
+      "description": "Merchant offers surfaced in the app at the moment they are relevant, with the merchant paying for placement or for the conversion. This is the product that turns the two-sided model into revenue.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Open-banking aggregation": {
+      "description": "Balances and transactions from the customer's other banks, pulled read-only through PSD2 interfaces. It makes the app worth opening before the salary moves, and it sharpens the affordability assessment behind every credit offer.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Budget manager": {
+      "description": "Spending categorised automatically and budgets set per category, across every connected account rather than only this one.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Subscription manager": {
+      "description": "Recurring charges detected across connected accounts, with the next thirty days of commitments, an alert when a price rises, and a route to stopping one.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Shared pots & bill splitting": {
+      "description": "A pot that several people pay into, and a request sent to settle a share. An acquisition product — one customer brings the others into the app.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "VAT refund (tax-free shopping)": {
+      "description": "The VAT a traveller pays on shopping abroad, claimed back from inside the app instead of on a paper form at the till and a queue at the airport. A travel product rather than a tax one, and it belongs beside multi-currency and FX remittance.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as an integration with a third-party provider.",
+      "saas": "<strong>Inovat</strong> &mdash; a digital VAT refund app for international travellers, replacing the paper form at the till and the queue at the airport.<br><strong>Global Blue</strong> &mdash; the incumbent tax-free shopping network, with the widest merchant and border coverage in Europe.<br><strong>Planet</strong> &mdash; the other established operator, combining tax-free refunds with payment acceptance.<br><strong>Wevat</strong> &mdash; a digital challenger on the same model as Inovat, refunding directly to the traveller without the retailer in the loop."
+    },
     "Dedicated IBAN": {
       "description": "An IBAN belonging to the customer rather than a pooled account with a reference number against it. Under the virtual IBAN model a partner bank allocates IBANs from its own range to the end customers while the underlying account stays with the institution, so the customer gets an identifier that looks and routes like an ordinary IBAN. Where that partner is a local credit institution — Intesa's own bank in the market — the IBAN carries the local country code, which matters in practice because payroll systems and billers still reject foreign IBANs even though IBAN discrimination is unlawful. The EBA reported on virtual IBAN practice across the EU in May 2024 and found wide divergence, with unresolved questions about who the account holder is and how transactions are traced, so supervisory expectations here are tightening.",
       "prerequisites": "<strong>IBAN sponsorship and safeguarding.</strong> As an electronic money institution, money received from customers is not the institution's own and has to be safeguarded. That means keeping it segregated from the institution's own funds and either holding it in a separate account at a credit institution, investing it in secure, liquid, low-risk assets, or covering it with an insurance policy or comparable guarantee. The safeguarding account can sit with Intesa's local bank, which is also the natural partner for issuing the virtual IBANs, so both arrangements live inside one relationship.",
@@ -194,7 +278,7 @@ window.PRODUCTS = {
     },
     "ATM withdrawal": {
       "description": "Cash from any ATM on the scheme network. Nothing to build — it arrives with card issuing — but it needs a fee policy, because every withdrawal costs the issuer a fee paid to the ATM operator. The usual shape is a few free withdrawals a month and a charge beyond that.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Individual Debit Card</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
@@ -215,92 +299,198 @@ window.PRODUCTS = {
     "Mobile app": {
       "description": "The merchant's app: taking a payment, seeing the day's takings, issuing a refund and approving an outgoing payment, from a phone behind the counter.",
       "solution": "Both (iOS and Android) solutions will be internally developed by IVS in Flutter technology.",
+      "saas": "Not needed.",
+      "prerequisites": "No external prerequisites."
+    },
+    "Web app": {
+      "description": "The back office — staff roles and permissions, till and shift reports, refunds and chargebacks, exports and accounting integration. A materially larger build than the consumer web app, and usually the system the business actually runs on.",
+      "prerequisites": "No external prerequisites.",
+      "solution": "The web app will be internally developed by IVS in Flutter technology.",
       "saas": "Not needed."
     },
-    "Web app": "The back office — staff roles and permissions, till and shift reports, refunds and chargebacks, exports and accounting integration. A materially larger build than the consumer web app, and usually the system the business actually runs on.",
-    "Business IBAN": "The company's own account, opened online from the company register with beneficial-owner checks run inside the same flow.",
-    "Multi-user roles": "Several people on one account with different permissions — who can see, who can initiate, who can approve. The first thing a business asks for, and the first thing a consumer-built bank gets wrong.",
+    "Business IBAN": {
+      "description": "The company's own account, opened online from the company register with beneficial-owner checks run inside the same flow.",
+      "prerequisites": "<strong>IBAN sponsorship and safeguarding.</strong> As an electronic money institution, money received from customers is not the institution's own and has to be safeguarded. That means keeping it segregated from the institution's own funds and either holding it in a separate account at a credit institution, investing it in secure, liquid, low-risk assets, or covering it with an insurance policy or comparable guarantee. The safeguarding account can sit with Intesa's local bank, which is also the natural partner for issuing the virtual IBANs, so both arrangements live inside one relationship.",
+      "solution": "Integration with IBAN sponsorship, and integration with the safeguarding bank.",
+      "saas": "<strong>The same sponsors as <em>Dedicated IBAN</em></strong> &mdash; every provider on that list is business-first, so none of them is ruled out by the customer being a company. ClearBank serves EMIs, PIs, fintechs and corporates; Banking Circle is B2B only; OpenPayd is built for embedded finance and marketplaces; Paynetics serves fintechs, telcos, retailers and PSPs. Intesa’s local bank remains the only route to a local country code."
+    },
+    "Multi-user roles": {
+      "description": "Several people on one account with different permissions — who can see, who can initiate, who can approve. The first thing a business asks for, and the first thing a consumer-built bank gets wrong.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution, as a standard feature of the Accounts and Payments microservices.",
+      "saas": "Not needed."
+    },
     "SEPA & SEPA Instant": {
       "description": "The same euro payment rails as the retail side, applied to business volumes, business beneficiaries and business approval steps.",
       "prerequisites": "Participation in the <strong>SEPA Credit Transfer</strong> and <strong>SEPA Instant</strong> schemes has to be assured &mdash; through <strong>IBAN sponsorship</strong> for the MVP, or through Intesa's local bank or direct access to the SCT / SCT Inst schemes once the EMI licence is resolved.",
       "solution": "Delivered in two phases.<br><br><strong>Phase 1 &mdash; MVP.</strong> Interfaces to an IBAN sponsorship provider, for example ClearBank. Developed by Kodilion / Sideros as part of the MVP product.<br><br><strong>Phase 2.</strong> Direct integration with the SCT / SCT Inst schemes, either by integrating to Intesa's local bank or by taking direct scheme access. Also developed by Kodilion / Sideros, with the shape depending on which route is chosen.",
       "saas": "The same providers as <strong>Dedicated IBAN</strong>.<br><br><strong>ClearBank</strong> &mdash; UK clearing bank with ClearBank Europe N.V. authorised by the ECB. Client-named accounts, and SEPA indirect participation under the institution's own BIC, so reachability survives a change of sponsor.<br><br><strong>Banking Circle</strong> (Luxembourg) &mdash; named IBANs with client-level separation and the widest group coverage. Volume minimums apply.<br><br><strong>OpenPayd</strong> &mdash; client-named multi-currency IBANs across 35+ currencies, and the cleanest named-IBAN model on the list. An EMI rather than a bank, so safeguarding sits one step further down the chain.<br><br><strong>Paynetics</strong> (Bulgaria, plus FCA) &mdash; an explicit IBAN Sponsorship product issuing dedicated IBANs in the partner's or the end customer's name, with cards and acquiring from the same counterparty. One relationship, and one concentration risk."
     },
-    "Bulk & payroll files": "Uploading a file of payments and releasing them under one approval, instead of entering beneficiaries one at a time.",
-    "Standing orders & direct debits": "Scheduled outgoing payments, and collection from the business's own customers under mandate where it bills on a cycle.",
+    "Bulk & payroll files": {
+      "description": "Uploading a file of payments and releasing them under one approval, instead of entering beneficiaries one at a time.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution within the Accounts and Payments microservices. It is closely related to the Standing orders feature.",
+      "saas": "Not needed."
+    },
+    "Standing orders & direct debits": {
+      "description": "Scheduled outgoing payments, and collection from the business's own customers under mandate where it bills on a cycle.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution, as a standard feature of the Accounts and Payments microservices.",
+      "saas": "Not needed."
+    },
     "Multi-currency wallets": {
       "description": "Balances in the currencies the business buys and sells in, so conversion becomes a decision rather than something that happens automatically on every transaction.",
       "prerequisites": "<strong>Liquidity provider</strong> &mdash; could be Intesa's local bank.<br><strong>Treasury function</strong> &mdash; for hedging execution.<br><strong>Open position monitoring and FX revaluation</strong> as a capability of the GL / Bookings service.<br><strong>Safeguarding in each currency held.</strong> Customer funds must be safeguarded in the currency they are held in &mdash; a dollar balance cannot be safeguarded in euro &mdash; so each currency needs its own safeguarding account at a credit institution, and the institution must not carry an open position against customer balances.<br><strong>Conversion charges as a markup over the ECB reference rate.</strong> Regulation (EU) 2021/1230 Article 4 requires the total conversion charge to be expressed as a percentage markup over the latest ECB reference rate, shown before the payment is initiated.<br><br><br>Usually needed at the start only in non-euro countries &mdash; e.g. Albania, the Czech Republic. Should be covered during the application for the EMI licence.",
       "solution": "Provided as an MVP solution in the Accounts and GL / Bookings microservices. Multi-currency is a basic infrastructure capability rather than a product.",
       "saas": "Not needed if the liquidity provider is Intesa's local bank."
     },
-    "Statements & accounting export": "Statements in the formats a bookkeeper accepts — PDF, CSV, CAMT.053 — plus a direct feed into the common accounting packages.",
+    "Statements & accounting export": {
+      "description": "Statements in the formats a bookkeeper accepts — PDF, CSV, CAMT.053 — plus a direct feed into the common accounting packages.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution, as a standard feature of the Accounts and Payments microservices.",
+      "saas": "Not needed."
+    },
     "Business Debit Cards": {
       "description": "Cards issued on the company account, one per person or per project. Commercial card interchange is not capped by the Interchange Fee Regulation, so these earn several times what a consumer debit card does.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "<strong>Enfuce</strong> &mdash; EMI licensed in Finland (FIN-FSA) and the UK (FCA), Visa and Mastercard principal, sponsors BIN, runs corporate programmes and sponsored credit; dual-perimeter and the best documented of the set.<br><strong>Paynetics</strong> &mdash; EMI in Bulgaria and the UK, principal on Visa, Mastercard and UnionPay, and the only provider here covering BIN sponsorship, IBAN and acquiring in one place.<br><strong>RS2</strong> &mdash; holds a BaFin EMI licence in Germany with Visa and Mastercard principal membership through Beyond by RS2, so it provides BIN but not IBAN sponsorship.<br><strong>Wallester</strong> &mdash; EMI under the Estonian FSA and the UK FCA, Visa principal only, sponsor plus processor, strong on corporate cards but a partial competitor on expense management.<br><strong>B4B Payments</strong> &mdash; e-money licences with the FCA and the Bank of Lithuania, part of the Banking Circle group, sponsor plus programme management, and the lowest counterparty risk.<br><strong>Edenred Payment Solutions</strong> &mdash; EMI with the FCA and the National Bank of Belgium, owns both the licence and the processor, and reaches clients through the PSD2 agent model.<br><strong>Marqeta</strong> &mdash; a processor that gained an EMI through the 2025 TransactPay acquisition and now sponsors in the UK and EU, including true credit, with few European references so far.<br><strong>Monavate</strong> &mdash; UK FCA EMI only, sponsors Visa and Mastercard including an ATM BIN, but a small sponsor on a single perimeter.<br><strong>BPC</strong> &mdash; technology vendor and SaaS processor (SmartVista) with no licence and no scheme membership, so a separate sponsor is required; live at Artea Bank in Lithuania.<br><strong>Paymentology</strong> &mdash; issuer-processor only, no licence and no scheme membership, integrates with 10x Core, and is relevant mainly for expansion beyond the EEA.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Per-card limits": {
       "description": "Daily, monthly and per-transaction ceilings set per card by whoever administers the account.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Business Debit Cards</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
     "Spend policies": {
       "description": "Rules enforced at the moment of authorisation — allowed merchant categories, approval thresholds above a value, the cost centre the spend books to. This is what businesses actually buy; the card is the delivery mechanism.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Business Debit Cards</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
-    "Tap to Pay": "The merchant's own phone used as the card reader, with no additional hardware. The capability is licensed and certified rather than built, and above the contactless verification limit it needs a certified PIN-on-glass component.",
-    "POS terminal": "A dedicated card terminal for a counter with staff and volume. It brings hardware, logistics and support that softPOS avoids, but it is still what a mid-sized retailer expects.",
+    "Tap to Pay": {
+      "description": "The merchant's own phone used as the card reader, with no additional hardware. The capability is licensed and certified rather than built, and above the contactless verification limit it needs a certified PIN-on-glass component.",
+      "prerequisites": "<strong>Yes &mdash; three, and none of them is optional.</strong><br><br><strong>Acquirer enablement.</strong> Tap-to-phone runs on an acquiring contract like every other acceptance method, and the acquirer has to be certified on the scheme programme &mdash; Visa Tap to Phone, Mastercard Tap on Phone. Availability differs by market even within one acquirer.<br><br><strong>PCI MPoC.</strong> Accepting a card on an ordinary phone, with no certified hardware, is governed by the PCI Mobile Payments on COTS standard. It is what allows PIN entry on the screen, and without an MPoC-approved solution the product is capped at contactless limits with no PIN.<br><br><strong>Platform entitlement.</strong> Tap to Pay on iPhone is granted by Apple through an approved payment platform, not enabled unilaterally; Android requires NFC and a supported OS version. Device eligibility quietly excludes part of any merchant base.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "<strong>Viva.com</strong> &mdash; tap-to-phone first across most of Europe and the deepest deployment of the model; now part of J.P. Morgan.<br><strong>SumUp</strong> &mdash; tap-to-pay on phone alongside the reader, with the same self-onboarding and no contract.<br><strong>myPOS</strong> &mdash; CEE-focused, bundling acceptance with an account and instant settlement.<br><strong>Zettle by PayPal</strong> &mdash; the same model with PayPal behind it and strong brand recognition among small merchants.<br><strong>Phos by Ingenico</strong> &mdash; a white-label SoftPOS platform rather than a merchant brand, which is the right shape if the journey has to stay inside the Intesa app.<br><br>If acquiring is taken from <strong>Paynetics</strong> or <strong>RS2</strong>, check whether tap-to-phone is already in their programme before adding a sixth counterparty."
+    },
+    "POS terminal": {
+      "description": "Card acceptance at a physical counter, in two quite different shapes. A <strong>standard POS terminal</strong> is certified hardware wired to an acquiring contract and usually to the till &mdash; the choice for a shop with volume, staff and a cash register. A <strong>light POS</strong> is the SumUp model: a low-cost reader, or tap-to-pay on the merchant’s own phone, self-onboarded in minutes with no contract and no minimum.",
+      "prerequisites": "<strong>Both options need an acquiring relationship</strong>, the same one behind the rest of this family. What differs is who owns it.<br><br><strong>1. Standard POS terminal.</strong> PCI PTS certified hardware from Ingenico, Verifone or PAX, scheme-certified per market, plus device logistics &mdash; ordering, installation, key injection, maintenance, replacement. Terminal estate management is an operational business in its own right, not a software feature. Expect rental or purchase pricing and a contract term, and integration work against the merchant’s till or ERP.<br><br><strong>2. Light POS.</strong> Nothing to certify and nothing to ship &mdash; a reader or tap-to-pay on an existing phone. The provider is the acquirer, sets the pricing and onboards the merchant itself, which is what makes it fast. The trade is that it owns the merchant relationship and the settlement account, so it is a channel conflict as much as a supplier unless the commercial terms say otherwise.<br><br><strong>Pick per segment, not per product.</strong> A market stall and a supermarket are not the same customer, and offering only one of the two loses one of them.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "<strong>SumUp</strong> &mdash; the European leader for micro merchants: cheap reader, tap-to-pay on phone, self-onboarding and pay-as-you-go pricing with no contract.<br><strong>Zettle by PayPal</strong> &mdash; the same model with PayPal behind it, and the strongest brand recognition among small merchants.<br><strong>myPOS</strong> &mdash; built for CEE, bundling the terminal with an account and instant settlement, which is the closest competitor to this proposition.<br><strong>Viva.com</strong> &mdash; tap-to-pay-first acquirer across most of Europe, now part of J.P. Morgan.<br><strong>Nexi</strong> &mdash; the incumbent acquirer and terminal estate in Italy and much of the region, and the realistic partner for the standard-terminal half."
+    },
     "QR collect": {
       "description": "A static or per-transaction code the customer scans to pay from their own account. Almost no cost per transaction and no hardware to deploy.<br>Dynamic and static QR code linking is both possible.",
       "prerequisites": "Nothing external.",
-      "solution": "Will be provided as part of the Payments microservice. The best fit is when it is integrated with the Marketplace, Loyalty and BNPL modules.",
+      "solution": "Can be provided as part of the Payments microservice. The best fit is when it is integrated with the Marketplace, Loyalty and BNPL modules.",
       "saas": "Not needed."
     },
-    "Payment links": "A link sent by message or email that opens a payment page. The right answer for deposits, phone orders, deliveries and quotes.",
-    "E-commerce plugins": "Ready-made modules for the common shop platforms, plus a hosted payment page and an API for anything bespoke.",
-    "Pay by bank account": "The customer pays straight from their bank account through open banking — no card, no scheme fees, no chargebacks. Far cheaper than a card, but the customer has no reason to choose it unless the merchant funds an incentive out of what it saves.",
+    "Payment links": {
+      "description": "Payment links are a standard feature offered by many payment service providers. They let a merchant create a payment URL, send it by email, SMS, WhatsApp or another channel, and collect payment without building an e-commerce checkout.",
+      "prerequisites": "<strong>The acquiring relationship, and nothing beyond it.</strong> A payment link is a hosted checkout page over the same acquiring contract as the rest of this family, so it brings no separate licence, scheme or certification requirement of its own. If an acquirer is already selected, this is a feature to switch on rather than a product to procure.",
+      "solution": "Solution could be delivered as an integration with a third-party service.",
+      "saas": "<strong>Monri</strong>, <strong>CorvusPay</strong> and <strong>WSPay</strong> &mdash; the Croatian gateways. All three offer pay-by-link, all three are the incumbent choice for a domestic merchant, and all three are likely to price better than an international PSP for domestic-only volume.<br><br><strong>Paynetics</strong> or <strong>RS2</strong> &mdash; if either is selected for acquiring, payment links arrive inside that contract and need no separate supplier at all.<br><br><strong>Worldline</strong> &mdash; the European incumbent acquirer, with pay-by-link across its gateway estate.<br><strong>myPOS</strong> &mdash; links bundled with the terminal and the account, aimed at micro merchants in CEE.<br><strong>Stripe</strong> &mdash; the developer default, and the fastest route from nothing to a working link.<br><strong>Adyen</strong> &mdash; the enterprise end, worth it only where the merchant base is large and multi-market."
+    },
+    "E-commerce plugins": {
+      "description": "Ready-made modules for the common shop platforms, plus a hosted payment page and an API for anything bespoke.",
+      "prerequisites": "<strong>Nothing beyond the acquiring relationship</strong> &mdash; a plugin is a connector to the merchant’s shop platform, not a payment capability of its own.<br><br><strong>But it is a maintenance commitment, not a build.</strong> Each platform has its own release cycle, review process and breaking changes, and a plugin that falls behind takes the merchant’s checkout down with it. Keeping the hosted fields model also keeps the merchant in the lightest PCI scope, which is a selling point worth protecting.<br><br><strong>Check what the acquirer already ships.</strong> Most gateways publish plugins for the major platforms, so this is usually inherited rather than written.",
+      "solution": "Integration with a selected third-party provider.",
+      "saas": "<strong>WooCommerce</strong> &mdash; the WordPress plugin that runs most small European shops, and the first integration by volume.<br><strong>Shopify</strong> &mdash; the hosted default for anyone who does not want to run a server; note its own payments terms shape what a third-party gateway may do.<br><strong>PrestaShop</strong> &mdash; widely used across southern and eastern Europe, and more common than Shopify in parts of this region.<br><strong>Magento / Adobe Commerce</strong> &mdash; the larger-merchant end, heavier to integrate and worth it only where the basket justifies it.<br><strong>Shopware</strong> &mdash; the DACH incumbent, relevant if the footprint reaches German-speaking markets."
+    },
+    "Pay by bank account": {
+      "description": "The customer pays straight from their bank account through open banking — no card, no scheme fees, no chargebacks. Far cheaper than a card, but the customer has no reason to choose it unless the merchant funds an incentive out of what it saves.",
+      "prerequisites": "Nothing external.<br><br><strong>One point to confirm internally.</strong> Initiating a payment from the customer’s account at another bank is a payment initiation service under PSD2. An EMI can be authorised for it, but it has to be inside the authorisation rather than assumed, and calling other banks’ interfaces requires the eIDAS certificates that go with the role.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
     "Crypto acceptance & crypto-to-fiat settlement": {
       "description": "Letting the merchant accept payment in crypto while being paid in euro: the customer settles at checkout in bitcoin or a stablecoin, the provider converts at the moment of payment, and the merchant receives fiat in the business account. The merchant takes no price exposure and holds no crypto. Acceptance only &mdash; this is not a wallet, an investment product or a treasury service.",
-      "prerequisites": "<strong>The provider must be a MiCA-authorised CASP.</strong> Specifically for <em>exchange of crypto-assets for funds</em>, held by a named EEA entity and passported into each market served. The transitional regime ended on <strong>1 July 2026</strong>, so a provider still trading on a national registration has no lawful basis in the EEA.<br><br><strong>A payment or e-money licence as well.</strong> MiCA does not cover the fiat leg. Paying euro out to a customer or a merchant is a payment service, so the provider needs a PI or EMI authorisation alongside the CASP &mdash; or it must route the fiat through one that has it.<br><br><strong>Travel rule and AML.</strong> Regulation (EU) 2023/1113 requires originator and beneficiary information on crypto transfers, and the AMLR obligations apply to the conversion itself. Agree in writing which party performs which check.<br><br><strong>Distribution follows the same rules.</strong> Whoever puts the service in front of the customer is subject to MiCA's marketing-communication requirements, so the model &mdash; introduce, tied agent, or own authorisation &mdash; has to be settled before launch.<br><br><strong>Outsourcing and DORA.</strong> An ICT third party of this kind needs a register entry, audit and regulator access rights, and a documented exit plan.",
+      "prerequisites": "<strong>An EMI licence does not cover this service.</strong> Exchanging crypto for funds is a MiCA crypto-asset service, so Intesa Digital either distributes an authorised CASP’s service or holds its own CASP authorisation.<br><br><strong>The provider needs both halves.</strong> A CASP authorisation covers the exchange; paying euro out is a payment service, so the provider must also hold a payment or e-money licence, or route the fiat leg through someone who does.<br><br><strong>Obligations follow whoever faces the customer</strong> &mdash; the transfer-of-funds travel rule under Regulation (EU) 2023/1113, the AML checks on the conversion, and MiCA’s marketing-communication rules. Transitional relief ended on 1 July 2026, so confirm every candidate in the register before shortlisting.",
       "solution": "Integration with a selected third-party provider.",
-      "saas": "<strong>CoinGate</strong> &mdash; operating entity UAB Decentralized, authorised by the Bank of Lithuania as a CASP (LB002323) <em>and</em> as a payment institution for electronic money token transfers (LB002324). It is the only provider here publicly holding both halves, which is exactly what settling euro to a merchant requires.<br><strong>ForumPay</strong> &mdash; crypto accepted at checkout, converted instantly and settled to the merchant's bank account daily in EUR, USD or GBP, or in USDC / USDT to a wallet. Supports BTC, ETH, LTC, BCH, XRP, DASH, TRX, MATIC and the major stablecoins. It names no licensing entity publicly, so the CASP and payment authorisations must be obtained directly.<br><strong>BitPay</strong> &mdash; the longest-established merchant gateway, reported to have secured a Dutch MiCA licence. Confirm the entity and scope.<br><strong>Triple-A</strong> and <strong>Confirmo</strong> &mdash; further merchant gateways with fiat settlement, licence positions to be confirmed.<br><strong>CoinsPaid</strong> &mdash; named in the market but its Estonian registration was revoked. Not a candidate without a current EEA authorisation.<br><br>The deciding test is not pricing: it is whether one entity can both exchange the crypto and pay the euro out. Where it cannot, there are two counterparties in the chain and the merchant's settlement risk sits with whichever one is weaker."
+      "saas": "<strong>ForumPay</strong> &mdash; crypto accepted at checkout, converted instantly and settled to the merchant’s bank account daily in EUR, USD or GBP, or in stablecoin to a wallet.<br><strong>CoinGate</strong> &mdash; operating entity UAB Decentralized, holding both a MiCA CASP authorisation and a payment-institution licence from the Bank of Lithuania.<br><strong>BitPay</strong> &mdash; the longest-established merchant gateway, reported to have secured a Dutch MiCA licence.<br><strong>Triple-A</strong> &mdash; merchant acceptance with fiat settlement and a strong Asia-Pacific footprint.<br><strong>Confirmo</strong> &mdash; a European merchant gateway with fiat and stablecoin payout options."
     },
-    "Instant settlement": "The day's takings in the business account immediately rather than in two days. Charged for, and the single most-valued feature for a business managing week to week.",
-    "3-D Secure & SCA exemptions": "Authenticating the customer's card at an online checkout, and applying the exemptions — low value, transaction risk analysis, trusted beneficiary — that let a basket skip the step without breaching strong customer authentication rules.",
+    "3-D Secure & SCA exemptions": {
+      "description": "Authenticating the customer's card at an online checkout, and applying the exemptions — low value, transaction risk analysis, trusted beneficiary — that let a basket skip the step without breaching strong customer authentication rules.",
+      "prerequisites": "<strong>Not the card processor &mdash; the acquirer.</strong> 3-D Secure has two sides. The issuer side runs the Access Control Server that authenticates its own cardholders, and that is what the card processor brings. This chip is the <em>acquiring</em> side: the 3DS Server that requests authentication for the merchant and decides when to claim an exemption. It comes with the acquiring relationship, not with card issuing.<br><br><strong>Exemptions are earned, not configured.</strong> Transaction risk analysis under Article 18 of the SCA RTS is tied to the acquirer’s own fraud rate: below 0.13% to exempt up to &euro;100, below 0.06% up to &euro;250, below 0.01% up to &euro;500. The entitlement belongs to whoever’s fraud rate is measured, so the acquirer’s performance caps what the merchant can offer.<br><br><strong>The other exemptions sit in different places.</strong> Low-value is capped at &euro;30 with a counter of five consecutive or &euro;100 cumulative. Trusted-beneficiary whitelisting is held by the <em>issuer</em>, so the merchant can only ask to be added. Recurring and merchant-initiated transactions need SCA on the first payment only. Secure corporate payments have their own exemption.<br><br><strong>An exemption is a request, never a guarantee.</strong> The issuer can always soft-decline and force a challenge, so conversion depends on issuer behaviour as much as on the acquirer’s choice. And the trade is liability: an authenticated 3DS transaction shifts fraud liability to the issuer, while an exempted one leaves it with the merchant and acquirer.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "saas": "Refer to the list on <strong>Business Debit Cards</strong>. One caveat: that list is of <em>issuing</em> providers, and two of them also acquire &mdash; <strong>Paynetics</strong> (e-commerce and POS) and <strong>RS2</strong>, whose Beyond platform covers sponsored issuing and acquiring in a single contract. BPC spans both technically but holds no licence, so it still needs an acquirer behind it. If acceptance is taken from a separate acquirer, this chip follows that contract instead."
+    },
     "BNPL at checkout": {
       "description": "The merchant's customers offered instalments at the point of sale, branded as the merchant's own. The merchant is settled in full the next day and the bank carries the credit risk.",
-      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor capped at 12 months.</strong> No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
+      "prerequisites": "<strong>Lending permission in the EMI licence.</strong> The licence approved by the national bank must explicitly cover this type of credit &mdash; an EMI authorisation alone does not carry a lending permission.<br><br><strong>Tenor is capped by the licence</strong>, usually at 12 months. No instalment plan runs longer.<br><br><strong>Do not open new customers at the full tenor.</strong> Granting 12 months at acquisition leaves no room to restructure later; start short and extend on performance.",
       "solution": "Solution is ready and can be provided by Kodilion / Sideros.",
       "saas": "Not needed."
     },
-    "Business overdraft": "A pre-assessed limit on the business account covering the gap between outgoings and receipts, charged only on the days it is drawn.",
-    "Invoice financing": "Advancing most of the value of an invoice the business has already issued, repaid when its customer pays. The classic working-capital product for a business whose customers pay on terms.",
-    "Guarantees": "The bank standing behind the business's obligation to a third party — a tender, a lease, performance on a contract. A commitment rather than a cash outflow, but it consumes capital and needs a credit decision.",
-    "Letters of credit": "A bank undertaking to pay a supplier once shipping documents are presented, so neither side has to trust the other. The instrument that makes cross-border trade possible between businesses with no established relationship.",
-    "Payroll runs": "Paying staff from the business account on a schedule, from a file or from a list held in the app, with approval steps where the business needs them.",
-    "Earned wage access": "Employees drawing part of the wages they have already earned before payday, netted off the next payroll run. An employer-side benefit, usually at no cost to the company.",
-    "Overnight deposits": "Surplus cash earning overnight and available the next morning. The right product for working balances, where a term deposit is not.",
-    "Notice deposits": "A better rate for cash the business can commit for seven or thirty days — the buffer that does not move, as distinct from the balance that does.",
+    "Invoice financing": {
+      "description": "Advancing most of the value of an invoice the business has already issued, repaid when its customer pays. The classic working-capital product for a business whose customers pay on terms.",
+      "prerequisites": "<strong>Service can be provided only in cooperation with an authorised factoring company.</strong>",
+      "solution": "Integration with a third-party solution or the factoring company’s solution.",
+      "saas": "Not yet analysed."
+    },
+    "Guarantees": {
+      "description": "The bank standing behind the business's obligation to a third party — a tender, a lease, performance on a contract. A commitment rather than a cash outflow, but it consumes capital and needs a credit decision.",
+      "prerequisites": "<strong>Service can be provided only in cooperation with an appropriately authorised bank.</strong>",
+      "solution": "Integration with a third-party solution or the bank’s own solution.",
+      "saas": "Not yet analysed."
+    },
+    "Letters of credit": {
+      "description": "A bank undertaking to pay a supplier once shipping documents are presented, so neither side has to trust the other. The instrument that makes cross-border trade possible between businesses with no established relationship.",
+      "prerequisites": "<strong>Service can be provided only in cooperation with an appropriately authorised bank.</strong>",
+      "solution": "Integration with a third-party solution or the bank’s own solution.",
+      "saas": "Not yet analysed."
+    },
+    "Earned wage access": {
+      "description": "Employees drawing part of the wages they have already earned before payday, netted off the next payroll run. An employer-side benefit, usually at no cost to the company.",
+      "prerequisites": "<strong>Contract with the employer must be signed.</strong>",
+      "solution": "Solution is ready and can be provided by Kodilion / Sideros as part of the Loan management microservice.",
+      "saas": "Not needed."
+    },
+    "Overnight deposits": {
+      "description": "Surplus cash earning overnight and available the next morning. The right product for working balances, where a term deposit is not.",
+      "prerequisites": "<strong>An EMI cannot take deposits, and cannot pay interest on e-money.</strong> Accepting repayable funds from the public is reserved to credit institutions, and Article 12 of the E-Money Directive separately prohibits any benefit linked to the length of time a balance is held. A yield-bearing placement therefore needs either an authorised credit institution holding the deposit, or delivery as a money-market fund under the investment perimeter.<br><br><strong>The platform side is ours either way.</strong> Tenor, rate, accrual, notice period, maturity and rollover are Accounts / Deposits work whichever structure is chosen; only the balance sheet sits elsewhere.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution in the Accounts / Deposits microservice.",
+      "saas": "Not needed."
+    },
+    "Notice deposits": {
+      "description": "A better rate for cash the business can commit for seven or thirty days — the buffer that does not move, as distinct from the balance that does.",
+      "prerequisites": "<strong>An EMI cannot take deposits, and cannot pay interest on e-money.</strong> Accepting repayable funds from the public is reserved to credit institutions, and Article 12 of the E-Money Directive separately prohibits any benefit linked to the length of time a balance is held. A yield-bearing placement therefore needs either an authorised credit institution holding the deposit, or delivery as a money-market fund under the investment perimeter.<br><br><strong>The platform side is ours either way.</strong> Tenor, rate, accrual, notice period, maturity and rollover are Accounts / Deposits work whichever structure is chosen; only the balance sheet sits elsewhere.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution in the Accounts / Deposits microservice.",
+      "saas": "Not needed."
+    },
     "FX remittance": {
       "description": "Paying suppliers and receiving from customers abroad, at a rate and fee shown before the payment is sent.",
       "prerequisites": "<strong>Liquidity provider</strong> &mdash; could be Intesa’s local bank.<br><strong>Treasury function</strong> &mdash; for hedging execution.<br><strong>Open position monitoring and FX revaluation</strong> as a capability of the GL / Bookings service.<br><strong>Conversion charges as a markup over the ECB reference rate.</strong> Regulation (EU) 2021/1230 Article 4 requires the total conversion charge to be expressed as a percentage markup over the latest ECB reference rate, shown before the payment is initiated.",
       "solution": "Integration to a third-party provider to be developed.",
       "saas": "Nobody builds payout reach in 150 countries; execution and the last mile are bought, while the rate and margin engine, corridor routing and the treasury position view stay in house.<br><br><strong>Thunes</strong> &mdash; adapter one, on EU-licence grounds: widest wallet-first reach and the cleanest answer for a supervisor asking about third-party risk.<br><strong>Currencycloud</strong> &mdash; the FX execution leg.<br><strong>Visa Direct</strong> or <strong>Mastercard Send</strong> &mdash; the push-to-card leg, reached through whichever sponsor already does the card issuing.<br><strong>TerraPay</strong> or <strong>Nium</strong> &mdash; the second reach provider, once a pilot has tested the pre-funding economics. Nium’s just-in-time funding attacks the working capital that a pre-funded hub ties up, and that claim is worth verifying corridor by corridor.<br><strong>Dandelion (Euronet)</strong>, <strong>Onafriq</strong>, <strong>Airwallex</strong>, <strong>Wise Platform</strong> &mdash; regional and cash corridors on demand.<br><br>Multi-provider routing per corridor is the highest-value feature in the module: the provider’s wholesale rate is the customer’s cost of goods, so provider choice sets their gross margin directly. Price the module on capability, not on a share of a spread that is compressing."
     },
-    "Open APIs & sandbox": "Documented APIs and a test environment, so a partner's developers can build against the bank without first arranging a meeting.",
-    "Card issuing for partners": "A partner issuing cards to its own customers on the bank's licence and BIN, under the partner's brand.",
-    "Accounting integrations": "Transactions flowing directly into the business's accounting package, so reconciliation stops being a monthly export.",
-    "Invoice management": "Issuing and receiving structured invoices in the required formats, archived and ready for the e-invoicing reporting timetable now rolling out across the EU.",
-    "Loyalty engine": "The rewards machinery offered to merchants to run programmes of their own — events, points, challenges and redemptions — rather than only the bank's.",
-    "Merchant marketplace": "The place where merchants reach the bank's customers with offers, and the bank takes a share of the transaction that follows.",
+    "Open APIs & sandbox": {
+      "description": "Documented APIs and a test environment, so a partner's developers can build against the bank without first arranging a meeting.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered by internal development at IVS / Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
+    "Accounting integrations": {
+      "description": "Transactions flowing directly into the business's accounting package, so reconciliation stops being a monthly export.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be provided as an integration with the accounting software that self-employed people and micro companies already use, most of which offer a free or entry-level tier.",
+      "saas": "<strong>Minimax (Seyfor)</strong> &mdash; the cloud accounting most Croatian sole traders and their accountants work in, already connected to the e-invoicing intermediaries.<br><strong>PANTHEON (Datalab)</strong> &mdash; the Slovenian-built ERP with accounting that is widely deployed across Croatia and the wider region, at the larger end of the micro segment.<br><strong>Xero</strong> &mdash; the international small-business standard, with the strongest open API and bank-feed ecosystem of the set.<br><strong>QuickBooks</strong> &mdash; the other global incumbent, covering the markets where Xero is weaker.<br><strong>FreeAgent</strong> &mdash; built for freelancers and micro companies, and the precedent worth studying: NatWest gives it free to its business account customers, turning the integration into an acquisition tool.<br><br>The regional tools do not document public APIs, so integration depth has to be confirmed vendor by vendor. The realistic first step is a clean statement and transaction export in a format they import; invoices travel over the national e-invoicing network rather than through the accounting package."
+    },
+    "Invoice management": {
+      "description": "Issuing and receiving structured invoices in the required formats, archived and ready for the e-invoicing reporting timetable now rolling out across the EU.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be delivered as part of the Kodilion / Sideros solution, as a separate microservice.",
+      "saas": "Not needed."
+    },
+    "Merchant marketplace": {
+      "description": "A back-office app that lets merchants reach the bank’s customers and manage their own offers, discounts and promotions. The bank takes a share of the transaction that follows.",
+      "prerequisites": "Nothing external.",
+      "solution": "Could be provided by Kodilion / Sideros.",
+      "saas": "Not needed."
+    },
     "ATM withdrawal": {
       "description": "Cash withdrawal on a company card at any ATM on the scheme network. Same mechanics as the consumer card; the decisions are who in the business may withdraw and up to what daily ceiling, both set through the card's own limits and policy.",
-      "solution": "Solution will be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
+      "solution": "Solution can be provided by integration with the selected third-party SaaS provider. This is a native feature of the third-party SaaS solution.",
       "saas": "Chosen once on <strong>Business Debit Cards</strong>; this feature comes with whichever processor is selected there.",
       "prerequisites": "<strong>BIN sponsorship.</strong> Cards are issued under a BIN licensed from Visa or Mastercard by an entity holding an EMI or bank licence <em>and</em> principal scheme membership. Until Intesa Digital holds both, a sponsor is the issuer of record with the schemes and carries the scheme liability, with the programme running under its licence (PSD2 Article 19 agent model). An EMI licence alone is not enough &mdash; scheme principal membership is a separate application taking 12&ndash;24 months.<br><br><strong>PCI DSS Level 1</strong> from the processor, and <strong>PCI 3DS</strong> where it runs the ACS behind SCA."
     },
